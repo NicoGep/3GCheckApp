@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.3GCheckApp">
         <activity
+            android:name=".scan"
+            android:exported="false" />
+        <activity
             android:name=".information"
             android:exported="false" />
         <activity

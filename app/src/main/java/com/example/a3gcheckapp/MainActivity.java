@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 public class MainActivity extends AppCompatActivity {
 
     private ImageButton informationenButton;
+    private ImageButton scanPageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,9 +19,16 @@ public class MainActivity extends AppCompatActivity {
 
         informationenButton = (ImageButton) findViewById(R.id.informationButton);
         informationenButton.setOnClickListener(v -> openInformation());
+
+        scanPageButton = (ImageButton) findViewById(R.id.neuesZertifikatButton);
+        scanPageButton.setOnClickListener(v -> openScanPage());
     }
     public void openInformation(){
         Intent intent = new Intent(this, information.class);
+        startActivity(intent);
+    }
+    public void openScanPage(){
+        Intent intent = new Intent(this, scan.class);
         startActivity(intent);
     }
 }

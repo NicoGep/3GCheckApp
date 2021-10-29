@@ -2,8 +2,6 @@
     <string name="app_name">3GCheckApp</string>
     <string name="informationbutton">informationButton</string>
     <string name="hintergrund">hintergrund</string>
-    <string name="zertifikate">ZERTIFIKATE</string>
-    <string name="informationen">INFORMATIONEN</string>
     <string name="neueszertifikatbutton">neuesZertifikatButton</string>
     <string name="informationhintergrund">informationHintergrund</string>
     <string name="backbutton">backButton</string>
@@ -12,4 +10,9 @@
     <string name="kontaktdaten">Kontaktdaten</string>
     <string name="datenschutzbutton">datenschutzButton</string>
     <string name="kontaktbutton">kontaktButton</string>
+
+    //Page Headers
+    <string name="zertifikate">ZERTIFIKATE</string>
+    <string name="informationen">INFORMATIONEN</string>
+    <string name="scan">QR-CODE SCANNEN</string>
 </resources>
