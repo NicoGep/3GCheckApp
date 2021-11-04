@@ -7,7 +7,7 @@
     tools:context=".information">
 
     <ImageView
-        android:id="@+id/informationBackground"
+        android:id="@+id/pruefInformationBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="596dp"
@@ -41,11 +41,11 @@
         android:text="@string/informationen"
         android:textColor="#FFFFFF"
         android:textSize="70sp"
-        app:layout_constraintBottom_toBottomOf="@+id/informationBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/pruefInformationBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="@+id/informationBackground"
-        app:layout_constraintTop_toTopOf="@+id/informationBackground"
+        app:layout_constraintStart_toStartOf="@+id/pruefInformationBackground"
+        app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -56,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/informationBackground"
+        app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
         app:srcCompat="@drawable/message_frame" />
 
     <ImageView

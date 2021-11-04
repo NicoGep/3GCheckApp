@@ -15,4 +15,11 @@
     <string name="zertifikate">ZERTIFIKATE</string>
     <string name="informationen">INFORMATIONEN</string>
     <string name="scan">QR-CODE SCANNEN</string>
+    <string name="anmeldung">ANMELDUNG</string>
+    <string name="b_rgerbtn">BürgerBtn</string>
+    <string name="anmeldung_f_r_pr_fstellen">Anmeldung für Prüfstellen</string>
+    <string name="pruefstellentxt">PruefstellenTxt</string>
+    <string name="buergertxt">buergerTxt</string>
+    <string name="anmeldung_f_r_b_rger">Anmeldung für Bürger</string>
+    <string name="ueberpruefteZertifikate">ÜBERPRÜFTE ZERTIFIKATE</string>
 </resources>

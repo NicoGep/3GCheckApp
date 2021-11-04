@@ -10,6 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.3GCheckApp">
         <activity
+            android:name=".pruef_Information"
+            android:exported="false" />
+        <activity
+            android:name=".pruefstelle"
+            android:exported="false" />
+        <activity
+            android:name=".anmeldung"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".scan"
             android:exported="false" />
         <activity
@@ -17,12 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:exported="false">
         </activity>
 
         <meta-data

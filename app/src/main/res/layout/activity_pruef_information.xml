@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".scan">
+    tools:context=".pruef_Information">
 
     <ImageView
         android:id="@+id/pruefInformationBackground"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/main_background" />
+        app:srcCompat="@drawable/pruef_background" />
 
     <ImageButton
         android:id="@+id/backButton"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/anton"
-        android:text="@string/scan"
+        android:text="@string/informationen"
         android:textColor="#FFFFFF"
         android:textSize="70sp"
         app:layout_constraintBottom_toBottomOf="@+id/pruefInformationBackground"
@@ -58,5 +58,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
         app:srcCompat="@drawable/message_frame" />
+
+    <ImageView
+        android:id="@+id/datenschutzButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/datenschutzbutton"
+        app:layout_constraintBottom_toBottomOf="@+id/scan_frame"
+        app:layout_constraintEnd_toEndOf="@+id/scan_frame"
+        app:layout_constraintStart_toStartOf="@+id/scan_frame"
+        app:layout_constraintTop_toTopOf="@+id/scan_frame"
+        app:layout_constraintVertical_bias="0.098"
+        app:srcCompat="@drawable/button_long" />
+
+    <ImageView
+        android:id="@+id/kontanktButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/kontaktbutton"
+        app:layout_constraintBottom_toBottomOf="@+id/scan_frame"
+        app:layout_constraintEnd_toEndOf="@+id/scan_frame"
+        app:layout_constraintStart_toStartOf="@+id/scan_frame"
+        app:layout_constraintTop_toTopOf="@+id/scan_frame"
+        app:layout_constraintVertical_bias="0.22"
+        app:srcCompat="@drawable/button_long" />
+
+    <TextView
+        android:id="@+id/datenschutzText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/datenschutzbestimmungen"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/datenschutzButton"
+        app:layout_constraintEnd_toEndOf="@+id/datenschutzButton"
+        app:layout_constraintHorizontal_bias="0.477"
+        app:layout_constraintStart_toStartOf="@+id/datenschutzButton"
+        app:layout_constraintTop_toTopOf="@+id/datenschutzButton"
+        app:layout_constraintVertical_bias="0.357" />
+
+    <TextView
+        android:id="@+id/kontaktText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/kontaktdaten"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="@+id/kontanktButton"
+        app:layout_constraintEnd_toEndOf="@+id/kontanktButton"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/kontanktButton"
+        app:layout_constraintTop_toTopOf="@+id/kontanktButton"
+        app:layout_constraintVertical_bias="0.357" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

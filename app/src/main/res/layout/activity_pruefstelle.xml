@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".pruefstelle">
 
     <ImageView
         android:id="@+id/pruef_background"
@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/main_background" />
+        app:srcCompat="@drawable/pruef_background" />
 
     <ImageButton
         android:id="@+id/pruefInformationButton"
@@ -50,20 +50,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/neueszertifikat_btn" />
+        app:srcCompat="@drawable/zertpruefen_btn" />
 
     <TextView
         android:id="@+id/mainTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/anton"
-        android:text="@string/zertifikate"
+        android:text="@string/ueberpruefteZertifikate"
         android:textColor="#FFFFFF"
-        android:textSize="70sp"
+        android:textSize="55sp"
         app:layout_constraintBottom_toBottomOf="@+id/pruef_background"
         app:layout_constraintEnd_toEndOf="@+id/pruef_background"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="@+id/pruef_background"
         app:layout_constraintTop_toTopOf="@+id/pruef_background"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.028" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

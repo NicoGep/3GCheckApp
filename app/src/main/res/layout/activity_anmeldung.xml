@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".anmeldung">
+
+    <ImageView
+        android:id="@+id/pruef_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="596dp"
+        android:contentDescription="@string/hintergrund"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/main_background" />
+
+    <ImageButton
+        android:id="@+id/anmeldungInformationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="677dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="39dp"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/informationbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.011"
+        app:srcCompat="@drawable/alert_icon" />
+
+    <ImageView
+        android:id="@+id/anmeldung_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/messageframe"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pruef_background"
+        app:srcCompat="@drawable/message_frame" />
+
+    <TextView
+        android:id="@+id/anmdeldungTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/anton"
+        android:text="@string/anmeldung"
+        android:textColor="#FFFFFF"
+        android:textSize="70sp"
+        app:layout_constraintBottom_toBottomOf="@+id/pruef_background"
+        app:layout_constraintEnd_toEndOf="@+id/pruef_background"
+        app:layout_constraintStart_toStartOf="@+id/pruef_background"
+        app:layout_constraintTop_toTopOf="@+id/pruef_background"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/buegerTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/buergertxt"
+        android:text="@string/anmeldung_f_r_b_rger"
+        android:textColor="@color/gray"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/buerger_btn"
+        app:layout_constraintEnd_toEndOf="@+id/anmeldung_frame"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/anmeldung_frame"
+        app:layout_constraintTop_toTopOf="@+id/anmeldung_frame"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/buerger_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/b_rgerbtn"
+        app:layout_constraintBottom_toBottomOf="@+id/anmeldung_frame"
+        app:layout_constraintEnd_toEndOf="@+id/anmeldung_frame"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/anmeldung_frame"
+        app:layout_constraintTop_toTopOf="@+id/anmeldung_frame"
+        app:layout_constraintVertical_bias="0.213"
+        app:srcCompat="@drawable/button" />
+
+    <TextView
+        android:id="@+id/pruefstellenTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/pruefstellentxt"
+        android:text="@string/anmeldung_f_r_pr_fstellen"
+        android:textColor="@color/gray"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/pruefstellen_btn"
+        app:layout_constraintEnd_toEndOf="@+id/anmeldung_frame"
+        app:layout_constraintStart_toStartOf="@+id/anmeldung_frame"
+        app:layout_constraintTop_toBottomOf="@+id/buerger_btn"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <ImageButton
+        android:id="@+id/pruefstellen_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#00FFFFFF"
+        android:contentDescription="@string/pruefstellentxt"
+        app:layout_constraintBottom_toBottomOf="@+id/anmeldung_frame"
+        app:layout_constraintEnd_toEndOf="@+id/anmeldung_frame"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/anmeldung_frame"
+        app:layout_constraintTop_toTopOf="@+id/anmeldung_frame"
+        app:layout_constraintVertical_bias="0.701"
+        app:srcCompat="@drawable/btn"
+        tools:ignore="DuplicateSpeakableTextCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
