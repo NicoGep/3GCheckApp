@@ -11,7 +11,6 @@ public class anmeldung extends AppCompatActivity {
 
     private ImageButton buergerBtn;
     private ImageButton pruefstellenBtn;
-    private ImageView background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
