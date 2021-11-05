@@ -59,4 +59,18 @@
         app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
         app:srcCompat="@drawable/message_frame" />
 
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scanner_view"
+        android:layout_width="565dp"
+        android:layout_height="617dp"
+        app:layout_constraintBottom_toBottomOf="@+id/scan_frame"
+        app:layout_constraintEnd_toEndOf="@+id/scan_frame"
+        app:layout_constraintStart_toStartOf="@+id/scan_frame"
+        app:layout_constraintTop_toTopOf="@+id/scan_frame"
+        app:autoFocusButtonColor="@android:color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@android:color/white"
+        app:maskColor="#17000000" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
