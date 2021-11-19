@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".scan">
 
+
     <ImageView
         android:id="@+id/pruefInformationBackground"
         android:layout_width="wrap_content"
@@ -63,14 +64,28 @@
         android:id="@+id/scanner_view"
         android:layout_width="565dp"
         android:layout_height="617dp"
+        app:autoFocusButtonColor="@android:color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/scan_frame"
         app:layout_constraintEnd_toEndOf="@+id/scan_frame"
         app:layout_constraintStart_toStartOf="@+id/scan_frame"
         app:layout_constraintTop_toTopOf="@+id/scan_frame"
-        app:autoFocusButtonColor="@android:color/white"
-        app:autoFocusButtonVisible="true"
-        app:flashButtonColor="@android:color/white"
-        app:maskColor="#17000000" />
+        app:maskColor="#17000000" >
+
+    </com.budiyev.android.codescanner.CodeScannerView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressTint="@color/gray"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
+        app:layout_constraintEnd_toEndOf="@+id/scanner_view"
+        app:layout_constraintStart_toStartOf="@+id/scanner_view"
+        app:layout_constraintTop_toTopOf="@+id/scanner_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
