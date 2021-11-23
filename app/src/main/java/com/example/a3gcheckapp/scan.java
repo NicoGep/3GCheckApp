@@ -25,6 +25,7 @@ public class scan extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
+        XMLParser parser = new XMLParser();
 
         backButton = (ImageButton) findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> openMain());
@@ -42,8 +43,10 @@ public class scan extends AppCompatActivity  {
                         Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         BarcodeContent = result.getText();
                         mCodeScanner.stopPreview();
-                        progressBar.setVisibility(View.VISIBLE);
+                        //progressBar.setVisibility(View.VISIBLE);
                         scannerView.setVisibility(View.INVISIBLE);
+                        //process QR Code
+                        parser.parseXML(BarcodeContent);
                     }
                 });
             }
