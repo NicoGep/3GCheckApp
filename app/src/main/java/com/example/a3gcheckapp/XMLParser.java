@@ -28,9 +28,12 @@ public class XMLParser {
     }
 
     private void processParsing(XmlPullParser parser) throws IOException, XmlPullParserException {
-        ArrayList<Certificate> certificates = new ArrayList<>();
+        // ArrayList<Certificate> certificates = new ArrayList<>();
         int eventType = parser.getEventType();
         Certificate currentCertificate = null;
+
+        //Maybe Statisch
+        MainActivity main = new MainActivity();
 
         while(eventType!= XmlPullParser.END_DOCUMENT) {
             String var = null;
@@ -41,7 +44,7 @@ public class XMLParser {
 
                     if("nachweis".equals(var)){
                         currentCertificate = new Certificate();
-                        certificates.add(currentCertificate);
+                        MainActivity.certificates.add(currentCertificate);
                     } else if (currentCertificate != null) {
                         if ("lastname".equals(var)){
                             currentCertificate.setLastname(parser.nextText());
@@ -55,9 +58,9 @@ public class XMLParser {
             }
             eventType = parser.next();
         }
-        MainActivity main = new MainActivity();
-        main.printCertificates(certificates);
+        main.updateArrayList();
     }
+
 
 
 }
