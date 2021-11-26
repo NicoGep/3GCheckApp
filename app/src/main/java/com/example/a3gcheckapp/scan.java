@@ -47,7 +47,6 @@ public class scan extends AppCompatActivity  {
                         scannerView.setVisibility(View.INVISIBLE);
                         //process QR Code
                         parser.parseXML(BarcodeContent);
-                        openMain();
                     }
                 });
             }
