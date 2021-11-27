@@ -20,6 +20,7 @@ public class scan extends AppCompatActivity  {
     private ImageButton backButton;
     private CodeScanner mCodeScanner;
     private ProgressBar progressBar;
+    MainActivity main = new MainActivity();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,9 @@ public class scan extends AppCompatActivity  {
                         //progressBar.setVisibility(View.VISIBLE);
                         scannerView.setVisibility(View.INVISIBLE);
                         //process QR Code
-                        parser.parseXML(BarcodeContent);
+                        BarcodeContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
+                        main.save(BarcodeContent);
+
                     }
                 });
             }

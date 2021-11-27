@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton scanPageButton;
     private Button buttonCertificates;
     String fileName;
+    XMLParser parser = new XMLParser();
     //number of already certificates
     static int savedCertNr = 0;
 
@@ -53,8 +54,12 @@ public class MainActivity extends AppCompatActivity {
         buttonCertificates = (Button) findViewById(R.id.buttonCertificates);
         //xmlparser.parseXML();
         //nur 2 Methodenaufrufe für Testzwecke
-        save("Test");
+        //save("Test");
+        String QRContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
+        save(QRContent);
+
         load();
+
     }
 
     ;
@@ -105,22 +110,26 @@ public class MainActivity extends AppCompatActivity {
     //Load texts from saved xml files
     public void load() {
         FileInputStream fis = null;
-        try {
-            fis = openFileInput(fileName);
-            InputStreamReader isr = new InputStreamReader(fis);
-            BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
-            String text = br.readLine();
-            buttonCertificates.setText(text);
-        } catch (Exception e) {
-        } finally {
-            if (fis != null) {
-                try {
-                    fis.close();
-                } catch (IOException ie) {
+        for (int i = 0; i <= MainActivity.savedCertNr; i++) {
+            fileName = "zertfikat" + MainActivity.savedCertNr + ".xml";
+            try {
+                fis = openFileInput(fileName);
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String text = br.readLine();
+                parser.parseXML(text);
+
+            } catch (Exception e) {
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException ie) { }
                 }
             }
-
         }
+
+
     }
 }
