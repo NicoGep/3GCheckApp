@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton informationenButton;
     private ImageButton scanPageButton;
-    private Button buttonCertificates;
+    static Button buttonCertificates;
     String fileName;
     XMLParser parser = new XMLParser();
     //number of already certificates
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         scanPageButton = (ImageButton) findViewById(R.id.ZertifikatPruefButton);
         scanPageButton.setOnClickListener(v -> openScanPage());
-        buttonCertificates = (Button) findViewById(R.id.buttonCertificates);
+        buttonCertificates = (Button) findViewById(R.id.buttonCert);
         //xmlparser.parseXML();
         //nur 2 Methodenaufrufe für Testzwecke
         //save("Test");
@@ -60,7 +60,8 @@ public class MainActivity extends AppCompatActivity {
 
         load();
 
-    }
+        //buttonCertificates.setText("String");
+     }
 
     ;
 
@@ -81,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
             builder.append(certificate.getForname()).append(" ").append(certificate.getLastname()).append("\n").append("Erstelldatum: ").append(certificate.getErstelldatum()).append("\n\n");
         }
 
-        buttonCertificates.setText(builder.toString());
+        MainActivity.buttonCertificates.setText(builder.toString());
+        //buttonCertificates.setText("String");
     }
 
     //save XML Strings in files
