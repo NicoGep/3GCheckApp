@@ -4,12 +4,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.BlendMode;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -33,16 +40,25 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageButton informationenButton;
     private ImageButton scanPageButton;
-    static Button buttonCertificates;
+    static ImageButton buttonCertificates;
+    private LinearLayout scrollLayout;
     String fileName;
     XMLParser parser = new XMLParser();
     //number of already certificates
     static int savedCertNr = 0;
+    static int btnIndex = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Dynamic Button
+        scrollLayout = findViewById(R.id.scrollLayout);
+
+
+
+
 
         XMLParser xmlparser = new XMLParser();
 
@@ -51,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         scanPageButton = (ImageButton) findViewById(R.id.ZertifikatPruefButton);
         scanPageButton.setOnClickListener(v -> openScanPage());
-        buttonCertificates = (Button) findViewById(R.id.buttonCert);
+        //buttonCertificates = (ImageButton) findViewById(R.id.buttonCert);
         //xmlparser.parseXML();
         //nur 2 Methodenaufrufe für Testzwecke
         //save("Test");
@@ -60,11 +76,76 @@ public class MainActivity extends AppCompatActivity {
 
         load();
 
-        //buttonCertificates.setText("String");
+        //Checkt wie viele Dateien im Assets Ordner sind und erstellt dementsprechend viele ImpfButtons auf der Main Page
+        try {
+            for (int size = 0; size <= getResources().getAssets().list("src/main/assets").length; size++) {
+                createNewImpfButton("TestName", "TestNachname", "Geimpft", "10102021");
+            }
+        } catch (IOException e){
+
+        }
      }
 
-    ;
 
+
+    public void createNewImpfButton(String forename, String lastname, String impfstatus, String datum){
+        //Erstellt den ImageButton
+        ImageButton certButton = new ImageButton(this);
+        //Gibt den Buttons eine fortlaufende ID
+        certButton.setId(btnIndex++);
+        //Gibt dem Button die Ressource aus dem Resource Manager
+        certButton.setImageResource(R.drawable.certificate_small);
+        //Macht den Hintergrund durchsichtig
+        certButton.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+        //fügt die Button zum scrollLayout hinzu
+        scrollLayout.addView(certButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+      //_________________________________________________________
+
+        //AB HIER ALLES NICHT FUNKTIONAL !!!!
+
+        //Todos:-TextViews zu den Button hinzufügen und an ein Layout "hängen" (vgl. Zeile: 97)
+        //      -Titel Textview soll IMPFZERTIFIKAT zeigen
+        //      -Textview von Name, Impfstatus und Datum sollen Werte der Methodenimputs übernehmen und anzeigen
+     //_________________________________________________________
+
+        LinearLayout buttonLayout = new LinearLayout(certButton.getContext());
+        TextView titelView = new TextView(buttonLayout.getContext());
+        buttonLayout.addView(titelView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        titelView.setText("Test");
+        /**
+
+        titelView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        TextView nameView = new TextView(this);
+        nameView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        TextView statusView = new TextView(this);
+        statusView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        TextView datumView = new TextView(this);
+        datumView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+        titelView.setText("TITLE");
+        nameView.setText("NAME");
+        statusView.setText("Status");
+        datumView.setText("DATUM");
+         **/
+
+
+    }
+
+    public void createNewSchnelltestButton(){
+        //Erstellt den ImageButton
+        ImageButton testButton = new ImageButton(this);
+        //Gibt den Buttons eine fortlaufende ID
+        testButton.setId(btnIndex++);
+        //Gibt dem Button die Ressource aus dem Resource Manager
+        testButton.setImageResource(R.drawable.certificate_small);
+        //Macht den Hintergrund durchsichtig
+        testButton.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+        //fügt die Button zum scrollLayout hinzu
+        scrollLayout.addView(testButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+
+    }
 
     public void openInformation() {
         Intent intent = new Intent(this, information.class);
@@ -82,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
             builder.append(certificate.getForname()).append(" ").append(certificate.getLastname()).append("\n").append("Erstelldatum: ").append(certificate.getErstelldatum()).append("\n\n");
         }
 
-        MainActivity.buttonCertificates.setText(builder.toString());
+        //MainActivity.buttonCertificates.setText(builder.toString());
         //buttonCertificates.setText("String");
     }
 

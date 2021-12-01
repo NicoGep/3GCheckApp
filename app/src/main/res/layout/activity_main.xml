@@ -66,13 +66,27 @@
         app:layout_constraintTop_toTopOf="@+id/pruef_background"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/certificate_small"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="195dp" />
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="780dp"
+        android:layout_height="926dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pruef_background"
+        app:layout_constraintVertical_bias="0.446"
+        android:fadingEdgeLength="40dp"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical">
+
+
+        <LinearLayout
+            android:id="@+id/scrollLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" />
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
