@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,19 +75,50 @@ public class MainActivity extends AppCompatActivity {
         String QRContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
         save(QRContent);
 
+
         load();
 
         //Checkt wie viele Dateien im Assets Ordner sind und erstellt dementsprechend viele ImpfButtons auf der Main Page
-        try {
-            for (int size = 0; size <= getResources().getAssets().list("src/main/assets").length; size++) {
-                createNewImpfButton("TestName", "TestNachname", "Geimpft", "10102021");
-            }
-        } catch (IOException e){
-
+        for (int size = 0; size < this.getFilesDir().listFiles().length; size++) {
+            createNewImpfText("TestName", "TestNachname", "Geimpft", "10102021");
         }
-     }
+    }
+    public void createNewImpfView(String forename, String lastname, String impfstatus, String datum){
+        ImageView impfView = new ImageView(this);
+        impfView.setId(btnIndex++);
+        impfView.setImageResource(R.drawable.certificate_small);
+        impfView.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+        scrollLayout.addView(impfView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
 
+        impfView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openDetail();
+            }
+        });
+
+    }
+
+    public void createNewImpfText(String forename, String lastname, String impfstatus, String datum){
+        TextView impfTextView = new TextView(this);
+        impfTextView.setId(btnIndex++);
+        impfTextView.setBackgroundResource(R.drawable.certificate_small);
+        scrollLayout.addView(impfTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        impfTextView.setText("INSERT HERE");
+        impfTextView.append("aasddf");
+        impfTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openDetail();
+            }
+        });
+    }
+
+
+
+
+//'/data/data/com.example.a3gcheckapp/files'
 
     public void createNewImpfButton(String forename, String lastname, String impfstatus, String datum){
         //Erstellt den ImageButton
@@ -100,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
         //fügt die Button zum scrollLayout hinzu
         scrollLayout.addView(certButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+
       //_________________________________________________________
 
         //AB HIER ALLES NICHT FUNKTIONAL !!!!
@@ -109,7 +142,8 @@ public class MainActivity extends AppCompatActivity {
         //      -Textview von Name, Impfstatus und Datum sollen Werte der Methodenimputs übernehmen und anzeigen
      //_________________________________________________________
 
-        LinearLayout buttonLayout = new LinearLayout(certButton.getContext());
+
+        LinearLayout buttonLayout = new LinearLayout(this);
         TextView titelView = new TextView(buttonLayout.getContext());
         buttonLayout.addView(titelView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         titelView.setText("Test");
@@ -149,6 +183,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openInformation() {
         Intent intent = new Intent(this, information.class);
+        startActivity(intent);
+    }
+
+    public void openDetail(){
+        Intent intent = new Intent(this, detail.class);
         startActivity(intent);
     }
 
