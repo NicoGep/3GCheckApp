@@ -3,13 +3,16 @@ package com.example.a3gcheckapp;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.BlendMode;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,10 +60,6 @@ public class MainActivity extends AppCompatActivity {
         //Dynamic Button
         scrollLayout = findViewById(R.id.scrollLayout);
 
-
-
-
-
         XMLParser xmlparser = new XMLParser();
 
         informationenButton = (ImageButton) findViewById(R.id.pruefInformationButton);
@@ -70,17 +69,15 @@ public class MainActivity extends AppCompatActivity {
         scanPageButton.setOnClickListener(v -> openScanPage());
         //buttonCertificates = (ImageButton) findViewById(R.id.buttonCert);
         //xmlparser.parseXML();
-        //nur 2 Methodenaufrufe für Testzwecke
         //save("Test");
         String QRContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
         save(QRContent);
-
 
         load();
 
         //Checkt wie viele Dateien im Assets Ordner sind und erstellt dementsprechend viele ImpfButtons auf der Main Page
         for (int size = 0; size < this.getFilesDir().listFiles().length; size++) {
-            createNewImpfText("TestName", "TestNachname", "Geimpft", "10102021");
+            createNewImpfText("Veronika", "Taranek", "Vollständiger Impfschutz", "10.10.2021");
         }
     }
     public void createNewImpfView(String forename, String lastname, String impfstatus, String datum){
@@ -100,13 +97,60 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //IMPFNACHWEIS der Main Activity
     public void createNewImpfText(String forename, String lastname, String impfstatus, String datum){
         TextView impfTextView = new TextView(this);
         impfTextView.setId(btnIndex++);
         impfTextView.setBackgroundResource(R.drawable.certificate_small);
         scrollLayout.addView(impfTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        impfTextView.setText("INSERT HERE");
-        impfTextView.append("aasddf");
+        impfTextView.setPadding(100 , 45, 0, 0);
+        impfTextView.setTextSize(40);
+        impfTextView.setLineSpacing(75, 0);
+        //impfTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        impfTextView.setText("IMPFNACHWEIS\n");
+        impfTextView.append(forename + " " + lastname + "\n");
+        impfTextView.append(impfstatus + "\n");
+        impfTextView.append("Impfdatum: " + datum + "");
+        impfTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openDetail();
+            }
+        });
+    }
+    //SCHNELLTESTNACHWEIS der Main Activity
+    public void createNewSchnelltestText(String forename, String lastname, String testdatum, String testzeit){
+        TextView impfTextView = new TextView(this);
+        impfTextView.setId(btnIndex++);
+        impfTextView.setBackgroundResource(R.drawable.certificate_small);
+        scrollLayout.addView(impfTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        impfTextView.setPadding(100 , 45, 0, 0);
+        impfTextView.setTextSize(40);
+        impfTextView.setLineSpacing(75, 0);
+        impfTextView.setText("TESTNACHWEIS\n");
+        impfTextView.append(forename + " " + lastname + "\n");
+        impfTextView.append("Testdatum: "+ testdatum + "\n");
+        impfTextView.append("Testzeit: " + testzeit);
+        impfTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openDetail();
+            }
+        });
+    }
+    //GENESENENNACHWEIS der Main Activity
+    public void createNewGenesenText(String forename, String lastname, String testdatum, String testzeit){
+        TextView impfTextView = new TextView(this);
+        impfTextView.setId(btnIndex++);
+        impfTextView.setBackgroundResource(R.drawable.certificate_small);
+        scrollLayout.addView(impfTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        impfTextView.setPadding(100 , 45, 0, 0);
+        impfTextView.setTextSize(40);
+        impfTextView.setLineSpacing(75, 0);
+        impfTextView.setText("GENESENENNACHWEIS\n");
+        impfTextView.append(forename + " " + lastname + "\n");
+        impfTextView.append("Testdatum: "+ testdatum + "\n");
+        impfTextView.append("Testzeit: " + testzeit);
         impfTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -118,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-//'/data/data/com.example.a3gcheckapp/files'
 
+/**
     public void createNewImpfButton(String forename, String lastname, String impfstatus, String datum){
         //Erstellt den ImageButton
         ImageButton certButton = new ImageButton(this);
@@ -164,22 +208,7 @@ public class MainActivity extends AppCompatActivity {
          **/
 
 
-    }
 
-    public void createNewSchnelltestButton(){
-        //Erstellt den ImageButton
-        ImageButton testButton = new ImageButton(this);
-        //Gibt den Buttons eine fortlaufende ID
-        testButton.setId(btnIndex++);
-        //Gibt dem Button die Ressource aus dem Resource Manager
-        testButton.setImageResource(R.drawable.certificate_small);
-        //Macht den Hintergrund durchsichtig
-        testButton.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
-        //fügt die Button zum scrollLayout hinzu
-        scrollLayout.addView(testButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-
-    }
 
     public void openInformation() {
         Intent intent = new Intent(this, information.class);
