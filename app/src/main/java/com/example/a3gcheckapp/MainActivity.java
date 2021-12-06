@@ -5,6 +5,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import java.io.*;
+
 import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     String fileName;
     XMLParser parser = new XMLParser();
     //number of already certificates
-    static int savedCertNr = 0;
+    static int savedCertNr;
     static int btnIndex = 1;
 
     @Override
@@ -70,16 +72,43 @@ public class MainActivity extends AppCompatActivity {
         //buttonCertificates = (ImageButton) findViewById(R.id.buttonCert);
         //xmlparser.parseXML();
         //save("Test");
-        String QRContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
+        String QRContent = "<nachweis type = 'impfung'>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>  <geburtsdatum>01-02-2000</geburtsdatum>  <erstelldatum>01-09-2021</erstelldatum> </nachweis>";
         save(QRContent);
 
-        load();
+
+        loadFiles();
 
         //Checkt wie viele Dateien im Assets Ordner sind und erstellt dementsprechend viele ImpfButtons auf der Main Page
-        for (int size = 0; size < this.getFilesDir().listFiles().length; size++) {
-            createNewImpfText("Veronika", "Taranek", "Vollständiger Impfschutz", "10.10.2021");
+//        for (int size = 0; size < this.getFilesDir().listFiles().length; size++) {
+//            createNewImpfText("Veronika", "Taranek", "Vollständiger Impfschutz", "10.10.2021");
+//        }
+    }
+
+    //Load texts from saved xml files
+    public void loadFiles() {
+        FileInputStream fis = null;
+        for(File file : this.getFilesDir().listFiles()) {
+            try {
+                fis = openFileInput(file.getName());
+                InputStreamReader isr = new InputStreamReader(fis);
+                BufferedReader br = new BufferedReader(isr);
+                StringBuilder sb = new StringBuilder();
+                String text = br.readLine();
+                Certificate certificate = parser.parseXML(text);
+                createNewImpfText(certificate.getForname(), certificate.getLastname(), certificate.getBirthdate(), certificate.getErstelldatum());
+
+            } catch (Exception e) {
+            } finally {
+                if (fis != null) {
+                    try {
+                        fis.close();
+                    } catch (IOException ie) {
+                    }
+                }
+            }
         }
     }
+
     public void createNewImpfView(String forename, String lastname, String impfstatus, String datum){
         ImageView impfView = new ImageView(this);
         impfView.setId(btnIndex++);
@@ -241,7 +270,7 @@ public class MainActivity extends AppCompatActivity {
         FileOutputStream fos = null;
         try {
             MainActivity.savedCertNr++;
-            fileName = "zertfikat" + MainActivity.savedCertNr + ".xml";
+            fileName = "zertifikat" + MainActivity.savedCertNr + ".xml";
             fos = openFileOutput(fileName, MODE_PRIVATE);
             fos.write(certText.getBytes());
         } catch (Exception e) {
@@ -262,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
     public void load() {
         FileInputStream fis = null;
         for (int i = 0; i <= MainActivity.savedCertNr; i++) {
-            fileName = "zertfikat" + MainActivity.savedCertNr + ".xml";
+            fileName = "zertifikat" + MainActivity.savedCertNr + ".xml";
             try {
                 fis = openFileInput(fileName);
                 InputStreamReader isr = new InputStreamReader(fis);
