@@ -7,21 +7,24 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+//The class MainActivity contains the main logic of our "Prüfstelle" application.
 public class pruefstelle extends AppCompatActivity {
 
     private ImageButton informationBtn;
     private ImageView informationBackground;
 
     @Override
+    //The method generates the overview page of the application "Prüfstelle".
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pruefstelle);
 
-        informationBtn = (ImageButton) findViewById(R.id.pruefInformationButton);
+        informationBtn = (ImageButton) findViewById(R.id.controlInformationButton);
         informationBtn.setOnClickListener(v -> openInformation());
 
         informationBackground = (ImageView) findViewById(R.id.pruefInformationBackground);
     }
+    //The method opens the information page.
     public void openInformation(){
         Intent intent = new Intent(this, pruef_Information.class);
         startActivity(intent);

@@ -1,50 +1,29 @@
 package com.example.a3gcheckapp;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 
 import java.io.*;
 
-import android.app.ActionBar;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.BlendMode;
-import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Array;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-
+//The class MainActivity contains the main logic of our "Bürger" application.
 public class MainActivity extends AppCompatActivity {
 
-    private ImageButton informationenButton;
+    private ImageButton informationButton;
     private ImageButton scanPageButton;
     static ImageButton buttonCertificates;
     private LinearLayout scrollLayout;
@@ -55,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     static int btnIndex = 1;
 
     @Override
+    //The method generates the overview page of the application "Bürger".
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -64,10 +44,10 @@ public class MainActivity extends AppCompatActivity {
 
         XMLParser xmlparser = new XMLParser();
 
-        informationenButton = (ImageButton) findViewById(R.id.pruefInformationButton);
-        informationenButton.setOnClickListener(v -> openInformation());
+        informationButton = (ImageButton) findViewById(R.id.controlInformationButton);
+        informationButton.setOnClickListener(v -> openInformation());
 
-        scanPageButton = (ImageButton) findViewById(R.id.ZertifikatPruefButton);
+        scanPageButton = (ImageButton) findViewById(R.id.certificateControlButton);
         scanPageButton.setOnClickListener(v -> openScanPage());
         //buttonCertificates = (ImageButton) findViewById(R.id.buttonCert);
         //xmlparser.parseXML();
@@ -77,14 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         loadFiles();
-
-        //Checkt wie viele Dateien im Assets Ordner sind und erstellt dementsprechend viele ImpfButtons auf der Main Page
+        //Checks how many files are in the Assets folder and accordingly creates many vaccButtons on the main page.
 //        for (int size = 0; size < this.getFilesDir().listFiles().length; size++) {
 //            createNewImpfText("Veronika", "Taranek", "Vollständiger Impfschutz", "10.10.2021");
 //        }
     }
 
-    //Iteration durch alle gespeicherten Zertifikate, Auslesen, Klassifizierung und Anzeige
+    //The method creates iterations through all saved certificates including the functionalities to read out, to classify und to display.
     public void loadFiles() {
         FileInputStream fis = null;
         for(File file : this.getFilesDir().listFiles()) {
@@ -117,78 +96,78 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    //The method creates a new View for scanned certificates.
+    //public void createNewVaccView(String forename, String lastname, String vaccstatus, String date){
+        //ImageView vaccView = new ImageView(this);
+        //vaccView.setId(btnIndex++);
+        //vaccView.setImageResource(R.drawable.certificate_small);
+        //vaccView.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
+        //scrollLayout.addView(vaccView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
-    public void createNewImpfView(String forename, String lastname, String impfstatus, String datum){
-        ImageView impfView = new ImageView(this);
-        impfView.setId(btnIndex++);
-        impfView.setImageResource(R.drawable.certificate_small);
-        impfView.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
-        scrollLayout.addView(impfView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
+        //vaccView.setOnClickListener(new View.OnClickListener() {
+            //@Override
+            //public void onClick(View v){
+                //openDetail();
+           // }
+       // });
 
-        impfView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                openDetail();
-            }
-        });
+  //  }
 
-    }
-
-    //IMPFNACHWEIS der Main Activity
-    public void createNewImpfText(String forename, String lastname, String impfstatus, String datum){
-        TextView impfTextView = new TextView(this);
-        impfTextView.setId(btnIndex++);
-        impfTextView.setBackgroundResource(R.drawable.certificate_small);
-        scrollLayout.addView(impfTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        impfTextView.setPadding(100 , 45, 0, 0);
-        impfTextView.setTextSize(40);
-        impfTextView.setLineSpacing(75, 0);
-        //impfTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        impfTextView.setText("IMPFNACHWEIS\n");
-        impfTextView.append(forename + " " + lastname + "\n");
-        impfTextView.append(impfstatus + "\n");
-        impfTextView.append("Impfdatum: " + datum + "");
-        impfTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                openDetail();
-            }
-        });
-    }
-    //SCHNELLTESTNACHWEIS der Main Activity
-    public void createNewSchnelltestText(String forename, String lastname, String testdatum, String testzeit){
-        TextView impfTextView = new TextView(this);
-        impfTextView.setId(btnIndex++);
-        impfTextView.setBackgroundResource(R.drawable.certificate_small);
-        scrollLayout.addView(impfTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        impfTextView.setPadding(100 , 45, 0, 0);
-        impfTextView.setTextSize(40);
-        impfTextView.setLineSpacing(75, 0);
-        impfTextView.setText("TESTNACHWEIS\n");
-        impfTextView.append(forename + " " + lastname + "\n");
-        impfTextView.append("Testdatum: "+ testdatum + "\n");
-        impfTextView.append("Testzeit: " + testzeit);
-        impfTextView.setOnClickListener(new View.OnClickListener() {
+    //The method generates a new View and fills it with data that has been read from the QR code of a vaccination certificate.
+    public void createNewVaxText(String forename, String lastname, String vaxstatus, String date){
+        TextView vaxTextView = new TextView(this);
+        vaxTextView.setId(btnIndex++);
+        vaxTextView.setBackgroundResource(R.drawable.certificate_small);
+        scrollLayout.addView(vaxTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        vaxTextView.setPadding(100 , 45, 0, 0);
+        vaxTextView.setTextSize(40);
+        vaxTextView.setLineSpacing(75, 0);
+        //vaccTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        vaxTextView.setText("IMPFNACHWEIS\n");
+        vaxTextView.append(forename + " " + lastname + "\n");
+        vaxTextView.append(vaxstatus + "\n");
+        vaxTextView.append("Impfdatum: " + date + "");
+        vaxTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 openDetail();
             }
         });
     }
-    //GENESENENNACHWEIS der Main Activity
-    public void createNewGenesenText(String forename, String lastname, String testdatum){
-        TextView impfTextView = new TextView(this);
-        impfTextView.setId(btnIndex++);
-        impfTextView.setBackgroundResource(R.drawable.certificate_small);
-        scrollLayout.addView(impfTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        impfTextView.setPadding(100 , 45, 0, 0);
-        impfTextView.setTextSize(40);
-        impfTextView.setLineSpacing(75, 0);
-        impfTextView.setText("GENESENENNACHWEIS\n");
-        impfTextView.append(forename + " " + lastname + "\n");
-        impfTextView.append("Testdatum: "+ testdatum + "\n");
-        impfTextView.setOnClickListener(new View.OnClickListener() {
+    ////The method generates a new View and fills it with data that has been read from the QR code of a test certificate.
+    public void createNewTestText(String forename, String lastname, String testdate, String testtime){
+        TextView testTextView = new TextView(this);
+        testTextView.setId(btnIndex++);
+        testTextView.setBackgroundResource(R.drawable.certificate_small);
+        scrollLayout.addView(testTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        testTextView.setPadding(100 , 45, 0, 0);
+        testTextView.setTextSize(40);
+        testTextView.setLineSpacing(75, 0);
+        testTextView.setText("TESTNACHWEIS\n");
+        testTextView.append(forename + " " + lastname + "\n");
+        testTextView.append("Testdatum: "+ testdate + "\n");
+        testTextView.append("Testzeit: " + testtime);
+        testTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                openDetail();
+            }
+        });
+    }
+    ////The method fills the new generated View with data that has been read from the QR code of a proof of recovery certificate.
+    public void createNewRecoveryText(String forename, String lastname, String testdate){
+        TextView recTextView = new TextView(this);
+        recTextView.setId(btnIndex++);
+        recTextView.setBackgroundResource(R.drawable.certificate_small);
+        scrollLayout.addView(recTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        recTextView.setPadding(100 , 45, 0, 0);
+        recTextView.setTextSize(40);
+        recTextView.setLineSpacing(75, 0);
+        recTextView.setText("GENESENENNACHWEIS\n");
+        recTextView.append(forename + " " + lastname + "\n");
+        recTextView.append("Testdatum: "+ testdate + "\n");
+        recTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 openDetail();
@@ -246,33 +225,35 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+    //The method opens the information page.
     public void openInformation() {
         Intent intent = new Intent(this, information.class);
         startActivity(intent);
     }
 
+    //The method opens the page containing the detailed information of a scanned certificate.
     public void openDetail(){
         Intent intent = new Intent(this, detail.class);
         startActivity(intent);
     }
 
+    //The method opens the page containing the scan functionality.
     public void openScanPage() {
         Intent intent = new Intent(this, scan.class);
         startActivity(intent);
     }
-
+    //The method prints certificates.
     public void printCertificates(ArrayList<Certificate> certificates) {
         StringBuilder builder = new StringBuilder();
         for (Certificate certificate : certificates) {
-            builder.append(certificate.getForname()).append(" ").append(certificate.getLastname()).append("\n").append("Erstelldatum: ").append(certificate.getErstelldatum()).append("\n\n");
+            builder.append(certificate.getForname()).append(" ").append(certificate.getLastname()).append("\n").append("Erstelldatum: ").append(certificate.getIssuedate()).append("\n\n");
         }
 
         //MainActivity.buttonCertificates.setText(builder.toString());
         //buttonCertificates.setText("String");
     }
 
-    //save XML Strings in files
+    //The method saves XML Strings in files.
     public void save(String certText) {
         //for (int i = 0; i <= MainActivity.savedCertNr; i++) {
         FileOutputStream fos = null;
@@ -295,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    //Load texts from saved xml files
+    //The method loads texts from saved XML files.
     public void load() {
         FileInputStream fis = null;
         for (int i = 0; i <= MainActivity.savedCertNr; i++) {

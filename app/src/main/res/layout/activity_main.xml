@@ -23,7 +23,7 @@
         app:srcCompat="@drawable/main_background" />
 
     <ImageButton
-        android:id="@+id/pruefInformationButton"
+        android:id="@+id/controlInformationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="677dp"
@@ -40,7 +40,7 @@
         app:srcCompat="@drawable/alert_icon" />
 
     <ImageButton
-        android:id="@+id/ZertifikatPruefButton"
+        android:id="@+id/certificateControlButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00FFFFFF"

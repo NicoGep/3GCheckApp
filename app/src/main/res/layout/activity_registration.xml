@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/main_background" />
 
     <ImageButton
-        android:id="@+id/anmeldungInformationButton"
+        android:id="@+id/registrationInformationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="677dp"
@@ -70,7 +70,7 @@
         android:text="@string/anmeldung_f_r_b_rger"
         android:textColor="@color/gray"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/buerger_btn"
+        app:layout_constraintBottom_toTopOf="@+id/citizen_btn"
         app:layout_constraintEnd_toEndOf="@+id/anmeldung_frame"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/anmeldung_frame"
@@ -78,7 +78,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/buerger_btn"
+        android:id="@+id/citizen_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00FFFFFF"
@@ -99,14 +99,14 @@
         android:text="@string/anmeldung_f_r_pr_fstellen"
         android:textColor="@color/gray"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/pruefstellen_btn"
+        app:layout_constraintBottom_toTopOf="@+id/testcenter_btn"
         app:layout_constraintEnd_toEndOf="@+id/anmeldung_frame"
         app:layout_constraintStart_toStartOf="@+id/anmeldung_frame"
-        app:layout_constraintTop_toBottomOf="@+id/buerger_btn"
+        app:layout_constraintTop_toBottomOf="@+id/citizen_btn"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/pruefstellen_btn"
+        android:id="@+id/testcenter_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00FFFFFF"

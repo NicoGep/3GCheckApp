@@ -73,7 +73,7 @@ public class XMLParser {
                             currentCertificate.setBirthdate(text);
                             break;
                         case "erstelldatum":
-                            currentCertificate.setErstelldatum(text);
+                            currentCertificate.setIssuedate(text);
                             break;
 //                        case "vaccine":
 //                            currentCertificate.setVaccine(text);
