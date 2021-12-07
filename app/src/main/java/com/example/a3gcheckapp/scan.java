@@ -78,6 +78,7 @@ public class scan extends AppCompatActivity  {
         });
 
     }
+    //The method opens the class MainActivity.
     public void openMain(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
