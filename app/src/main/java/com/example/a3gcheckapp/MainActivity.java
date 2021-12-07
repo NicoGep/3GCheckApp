@@ -96,17 +96,18 @@ public class MainActivity extends AppCompatActivity {
                 BufferedReader br = new BufferedReader(isr);
                 StringBuilder sb = new StringBuilder();
                 String text = br.readLine();
-                Certificate certificate = parser.parseXML(text);
-//                if(certificate instanceof Impfnachweis){
-//                    Impfnachweis impfnachweis = (Impfnachweis) certificate;
-//                    createNewImpfText(impfnachweis.getForname(), impfnachweis.getLastname(), impfnachweis.getBirthdate(), impfnachweis.getErstelldatum());
-//                } else if (certificate instanceof Testnachweis ) {
-//                    Testnachweis testnachweis = (Testnachweis) certificate;
-//                    createNewSchnelltestText(testnachweis.getForename(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
-//                } else if (certificate instanceof Genesenennachwei0 ){
-//                    Genesenennachweis genesenennachweis = (Genesenennachweis) certificate;
-//                    createNewGenesenText(genesenennachweis.getForename(), genesenennachweis.getLastname(), genesenennachweis.getRecDate());
-//                }
+                //Certificate certificate = parser.parseXML(text);
+                Certificate certificate = QRCodeHandler.parseNachweisXMLToCertificate(text);
+                if(certificate instanceof Impfnachweis){
+                    Impfnachweis impfnachweis = (Impfnachweis) certificate;
+                    createNewImpfText(impfnachweis.getForname(), impfnachweis.getLastname(), impfnachweis.getBirthdate(), impfnachweis.getErstelldatum());
+                } else if (certificate instanceof Testnachweis ) {
+                    Testnachweis testnachweis = (Testnachweis) certificate;
+                    //createNewSchnelltestText(testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
+                } else if (certificate instanceof Genesenennachweis ){
+                    Genesenennachweis genesenennachweis = (Genesenennachweis) certificate;
+                    createNewGenesenText(genesenennachweis.getForname(), genesenennachweis.getLastname(), genesenennachweis.getRecDate());
+                }
 
             } catch (Exception e) {
             } finally {
