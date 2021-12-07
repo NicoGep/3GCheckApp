@@ -66,7 +66,7 @@ public class XMLParser {
                         case "lastname":
                             currentCertificate.setLastname(text);
                             break;
-                        case "forname":
+                        case "forename":
                             currentCertificate.setForname(text);
                             break;
                         case "birthdate":

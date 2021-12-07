@@ -52,9 +52,11 @@ public class MainActivity extends AppCompatActivity {
         //buttonCertificates = (ImageButton) findViewById(R.id.buttonCert);
         //xmlparser.parseXML();
         //save("Test");
-        String QRContent = "<nachweis type = 'impfung'>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>  <geburtsdatum>01-02-2000</geburtsdatum>  <erstelldatum>01-09-2021</erstelldatum> </nachweis>";
-        save(QRContent);
+        String QRContent = "<nachweis type = 'impfung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <vaccinationDate>01-09-2021</vaccinationDate> </nachweis>";
+        String QRContent2 = "<nachweis type = 'genesung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <recDate>01-09-2021</recDate> </nachweis>";
 
+        save(QRContent);
+        save(QRContent2);
 
         loadFiles();
         //Checks how many files are in the Assets folder and accordingly creates many vaccButtons on the main page.
@@ -73,17 +75,18 @@ public class MainActivity extends AppCompatActivity {
                 BufferedReader br = new BufferedReader(isr);
                 StringBuilder sb = new StringBuilder();
                 String text = br.readLine();
-                Certificate certificate = parser.parseXML(text);
-//                if(certificate instanceof Impfnachweis){
-//                    Impfnachweis impfnachweis = (Impfnachweis) certificate;
-//                    createNewImpfText(impfnachweis.getForname(), impfnachweis.getLastname(), impfnachweis.getBirthdate(), impfnachweis.getErstelldatum());
-//                } else if (certificate instanceof Testnachweis ) {
-//                    Testnachweis testnachweis = (Testnachweis) certificate;
-//                    createNewSchnelltestText(testnachweis.getForename(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
-//                } else if (certificate instanceof Genesenennachwei0 ){
-//                    Genesenennachweis genesenennachweis = (Genesenennachweis) certificate;
-//                    createNewGenesenText(genesenennachweis.getForename(), genesenennachweis.getLastname(), genesenennachweis.getRecDate());
-//                }
+                //Certificate certificate = parser.parseXML(text);
+                Certificate certificate = QRCodeHandler.parseNachweisXMLToCertificate(text);
+                if(certificate instanceof Impfnachweis){
+                    Impfnachweis vaxcertificate = (Impfnachweis) certificate;
+                    createNewVaxText(vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate());
+                } else if (certificate instanceof Testnachweis ) {
+                    Testnachweis testcertificate = (Testnachweis) certificate;
+                    //createNewSchnelltestText(testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
+                } else if (certificate instanceof Genesenennachweis ){
+                    Genesenennachweis reccertificate = (Genesenennachweis) certificate;
+                    createNewRecoveryText(reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate());
+                }
 
             } catch (Exception e) {
             } finally {
