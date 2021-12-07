@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+//The class scan contains all necessary functionalities to scan certificates with a camera.
 public class scan extends AppCompatActivity  {
     public String BarcodeContent;
     private ImageButton backButton;
@@ -30,6 +31,7 @@ public class scan extends AppCompatActivity  {
     MainActivity main = new MainActivity();
 
     @Override
+    //The method generates the page containing the scan functionality with a camera and can read the given information out of a QR code of a scanned certificate.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
