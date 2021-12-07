@@ -15,6 +15,13 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.google.zxing.Result;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 public class scan extends AppCompatActivity  {
     public String BarcodeContent;
     private ImageButton backButton;
@@ -47,8 +54,15 @@ public class scan extends AppCompatActivity  {
                         //progressBar.setVisibility(View.VISIBLE);
                         scannerView.setVisibility(View.INVISIBLE);
                         //process QR Code
-                        BarcodeContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
-                        main.save(BarcodeContent);
+                        try {
+                            Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
+                            String xmlCert = map.get("nachweis");
+                            main.save(xmlCert);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        //BarcodeContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
+                        //main.save(BarcodeContent);
 
                     }
                 });
