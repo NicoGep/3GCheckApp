@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
-    //Load texts from saved xml files
+    //Iteration durch alle gespeicherten Zertifikate, Auslesen, Klassifizierung und Anzeige
     public void loadFiles() {
         FileInputStream fis = null;
         for(File file : this.getFilesDir().listFiles()) {
@@ -95,7 +95,16 @@ public class MainActivity extends AppCompatActivity {
                 StringBuilder sb = new StringBuilder();
                 String text = br.readLine();
                 Certificate certificate = parser.parseXML(text);
-                createNewImpfText(certificate.getForname(), certificate.getLastname(), certificate.getBirthdate(), certificate.getErstelldatum());
+//                if(certificate instanceof Impfnachweis){
+//                    Impfnachweis impfnachweis = (Impfnachweis) certificate;
+//                    createNewImpfText(impfnachweis.getForname(), impfnachweis.getLastname(), impfnachweis.getBirthdate(), impfnachweis.getErstelldatum());
+//                } else if (certificate instanceof Testnachweis ) {
+//                    Testnachweis testnachweis = (Testnachweis) certificate;
+//                    createNewSchnelltestText(testnachweis.getForename(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
+//                } else if (certificate instanceof Genesenennachwei0 ){
+//                    Genesenennachweis genesenennachweis = (Genesenennachweis) certificate;
+//                    createNewGenesenText(genesenennachweis.getForename(), genesenennachweis.getLastname(), genesenennachweis.getRecDate());
+//                }
 
             } catch (Exception e) {
             } finally {
@@ -168,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     //GENESENENNACHWEIS der Main Activity
-    public void createNewGenesenText(String forename, String lastname, String testdatum, String testzeit){
+    public void createNewGenesenText(String forename, String lastname, String testdatum){
         TextView impfTextView = new TextView(this);
         impfTextView.setId(btnIndex++);
         impfTextView.setBackgroundResource(R.drawable.certificate_small);
@@ -179,7 +188,6 @@ public class MainActivity extends AppCompatActivity {
         impfTextView.setText("GENESENENNACHWEIS\n");
         impfTextView.append(forename + " " + lastname + "\n");
         impfTextView.append("Testdatum: "+ testdatum + "\n");
-        impfTextView.append("Testzeit: " + testzeit);
         impfTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
