@@ -63,4 +63,16 @@
         app:layout_constraintVertical_bias="0.836"
         app:srcCompat="@drawable/detailview" />
 
+    <ImageView
+        android:id="@+id/trashIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.956"
+        app:srcCompat="@drawable/trashicon" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
