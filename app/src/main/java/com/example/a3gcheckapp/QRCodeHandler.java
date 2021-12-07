@@ -26,7 +26,7 @@ import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-
+//
 public class QRCodeHandler {
     //String qrCodeData = readQR("AppData/1638890268021.png", "UTF-8");
 
@@ -38,11 +38,11 @@ public class QRCodeHandler {
     }
 
 
-    static Certificate parseNachweisXMLToCertificate(String nachweisXML) throws ParserConfigurationException, SAXException, IOException {
+    static Certificate parseCertificateXMLToCertificate(String certificateXML) throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
-        InputSource inputSource = new InputSource(new StringReader(nachweisXML));
+        InputSource inputSource = new InputSource(new StringReader(certificateXML));
 
         Document doc = db.parse(inputSource);
 
@@ -54,58 +54,58 @@ public class QRCodeHandler {
 
         String type = rootElement.getAttribute("type");
 
-        String forname, lastname, birthdate, issueDate, expirationDate;
+        String forname, lastname, birthdate, issuedate, expirationDate;
 
         switch(type) {
 
             case "impfung":
-                Impfnachweis impfnachweis = new Impfnachweis();
+                Impfnachweis vaxcertificate = new Impfnachweis();
 
-                String vaccDate;
+                String vaxDate;
                 Impfstoff vaccine;
 
                 forname = doc.getElementsByTagName("forename").item(0).getTextContent();
                 lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
                 birthdate = doc.getElementsByTagName("birthdate").item(0).getTextContent();
-                issueDate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
+                issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
                 //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
-                vaccDate = doc.getElementsByTagName("vaccinationDate").item(0).getTextContent();
+                vaxDate = doc.getElementsByTagName("vaccinationDate").item(0).getTextContent();
                 //vaccine = Impfstoff.valueOf(doc.getElementsByTagName("vaccine").item(0).getTextContent());
 
 
-                impfnachweis.setForname(forname);
-                impfnachweis.setLastname(lastname);
-                impfnachweis.setBirthdate(birthdate);
-                impfnachweis.setIssuedate(issueDate);
+                vaxcertificate.setForname(forname);
+                vaxcertificate.setLastname(lastname);
+                vaxcertificate.setBirthdate(birthdate);
+                vaxcertificate.setIssuedate(issuedate);
                 //impfnachweis.setExpirationDate(expirationDate);
-                impfnachweis.setVaccDate(vaccDate);
+                vaxcertificate.setVaccDate(vaxDate);
                 //impfnachweis.setVaccine(vaccine);
 
-                return impfnachweis;
+                return vaxcertificate;
 
             case "genesung":
-                Genesenennachweis genesenennachweis = new Genesenennachweis();
+                Genesenennachweis recoverycertificate = new Genesenennachweis();
 
                 String recDate;
 
                 forname = doc.getElementsByTagName("forename").item(0).getTextContent();
                 lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
                 birthdate = doc.getElementsByTagName("birthdate").item(0).getTextContent();
-                issueDate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
+                issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
                 //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
                 recDate = doc.getElementsByTagName("recDate").item(0).getTextContent();
 
-                genesenennachweis.setForname(forname);
-                genesenennachweis.setLastname(lastname);
-                genesenennachweis.setBirthdate(birthdate);
-                genesenennachweis.setIssuedate(issueDate);
+                recoverycertificate.setForname(forname);
+                recoverycertificate.setLastname(lastname);
+                recoverycertificate.setBirthdate(birthdate);
+                recoverycertificate.setIssuedate(issuedate);
                 //genesenennachweis.setExpirationDate(expirationDate);
-                genesenennachweis.setRecDate(recDate);
+                recoverycertificate.setRecDate(recDate);
 
-                return genesenennachweis;
+                return recoverycertificate;
 
             case "test":
-                Testnachweis testnachweis = new Testnachweis();
+                Testnachweis testcertificate = new Testnachweis();
 
                 String testDate;
                 //Testtyp testType;
@@ -113,20 +113,20 @@ public class QRCodeHandler {
                 forname = doc.getElementsByTagName("forename").item(0).getTextContent();
                 lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
                 birthdate = doc.getElementsByTagName("birthdate").item(0).getTextContent();
-                issueDate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
+                issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
                 //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
                 testDate = doc.getElementsByTagName("testDate").item(0).getTextContent();
                 //testType = Testtyp.valueOf(doc.getElementsByTagName("testType").item(0).getTextContent());
 
-                testnachweis.setForname(forname);
-                testnachweis.setLastname(lastname);
-                testnachweis.setBirthdate(birthdate);
-                testnachweis.setIssuedate(issueDate);
+                testcertificate.setForname(forname);
+                testcertificate.setLastname(lastname);
+                testcertificate.setBirthdate(birthdate);
+                testcertificate.setIssuedate(issuedate);
                 //testnachweis.setExpirationDate(expirationDate);
-                testnachweis.setTestDate(testDate);
+                testcertificate.setTestDate(testDate);
                 //testnachweis.setTestType(testType);
 
-                return testnachweis;
+                return testcertificate;
 
             default: return null;
         }
@@ -134,7 +134,7 @@ public class QRCodeHandler {
 
     }
 
-    static Map<String, String> parseQRdataToStringMap(String inputXML) throws ParserConfigurationException, SAXException, IOException {
+     static Map<String, String> parseQRdataToStringMap(String inputXML) throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -148,13 +148,13 @@ public class QRCodeHandler {
 
         Map<String, String> result = new HashMap<String, String>();
 
-        String nachweis, signatur, certificate;
+        String certif, signatur, certificate;
 
-        nachweis = doc.getElementsByTagName("nachweis").item(0).getTextContent();
+        certif = doc.getElementsByTagName("nachweis").item(0).getTextContent();
         signatur = doc.getElementsByTagName("signatur").item(0).getTextContent();
         certificate = doc.getElementsByTagName("certificate").item(0).getTextContent();
 
-        result.put("nachweis", nachweis);
+        result.put("nachweis", certificate);
         result.put("signatur", signatur);
         result.put("certificate", certificate);
 
