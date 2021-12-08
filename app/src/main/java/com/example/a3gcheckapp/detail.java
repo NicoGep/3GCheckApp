@@ -25,6 +25,8 @@ public class detail extends AppCompatActivity {
         trashIcon = (ImageView) findViewById(R.id.trashIcon);
         trashIcon.setOnClickListener(v -> deleteCertificate());
 
+
+
     }
     // The method opens the class MainActivity.
     public void openMain(){

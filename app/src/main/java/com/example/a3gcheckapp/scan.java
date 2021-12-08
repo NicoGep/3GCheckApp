@@ -1,9 +1,12 @@
 package com.example.a3gcheckapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Path;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,12 +18,17 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.Result;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
 
 import org.xml.sax.SAXException;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -57,10 +65,19 @@ public class scan extends AppCompatActivity  {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void run() {
                         Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         BarcodeContent = result.getText();
+
+                        File file = new File("/data/data/com.example.a3gcheckapp/files");
+                        try {
+                            MatrixToImageWriter.writeToPath(new MultiFormatWriter().encode(result.getText(), BarcodeFormat.QR_CODE, 200, 200), "png", file.toPath());
+                        } catch (WriterException | IOException e) {
+                            e.printStackTrace();
+                        }
+
                         mCodeScanner.stopPreview();
                         //progressBar.setVisibility(View.VISIBLE);
                         scannerView.setVisibility(View.INVISIBLE);
