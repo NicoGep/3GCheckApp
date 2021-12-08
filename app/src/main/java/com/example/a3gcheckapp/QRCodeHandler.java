@@ -154,7 +154,7 @@ public class QRCodeHandler {
         signatur = doc.getElementsByTagName("signatur").item(0).getTextContent();
         certificate = doc.getElementsByTagName("certificate").item(0).getTextContent();
 
-        result.put("nachweis", certificate);
+        result.put("nachweis", certif);
         result.put("signatur", signatur);
         result.put("certificate", certificate);
 

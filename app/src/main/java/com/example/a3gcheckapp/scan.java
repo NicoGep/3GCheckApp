@@ -13,10 +13,13 @@ import android.widget.Toast;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.budiyev.android.codescanner.ScanMode;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 
 import org.xml.sax.SAXException;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
@@ -35,15 +38,21 @@ public class scan extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
-        XMLParser parser = new XMLParser();
+        //XMLParser parser = new XMLParser();
 
         backButton = (ImageButton) findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> openMain());
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
+
+
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
+        mCodeScanner.setFormats(CodeScanner.TWO_DIMENSIONAL_FORMATS);
+        mCodeScanner.setScanMode(ScanMode.SINGLE);
+
+
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull Result result) {
@@ -59,12 +68,12 @@ public class scan extends AppCompatActivity  {
                         try {
                             Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
                             String xmlCert = map.get("nachweis");
-                            main.save(xmlCert);
+                            save(xmlCert);
+                            openMain();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        //BarcodeContent = "<nachweis>    <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> <lastname>Hoeckh</lastname>    <forname>Celine</forname>    <erstelldatum>01-02-2000</erstelldatum> </nachweis>";
-                        //main.save(BarcodeContent);
+
 
                     }
                 });
@@ -95,4 +104,30 @@ public class scan extends AppCompatActivity  {
         mCodeScanner.releaseResources();
         super.onPause();
     }
+    String fileName;
+
+    //The method saves XML Strings in files.
+    public void save(String certText) {
+        //for (int i = 0; i <= MainActivity.savedCertNr; i++) {
+        FileOutputStream fos = null;
+        try {
+            MainActivity.savedCertNr++;
+            fileName = "zertifikat" + MainActivity.savedCertNr + ".xml";
+            fos = openFileOutput(fileName, MODE_PRIVATE);
+            fos.write(certText.getBytes());
+        } catch (Exception e) {
+        } finally {
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException ie) {
+                }
+
+            }
+
+        }
+
+    }
+
+
 }

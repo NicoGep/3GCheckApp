@@ -53,8 +53,8 @@ public class MainActivity extends AppCompatActivity {
         String QRContent = "<nachweis type = 'impfung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <vaccinationDate>01-09-2021</vaccinationDate> </nachweis>";
         String QRContent2 = "<nachweis type = 'genesung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <recDate>01-09-2021</recDate> </nachweis>";
 
-        save(QRContent);
-        save(QRContent2);
+//        save(QRContent);
+//        save(QRContent2);
 
         loadFiles();
         //Checks how many files are in the Assets folder and accordingly creates many vaccButtons on the main page.
@@ -254,28 +254,28 @@ public class MainActivity extends AppCompatActivity {
         //buttonCertificates.setText("String");
     }
 
-    //The method saves XML Strings in files.
-    public void save(String certText) {
-        //for (int i = 0; i <= MainActivity.savedCertNr; i++) {
-        FileOutputStream fos = null;
-        try {
-            MainActivity.savedCertNr++;
-            fileName = "zertifikat" + MainActivity.savedCertNr + ".xml";
-            fos = openFileOutput(fileName, MODE_PRIVATE);
-            fos.write(certText.getBytes());
-        } catch (Exception e) {
-        } finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                } catch (IOException ie) {
-                }
-
-            }
-
-        }
-
-    }
+//    //The method saves XML Strings in files.
+//    public void save(String certText) {
+//        //for (int i = 0; i <= MainActivity.savedCertNr; i++) {
+//        FileOutputStream fos = null;
+//        try {
+//            MainActivity.savedCertNr++;
+//            fileName = "zertifikat" + MainActivity.savedCertNr + ".xml";
+//            fos = openFileOutput(fileName, MODE_PRIVATE);
+//            fos.write(certText.getBytes());
+//        } catch (Exception e) {
+//        } finally {
+//            if (fos != null) {
+//                try {
+//                    fos.close();
+//                } catch (IOException ie) {
+//                }
+//
+//            }
+//
+//        }
+//
+//    }
 
     //The method loads texts from saved XML files.
     public void load() {
