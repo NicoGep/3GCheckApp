@@ -1,10 +1,12 @@
 package com.example.a3gcheckapp;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.*;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     static int savedCertNr;
     static int btnIndex = 1;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     //The method generates the overview page of the application "Bürger".
     protected void onCreate(Bundle savedInstanceState) {

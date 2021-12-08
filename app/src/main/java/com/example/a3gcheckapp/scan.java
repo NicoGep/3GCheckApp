@@ -39,12 +39,13 @@ public class scan extends AppCompatActivity  {
     private ImageButton backButton;
     private CodeScanner mCodeScanner;
     private ProgressBar progressBar;
-    MainActivity main = new MainActivity();
+    MainActivity main;
 
     @Override
     //The method generates the page containing the scan functionality with a camera and can read the given information out of a QR code of a scanned certificate.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        main = new MainActivity();
         setContentView(R.layout.activity_scan);
         //XMLParser parser = new XMLParser();
 
@@ -71,12 +72,14 @@ public class scan extends AppCompatActivity  {
                         Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         BarcodeContent = result.getText();
 
-                        File file = new File("/data/data/com.example.a3gcheckapp/files/test.png");
+
                         try {
+                            File file = new File(main.getFilesDir(), "test.png");
                             MatrixToImageWriter.writeToPath(new MultiFormatWriter().encode(result.getText(), BarcodeFormat.QR_CODE, 200, 200), "png", file.toPath());
                         } catch (WriterException | IOException e) {
                             e.printStackTrace();
                         }
+
 
                         mCodeScanner.stopPreview();
                         //progressBar.setVisibility(View.VISIBLE);
