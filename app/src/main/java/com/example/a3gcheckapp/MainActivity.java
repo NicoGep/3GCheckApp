@@ -8,16 +8,20 @@ import java.io.*;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 //The class MainActivity contains the main logic of our "Bürger" application.
@@ -30,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     String fileName;
     XMLParser parser = new XMLParser();
     //number of already certificates
-    static int savedCertNr;
+    static int savedCertNr ;
     static int btnIndex = 1;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -39,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        File root = new File(Environment.getExternalStorageDirectory(), "note.txt");
+        try {
+            root.createNewFile();
+            Path p = root.toPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
         //Dynamic Button
         scrollLayout = findViewById(R.id.scrollLayout);
@@ -50,20 +64,15 @@ public class MainActivity extends AppCompatActivity {
 
         scanPageButton = (ImageButton) findViewById(R.id.certificateControlButton);
         scanPageButton.setOnClickListener(v -> openScanPage());
-        //buttonCertificates = (ImageButton) findViewById(R.id.buttonCert);
-        //xmlparser.parseXML();
+
         //save("Test");
         // String QRContent = "<nachweis type = 'impfung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <vaccinationDate>01-09-2021</vaccinationDate> </nachweis>";
         // String QRContent2 = "<nachweis type = 'genesung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <recDate>01-09-2021</recDate> </nachweis>";
 
 //        save(QRContent);
 //        save(QRContent2);
-
         loadFiles();
-        //Checks how many files are in the Assets folder and accordingly creates many vaccButtons on the main page.
-//        for (int size = 0; size < this.getFilesDir().listFiles().length; size++) {
-//            createNewImpfText("Veronika", "Taranek", "Vollständiger Impfschutz", "10.10.2021");
-//        }
+
     }
 
     //The method creates iterations through all saved certificates including the functionalities to read out, to classify und to display.
@@ -80,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 Certificate certificate = QRCodeHandler.parseCertificateXMLToCertificate(text);
                 if(certificate instanceof Impfnachweis){
                     Impfnachweis vaxcertificate = (Impfnachweis) certificate;
-                    createNewVaxText(vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate());
+                    createNewVaxText(vaxcertificate, vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate());
                 } else if (certificate instanceof Testnachweis ) {
                     Testnachweis testcertificate = (Testnachweis) certificate;
                     //createNewSchnelltestText(testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
@@ -100,26 +109,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    //The method creates a new View for scanned certificates.
-    //public void createNewVaccView(String forename, String lastname, String vaccstatus, String date){
-        //ImageView vaccView = new ImageView(this);
-        //vaccView.setId(btnIndex++);
-        //vaccView.setImageResource(R.drawable.certificate_small);
-        //vaccView.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
-        //scrollLayout.addView(vaccView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-
-        //vaccView.setOnClickListener(new View.OnClickListener() {
-            //@Override
-            //public void onClick(View v){
-                //openDetail();
-           // }
-       // });
-
-  //  }
 
     //The method generates a new View and fills it with data that has been read from the QR code of a vaccination certificate.
-    public void createNewVaxText(String forename, String lastname, String vaxstatus, String date){
+    public void createNewVaxText(Impfnachweis vaxcertificate, String forename, String lastname, String vaxstatus, String date){
         TextView vaxTextView = new TextView(this);
         vaxTextView.setId(btnIndex++);
         vaxTextView.setBackgroundResource(R.drawable.certificate_small);
@@ -132,11 +124,14 @@ public class MainActivity extends AppCompatActivity {
         vaxTextView.append(forename + " " + lastname + "\n");
         vaxTextView.append(vaxstatus + "\n");
         vaxTextView.append("Impfdatum: " + date + "");
+        Intent intent = new Intent(this, detail.class);
         vaxTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                openDetail();
-
+                Gson gson = new Gson();
+                String myJson = gson.toJson(vaxcertificate);
+                intent.putExtra("myjson", myJson);
+                openDetail(intent);
             }
         });
     }
@@ -156,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         testTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                openDetail();
+                //openDetail();
             }
         });
     }
@@ -175,30 +170,12 @@ public class MainActivity extends AppCompatActivity {
         recTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                openDetail();
+                //openDetail();
             }
         });
     }
 
 
-
-
-
-/**
-    public void createNewImpfButton(String forename, String lastname, String impfstatus, String datum){
-        //Erstellt den ImageButton
-        ImageButton certButton = new ImageButton(this);
-        //Gibt den Buttons eine fortlaufende ID
-        certButton.setId(btnIndex++);
-        //Gibt dem Button die Ressource aus dem Resource Manager
-        certButton.setImageResource(R.drawable.certificate_small);
-        //Macht den Hintergrund durchsichtig
-        certButton.setBackgroundTintMode(PorterDuff.Mode.CLEAR);
-        //fügt die Button zum scrollLayout hinzu
-        scrollLayout.addView(certButton, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-
-      //_________________________________________________________
 
         //AB HIER ALLES NICHT FUNKTIONAL !!!!
 
@@ -206,12 +183,12 @@ public class MainActivity extends AppCompatActivity {
         //      -Titel Textview soll IMPFZERTIFIKAT zeigen
         //      -Textview von Name, Impfstatus und Datum sollen Werte der Methodenimputs übernehmen und anzeigen
      //_________________________________________________________
-
-
-        LinearLayout buttonLayout = new LinearLayout(this);
-        TextView titelView = new TextView(buttonLayout.getContext());
-        buttonLayout.addView(titelView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        titelView.setText("Test");
+//
+//
+//        LinearLayout buttonLayout = new LinearLayout(this);
+//        TextView titelView = new TextView(buttonLayout.getContext());
+//        buttonLayout.addView(titelView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+//        titelView.setText("Test");
         /**
 
         titelView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -237,8 +214,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //The method opens the page containing the detailed information of a scanned certificate.
-    public void openDetail(){
-        Intent intent = new Intent(this, detail.class);
+    public void openDetail(Intent intent){
         startActivity(intent);
     }
 
@@ -253,9 +229,6 @@ public class MainActivity extends AppCompatActivity {
         for (Certificate certificate : certificates) {
             builder.append(certificate.getForname()).append(" ").append(certificate.getLastname()).append("\n").append("Erstelldatum: ").append(certificate.getIssuedate()).append("\n\n");
         }
-
-        //MainActivity.buttonCertificates.setText(builder.toString());
-        //buttonCertificates.setText("String");
     }
 
 //    //The method saves XML Strings in files.
@@ -284,8 +257,8 @@ public class MainActivity extends AppCompatActivity {
     //The method loads texts from saved XML files.
     public void load() {
         FileInputStream fis = null;
-        for (int i = 0; i <= MainActivity.savedCertNr; i++) {
-            fileName = "zertifikat" + MainActivity.savedCertNr + ".xml";
+        for (int i = 0; i <= savedCertNr; i++) {
+            fileName = "zertifikat" + savedCertNr + ".xml";
             try {
                 fis = openFileInput(fileName);
                 InputStreamReader isr = new InputStreamReader(fis);
