@@ -71,7 +71,7 @@ public class scan extends AppCompatActivity  {
                         Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         BarcodeContent = result.getText();
 
-                        File file = new File("/data/data/com.example.a3gcheckapp/files");
+                        File file = new File("/data/data/com.example.a3gcheckapp/files/test.png");
                         try {
                             MatrixToImageWriter.writeToPath(new MultiFormatWriter().encode(result.getText(), BarcodeFormat.QR_CODE, 200, 200), "png", file.toPath());
                         } catch (WriterException | IOException e) {
