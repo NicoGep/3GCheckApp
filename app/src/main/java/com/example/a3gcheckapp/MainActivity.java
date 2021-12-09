@@ -92,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
                     createNewVaxText(vaxcertificate, vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate());
                 } else if (certificate instanceof Testnachweis ) {
                     Testnachweis testcertificate = (Testnachweis) certificate;
-                    //createNewSchnelltestText(testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
+                    //createNewSchnelltestText(testcertificate, testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
                 } else if (certificate instanceof Genesenennachweis ){
                     Genesenennachweis reccertificate = (Genesenennachweis) certificate;
-                    createNewRecoveryText(reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate());
+                    createNewRecoveryText(reccertificate, reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate());
                 }
 
             } catch (Exception e) {
@@ -130,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Gson gson = new Gson();
                 String myJson = gson.toJson(vaxcertificate);
-                intent.putExtra("myjson", myJson);
+                intent.putExtra("vaxCert", myJson);
                 openDetail(intent);
             }
         });
     }
     ////The method generates a new View and fills it with data that has been read from the QR code of a test certificate.
-    public void createNewTestText(String forename, String lastname, String testdate, String testtime){
+    public void createNewTestText(Testnachweis testcertificate, String forename, String lastname, String testdate, String testtime){
         TextView testTextView = new TextView(this);
         testTextView.setId(btnIndex++);
         testTextView.setBackgroundResource(R.drawable.certificate_small);
@@ -148,15 +148,19 @@ public class MainActivity extends AppCompatActivity {
         testTextView.append(forename + " " + lastname + "\n");
         testTextView.append("Testdatum: "+ testdate + "\n");
         testTextView.append("Testzeit: " + testtime);
+        Intent intent = new Intent(this, detail.class);
         testTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                //openDetail();
+                Gson gson = new Gson();
+                String myJson = gson.toJson(testcertificate);
+                intent.putExtra("testCert", myJson);
+                openDetail(intent);
             }
         });
     }
     ////The method fills the new generated View with data that has been read from the QR code of a proof of recovery certificate.
-    public void createNewRecoveryText(String forename, String lastname, String testdate){
+    public void createNewRecoveryText(Genesenennachweis reccertificate, String forename, String lastname, String testdate){
         TextView recTextView = new TextView(this);
         recTextView.setId(btnIndex++);
         recTextView.setBackgroundResource(R.drawable.certificate_small);
@@ -167,10 +171,14 @@ public class MainActivity extends AppCompatActivity {
         recTextView.setText("GENESENENNACHWEIS\n");
         recTextView.append(forename + " " + lastname + "\n");
         recTextView.append("Testdatum: "+ testdate + "\n");
+        Intent intent = new Intent(this, detail.class);
         recTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                //openDetail();
+                Gson gson = new Gson();
+                String myJson = gson.toJson(reccertificate);
+                intent.putExtra("recCert", myJson);
+                openDetail(intent);
             }
         });
     }

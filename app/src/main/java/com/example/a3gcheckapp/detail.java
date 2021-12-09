@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -27,11 +28,19 @@ public class detail extends AppCompatActivity {
 
         trashIcon = (ImageView) findViewById(R.id.trashIcon);
         trashIcon.setOnClickListener(v -> deleteCertificate());
-
+        Certificate cert;
 
         //receive the passed certificate object
         Gson gson = new Gson();
-        Certificate cert = gson.fromJson(getIntent().getStringExtra("myjson"), Certificate.class);
+
+        cert = gson.fromJson(getIntent().getStringExtra("vaxCert"), Impfnachweis.class);
+        if (cert == null) {
+            cert = gson.fromJson(getIntent().getStringExtra("testCert"), Testnachweis.class);
+        }
+        if (cert == null) {
+            cert = gson.fromJson(getIntent().getStringExtra("recCert"), Genesenennachweis.class);
+        }
+
 
         //check for the type of the certificate and create the respecting views
         if(cert instanceof Impfnachweis){
@@ -56,6 +65,21 @@ public class detail extends AppCompatActivity {
     }
 
     private void createImpfView(Impfnachweis vaxCert) {
+
+        //missing TextView for Name
+
+        TextView vaxTextView = new TextView(this);
+        vaxTextView.setId(R.id.textView);
+        //vaxTextView.setBackgroundResource(R.drawable.certificate_small);
+        vaxTextView.setPadding(100 , 123, 0, 330);
+        vaxTextView.setTextSize(40);
+        vaxTextView.setLineSpacing(75, 0);
+        vaxTextView.setText("IMPFNACHWEIS\n");
+        vaxTextView.append("Impfdatum: " + vaxCert.getVaccDate() +  "\n");
+        vaxTextView.append("Ausgestellt: " + vaxCert.getIssuedate() + "\n");
+        vaxTextView.append("Impfstoff: " + "SARS-CoV-2 mRNA" + "\n");
+        vaxTextView.append("Hersteller: " + vaxCert.getVaxname() + "\n");
+        vaxTextView.append("Impfung: " + vaxCert.getVaxnb() + " ");
     }
 
     // The method opens the class MainActivity.
@@ -70,4 +94,5 @@ public class detail extends AppCompatActivity {
         openMain();
 
     }
+
 }

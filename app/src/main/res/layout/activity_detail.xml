@@ -63,6 +63,17 @@
         app:layout_constraintVertical_bias="0.836"
         app:srcCompat="@drawable/detailview" />
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="406dp"
+        android:layout_height="206dp"
+        android:layout_marginTop="123dp"
+        android:layout_marginBottom="330dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/pruefdetail_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
     <ImageView
         android:id="@+id/trashIcon"
         android:layout_width="wrap_content"
