@@ -66,26 +66,52 @@
         app:layout_constraintTop_toTopOf="@+id/pruef_background"
         app:layout_constraintVertical_bias="0.0" />
 
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="760dp"
+        android:layout_height="910dp"
+        android:fadingEdgeLength="30dp"
+        android:focusable="auto"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/certificateControlButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/pruef_background">
+
+        <LinearLayout
+            android:id="@+id/horizontalScrollLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbarStyle="outsideInset">
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="780dp"
-        android:layout_height="926dp"
+        android:id="@+id/verticalScrollView"
+        android:layout_width="730dp"
+        android:layout_height="888dp"
+        android:fadingEdgeLength="40dp"
+        android:overScrollMode="never"
+        android:requiresFadingEdge="vertical"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pruef_background"
-        app:layout_constraintVertical_bias="0.446"
-        android:fadingEdgeLength="40dp"
-        android:overScrollMode="never"
-        android:requiresFadingEdge="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <LinearLayout
-            android:id="@+id/scrollLayout"
+            android:id="@+id/verticalScrollLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:visibility="invisible" />
     </ScrollView>
 
 

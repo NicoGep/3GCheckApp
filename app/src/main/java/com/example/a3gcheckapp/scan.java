@@ -1,11 +1,6 @@
 package com.example.a3gcheckapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Path;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -13,28 +8,23 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.Result;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 
-import org.xml.sax.SAXException;
-
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
 
 //The class scan contains all necessary functionalities to scan certificates with a camera.
-public class scan extends AppCompatActivity  {
+public class scan extends AppCompatActivity {
     public String BarcodeContent;
     private ImageButton backButton;
     private CodeScanner mCodeScanner;
@@ -49,11 +39,13 @@ public class scan extends AppCompatActivity  {
         setContentView(R.layout.activity_scan);
         //XMLParser parser = new XMLParser();
 
+        //File file = new File(this.getFilesDir(), "test.txt");
+        //System.out.println(this.getFilesDir());
+
         backButton = (ImageButton) findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> openMain());
 
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
 
 
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
@@ -72,14 +64,36 @@ public class scan extends AppCompatActivity  {
                         Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         BarcodeContent = result.getText();
 
-
+                        /**
+                        MultiFormatWriter mfw = new MultiFormatWriter();
+                        Bitmap bitmap = null;
                         try {
-                            File file = new File(main.getFilesDir(), "test.png");
-                            MatrixToImageWriter.writeToPath(new MultiFormatWriter().encode(result.getText(), BarcodeFormat.QR_CODE, 200, 200), "png", file.toPath());
-                        } catch (WriterException | IOException e) {
+                            mfw.encode(result.getText(), BarcodeFormat.QR_CODE, 200 , 200);
+                        } catch (WriterException e) {
                             e.printStackTrace();
                         }
+                        **/
 
+
+
+                        /**
+                         try {
+                         //File file = new File(main.getFilesDir(), "test.png");
+                         File file = new File("/data/user/0/com.example.a3gcheckapp/files", "test.png");
+                         MatrixToImageWriter.writeToPath(new MultiFormatWriter().encode(result.getText(), BarcodeFormat.QR_CODE, 200, 200), "png", file.toPath());
+                         } catch (WriterException | IOException e) {
+                         e.printStackTrace();
+                         }
+
+
+                        QRGEncoder qrgEncoder = new QRGEncoder(result.getText(), null, QRGContents.Type.TEXT, 200);
+                        Bitmap bitmap = qrgEncoder.getBitmap();
+
+
+                        QRGSaver qrgSaver = new QRGSaver();
+                        qrgSaver.save(main.getFilesDir(), result.getText().toString().trim(), bitmap, QRGContents.ImageType.IMAGE_JPEG);
+
+                        **/
 
                         mCodeScanner.stopPreview();
                         //progressBar.setVisibility(View.VISIBLE);
@@ -107,23 +121,25 @@ public class scan extends AppCompatActivity  {
         });
 
     }
+
     //The method opens the class MainActivity.
-    public void openMain(){
+    public void openMain() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         mCodeScanner.startPreview();
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         mCodeScanner.releaseResources();
         super.onPause();
     }
+
     String fileName;
 
     //The method saves XML Strings in files.
@@ -148,6 +164,5 @@ public class scan extends AppCompatActivity  {
         }
 
     }
-
 
 }
