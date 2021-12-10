@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(this.getFilesDir());
 
         //Dynamic Button
-        scrollLayout = findViewById(R.id.verticalScrollLayout);
         horizontalScrollView = findViewById(R.id.horizontalScrollLayout);
 
         XMLParser xmlparser = new XMLParser();
@@ -142,6 +142,9 @@ public class MainActivity extends AppCompatActivity {
         vaxTextView.append(vaxstatus + "\n");
         vaxTextView.append("Impfdatum: " + date + "");
         Intent intent = new Intent(this, detail.class);
+
+
+
         vaxTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){

@@ -76,8 +76,10 @@
         android:requiresFadingEdge="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/certificateControlButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pruef_background">
+        app:layout_constraintTop_toTopOf="@+id/pruef_background"
+        app:layout_constraintVertical_bias="0.385">
 
         <LinearLayout
             android:id="@+id/horizontalScrollLayout"
@@ -86,33 +88,9 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
-            android:scrollbarStyle="outsideInset">
+            android:scrollbarStyle="outsideInset" />
 
-        </LinearLayout>
     </HorizontalScrollView>
-
-    <ScrollView
-        android:id="@+id/verticalScrollView"
-        android:layout_width="730dp"
-        android:layout_height="888dp"
-        android:fadingEdgeLength="40dp"
-        android:overScrollMode="never"
-        android:requiresFadingEdge="vertical"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <LinearLayout
-            android:id="@+id/verticalScrollLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:visibility="invisible" />
-    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
