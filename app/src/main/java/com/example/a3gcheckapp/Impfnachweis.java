@@ -21,5 +21,6 @@ public class Impfnachweis extends Certificate {
         this.vaccDate = vaccDate;
     }
 
+
 }
 

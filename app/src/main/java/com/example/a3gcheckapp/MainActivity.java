@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         File file = new File(this.getFilesDir(), "test.txt");
         System.out.println(this.getFilesDir());
 
@@ -109,10 +108,10 @@ public class MainActivity extends AppCompatActivity {
                     createNewVaxView(vaxcertificate, vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate());
                 } else if (certificate instanceof Testnachweis ) {
                     Testnachweis testcertificate = (Testnachweis) certificate;
-                    //createNewSchnelltestText(testcertificate, testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
+                    //createNewSchnelltestView(testcertificate, testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
                 } else if (certificate instanceof Genesenennachweis ){
                     Genesenennachweis reccertificate = (Genesenennachweis) certificate;
-                    createNewRecoveryText(reccertificate, reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate());
+                    createNewRecoveryView(reccertificate, reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate());
                 }
 
             } catch (Exception e) {
@@ -128,31 +127,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //The method generates a new View and fills it with data that has been read from the QR code of a vaccination certificate.
-    public void createNewVaxText(Impfnachweis vaxcertificate, String forename, String lastname, String vaxstatus, String date){
-        TextView vaxTextView = new TextView(this);
-        vaxTextView.setId(btnIndex++);
-        vaxTextView.setBackgroundResource(R.drawable.certificate_small);
-        scrollLayout.addView(vaxTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        vaxTextView.setPadding(100 , 45, 0, 0);
-        vaxTextView.setTextSize(40);
-        vaxTextView.setLineSpacing(75, 0);
-        //vaccTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        vaxTextView.setText("IMPFNACHWEIS\n");
-        vaxTextView.append(forename + " " + lastname + "\n");
-        vaxTextView.append(vaxstatus + "\n");
-        vaxTextView.append("Impfdatum: " + date + "");
-        Intent intent = new Intent(this, detail.class);
-        vaxTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Gson gson = new Gson();
-                String myJson = gson.toJson(vaxcertificate);
-                intent.putExtra("vaxCert", myJson);
-                openDetail(intent);
-            }
-        });
-    }
+    //The method generates a new TextView and fills it with data that has been read from the QR code of a vaccination certificate.
     public void createNewVaxView(Impfnachweis vaxcertificate, String forename, String lastname, String vaxstatus, String date){
         TextView vaxTextView = new TextView(this);
         vaxTextView.setId(btnIndex++);
@@ -176,12 +151,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    ////The method generates a new View and fills it with data that has been read from the QR code of a test certificate.
-    public void createNewTestText(Testnachweis testcertificate, String forename, String lastname, String testdate, String testtime){
+    ////The method generates a new TextView and fills it with data that has been read from the QR code of a test certificate.
+    public void createNewTestView(Testnachweis testcertificate, String forename, String lastname, String testdate, String testtime){
         TextView testTextView = new TextView(this);
         testTextView.setId(btnIndex++);
-        testTextView.setBackgroundResource(R.drawable.certificate_small);
-        scrollLayout.addView(testTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        testTextView.setBackgroundResource(R.drawable.certview);
+        horizontalScrollView.addView(testTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         testTextView.setPadding(100 , 45, 0, 0);
         testTextView.setTextSize(40);
         testTextView.setLineSpacing(75, 0);
@@ -200,12 +175,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    ////The method fills the new generated View with data that has been read from the QR code of a proof of recovery certificate.
-    public void createNewRecoveryText(Genesenennachweis reccertificate, String forename, String lastname, String testdate){
+    ////The method fills the new generated TextView with data that has been read from the QR code of a proof of recovery certificate.
+    public void createNewRecoveryView(Genesenennachweis reccertificate, String forename, String lastname, String testdate){
         TextView recTextView = new TextView(this);
         recTextView.setId(btnIndex++);
-        recTextView.setBackgroundResource(R.drawable.certificate_small);
-        scrollLayout.addView(recTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        recTextView.setBackgroundResource(R.drawable.certview);
+        horizontalScrollView.addView(recTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         recTextView.setPadding(100 , 45, 0, 0);
         recTextView.setTextSize(40);
         recTextView.setLineSpacing(75, 0);
@@ -223,37 +198,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-        //AB HIER ALLES NICHT FUNKTIONAL !!!!
-
-        //Todos:-TextViews zu den Button hinzufügen und an ein Layout "hängen" (vgl. Zeile: 97)
-        //      -Titel Textview soll IMPFZERTIFIKAT zeigen
-        //      -Textview von Name, Impfstatus und Datum sollen Werte der Methodenimputs übernehmen und anzeigen
-     //_________________________________________________________
-//
-//
-//        LinearLayout buttonLayout = new LinearLayout(this);
-//        TextView titelView = new TextView(buttonLayout.getContext());
-//        buttonLayout.addView(titelView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-//        titelView.setText("Test");
-        /**
-
-        titelView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        TextView nameView = new TextView(this);
-        nameView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        TextView statusView = new TextView(this);
-        statusView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        TextView datumView = new TextView(this);
-        datumView.setLayoutParams(new LinearLayout.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-        titelView.setText("TITLE");
-        nameView.setText("NAME");
-        statusView.setText("Status");
-        datumView.setText("DATUM");
-         **/
-
 
 
     //The method opens the information page.
