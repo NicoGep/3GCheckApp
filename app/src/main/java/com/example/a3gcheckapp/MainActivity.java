@@ -5,14 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.*;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.Layout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -94,112 +99,109 @@ public class MainActivity extends AppCompatActivity {
     //The method creates iterations through all saved certificates including the functionalities to read out, to classify und to display.
     public void loadFiles() {
         FileInputStream fis = null;
+        String filename;
         for(File file : this.getFilesDir().listFiles()) {
-            try {
-                fis = openFileInput(file.getName());
-                InputStreamReader isr = new InputStreamReader(fis);
-                BufferedReader br = new BufferedReader(isr);
-                StringBuilder sb = new StringBuilder();
-                String text = br.readLine();
-                //Certificate certificate = parser.parseXML(text);
-                Certificate certificate = QRCodeHandler.parseCertificateXMLToCertificate(text);
-                if(certificate instanceof Impfnachweis){
-                    Impfnachweis vaxcertificate = (Impfnachweis) certificate;
-                    createNewVaxView(vaxcertificate, vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate());
-                } else if (certificate instanceof Testnachweis ) {
-                    Testnachweis testcertificate = (Testnachweis) certificate;
-                    //createNewSchnelltestView(testcertificate, testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime());
-                } else if (certificate instanceof Genesenennachweis ){
-                    Genesenennachweis reccertificate = (Genesenennachweis) certificate;
-                    createNewRecoveryView(reccertificate, reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate());
-                }
 
-            } catch (Exception e) {
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException ie) {
+            filename = file.getName();
+
+            if(filename.startsWith("zertifikat")) {
+                String subQRCode = filename.substring(10, 20);
+                String QRPath = "/data/data/com.example.a3gcheckapp/files/QRCodes";
+                File QRCodeFile = new File(QRPath + "/QRCode" + subQRCode + ".jpg");
+
+                try {
+                    fis = openFileInput(file.getName());
+                    InputStreamReader isr = new InputStreamReader(fis);
+                    BufferedReader br = new BufferedReader(isr);
+                    StringBuilder sb = new StringBuilder();
+                    String text = br.readLine();
+                    //Certificate certificate = parser.parseXML(text);
+                    Certificate certificate = QRCodeHandler.parseCertificateXMLToCertificate(text);
+                    if (certificate instanceof Impfnachweis) {
+                        Impfnachweis vaxcertificate = (Impfnachweis) certificate;
+                        createNewVaxView(filename, vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate(), QRCodeFile);
+                    } else if (certificate instanceof Testnachweis) {
+                        Testnachweis testcertificate = (Testnachweis) certificate;
+                        //createNewSchnelltestView(String filename, testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime(), QRCodeFile);
+                    } else if (certificate instanceof Genesenennachweis) {
+                        Genesenennachweis reccertificate = (Genesenennachweis) certificate;
+                        createNewRecoveryView(filename, reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate(), QRCodeFile);
+                    }
+
+                } catch (Exception e) {
+                } finally {
+                    if (fis != null) {
+                        try {
+                            fis.close();
+                        } catch (IOException ie) {
+                        }
                     }
                 }
             }
         }
     }
 
-
     //The method generates a new TextView and fills it with data that has been read from the QR code of a vaccination certificate.
-    public void createNewVaxView(Impfnachweis vaxcertificate, String forename, String lastname, String vaxstatus, String date){
-        TextView vaxTextView = new TextView(this);
-        vaxTextView.setId(btnIndex++);
-        vaxTextView.setBackgroundResource(R.drawable.certview);
-        horizontalScrollView.addView(vaxTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        vaxTextView.setPadding(100 , 45, 0, 0);
-        vaxTextView.setTextSize(40);
-        vaxTextView.setLineSpacing(75, 0);
-        //vaccTextView.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        vaxTextView.setText("IMPFNACHWEIS\n");
-        vaxTextView.append(forename + " " + lastname + "\n");
-        vaxTextView.append(vaxstatus + "\n");
-        vaxTextView.append("Impfdatum: " + date + "");
-        Intent intent = new Intent(this, detail.class);
+    public void createNewVaxView(String filename, String forename, String lastname, String vaxstatus, String date, File qrFile){
 
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.vaxcertificateview, null);
+        ViewGroup main = (ViewGroup) findViewById(R.id.horizontalScrollLayout);
+        main.addView(view, 0);
 
+        TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
+        certviewTitle.setText("IMPFNACHWEIS"); // HIER KOMMT DER TITEL REIN!!
+        TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
+        certviewDescription.setText(forename + " " + lastname + "\n");
+        certviewDescription.append(vaxstatus + "\n");
+        certviewDescription.append("Impfdatum: " + date + "");
+        ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
+        Bitmap qrBitmap = BitmapFactory.decodeFile(qrFile.getAbsolutePath());
+        certviewQRCode.setImageBitmap(qrBitmap);
+        ImageButton certviewDelete = (ImageButton) horizontalScrollView.findViewById(R.id.certviewDelete);
+        certviewDelete.setOnClickListener(v -> deleteCertificate(filename));
 
-        vaxTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Gson gson = new Gson();
-                String myJson = gson.toJson(vaxcertificate);
-                intent.putExtra("vaxCert", myJson);
-            }
-        });
     }
-    ////The method generates a new TextView and fills it with data that has been read from the QR code of a test certificate.
-    public void createNewTestView(Testnachweis testcertificate, String forename, String lastname, String testdate, String testtime){
-        TextView testTextView = new TextView(this);
-        testTextView.setId(btnIndex++);
-        testTextView.setBackgroundResource(R.drawable.certview);
-        horizontalScrollView.addView(testTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        testTextView.setPadding(100 , 45, 0, 0);
-        testTextView.setTextSize(40);
-        testTextView.setLineSpacing(75, 0);
-        testTextView.setText("TESTNACHWEIS\n");
-        testTextView.append(forename + " " + lastname + "\n");
-        testTextView.append("Testdatum: "+ testdate + "\n");
-        testTextView.append("Testzeit: " + testtime);
-        Intent intent = new Intent(this, detail.class);
-        testTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Gson gson = new Gson();
-                String myJson = gson.toJson(testcertificate);
-                intent.putExtra("testCert", myJson);
-                openDetail(intent);
-            }
-        });
+
+    //The method generates a new TextView and fills it with data that has been read from the QR code of a test certificate.
+    public void createNewTestView(String filename, String forename, String lastname, String testdate, String testtime, File qrFile){
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.vaxcertificateview, null);
+        ViewGroup main = (ViewGroup) findViewById(R.id.horizontalScrollLayout);
+        main.addView(view, 0);
+
+        TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
+        certviewTitle.setText("TESTNACHWEIS"); // HIER KOMMT DER TITEL REIN!!
+        TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
+        certviewDescription.setText(forename + " " + lastname + "\n");
+        certviewDescription.append("Testdatum: "+ testdate + "\n");
+        certviewDescription.append("Testzeit: " + testtime);
+        ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
+        Bitmap qrBitmap = BitmapFactory.decodeFile(qrFile.getAbsolutePath());
+        certviewQRCode.setImageBitmap(qrBitmap);
+        ImageButton certviewDelete = (ImageButton) horizontalScrollView.findViewById(R.id.certviewDelete);
+        certviewDelete.setOnClickListener(v -> deleteCertificate(filename));
+
     }
+
     ////The method fills the new generated TextView with data that has been read from the QR code of a proof of recovery certificate.
-    public void createNewRecoveryView(Genesenennachweis reccertificate, String forename, String lastname, String testdate){
-        TextView recTextView = new TextView(this);
-        recTextView.setId(btnIndex++);
-        recTextView.setBackgroundResource(R.drawable.certview);
-        horizontalScrollView.addView(recTextView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        recTextView.setPadding(100 , 45, 0, 0);
-        recTextView.setTextSize(40);
-        recTextView.setLineSpacing(75, 0);
-        recTextView.setText("GENESENENNACHWEIS\n");
-        recTextView.append(forename + " " + lastname + "\n");
-        recTextView.append("Testdatum: "+ testdate + "\n");
-        Intent intent = new Intent(this, detail.class);
-        recTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                Gson gson = new Gson();
-                String myJson = gson.toJson(reccertificate);
-                intent.putExtra("recCert", myJson);
-                openDetail(intent);
-            }
-        });
+    public void createNewRecoveryView(String filename, String forename, String lastname, String testdate, File qrFile){
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.vaxcertificateview, null);
+        ViewGroup main = (ViewGroup) findViewById(R.id.horizontalScrollLayout);
+        main.addView(view, 0);
+
+        TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
+        certviewTitle.setText("GENESENENNACHWEIS"); // HIER KOMMT DER TITEL REIN!!
+        TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
+        certviewDescription.setText(forename + " " + lastname + "\n");
+        certviewDescription.append("Testdatum: "+ testdate + "\n");
+        ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
+        Bitmap qrBitmap = BitmapFactory.decodeFile(qrFile.getAbsolutePath());
+        certviewQRCode.setImageBitmap(qrBitmap);
+        ImageButton certviewDelete = (ImageButton) horizontalScrollView.findViewById(R.id.certviewDelete);
+        certviewDelete.setOnClickListener(v -> deleteCertificate(filename));
+
     }
 
 
@@ -225,6 +227,17 @@ public class MainActivity extends AppCompatActivity {
         for (Certificate certificate : certificates) {
             builder.append(certificate.getForname()).append(" ").append(certificate.getLastname()).append("\n").append("Erstelldatum: ").append(certificate.getIssuedate()).append("\n\n");
         }
+    }
+    //This method deletes a specific certificate and its matching QRCode
+    public void deleteCertificate(String certName){
+        String deletesubQRCode = certName.substring(10, 20);
+        String deleteQRPath = "/data/data/com.example.a3gcheckapp/files/QRCodes";
+        File QRCodeFile = new File(deleteQRPath + "/QRCode" + deletesubQRCode + ".jpg");
+
+        File deleteFile = new File("/data/data/com.example.a3gcheckapp/files/" + certName);
+        boolean deleted = deleteFile.delete();
+        boolean deletedQRCode = QRCodeFile.delete();
+        recreate();
     }
 
 //    //The method saves XML Strings in files.

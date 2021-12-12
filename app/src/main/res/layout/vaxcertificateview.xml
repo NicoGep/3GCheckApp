@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/certviewRelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/certviewBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="912dp"
+        app:srcCompat="@drawable/certview"
+        tools:layout_editor_absoluteX="39dp"
+        tools:layout_editor_absoluteY="151dp" />
+
+    <LinearLayout
+        android:id="@+id/certviewLayout"
+        android:layout_width="688dp"
+        android:layout_height="893dp"
+        android:layout_alignEnd="@+id/certviewBackground"
+        android:layout_alignBottom="@+id/certviewBackground"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="19dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="48dp"
+        tools:layout_editor_absoluteY="166dp">
+
+        <TextView
+            android:id="@+id/certviewTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:paddingTop="20sp"
+            android:text="IMPFZERTIFIKAT"
+            android:textAlignment="center"
+            android:textSize="45sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/certviewDescription"
+            android:layout_width="match_parent"
+            android:layout_height="216dp"
+            android:paddingLeft="15sp"
+            android:text="TextView"
+            android:textSize="25sp" />
+
+        <ImageView
+            android:id="@+id/certviewQRCode"
+            android:layout_width="match_parent"
+            android:layout_height="505dp"
+            app:srcCompat="@drawable/ic_code_scanner_auto_focus_off" />
+
+        <ImageButton
+            android:id="@+id/certviewDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00FFFFFF"
+            android:paddingLeft="540sp"
+            android:paddingBottom="35sp"
+            app:srcCompat="@drawable/trashicon"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+</RelativeLayout>
