@@ -5,41 +5,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.*;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.Map;
 
 //The class MainActivity contains the main logic of our "Bürger" application.
 public class MainActivity extends AppCompatActivity {
@@ -218,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
 
     //The method opens the page containing the scan functionality.
     public void openScanPage() {
-        Intent intent = new Intent(this, scan.class);
+        Intent intent = new Intent(this, Scan.class);
         startActivity(intent);
     }
     //The method prints certificates.

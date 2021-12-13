@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.3GCheckApp">
         <activity
-            android:name=".detail"
+            android:name=".PruefstellenScan"
             android:exported="false" />
         <activity
             android:name=".pruef_Information"
@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".scan"
+            android:name=".Scan"
             android:exported="false" />
         <activity
             android:name=".information"

@@ -2,67 +2,39 @@ package com.example.a3gcheckapp;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.zxing.WriterException;
-import androidmads.library.qrgenearator.QRGContents;
+
 import androidmads.library.qrgenearator.QRGEncoder;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.ImageFormat;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.Result;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.Map;
-
-import androidmads.library.qrgenearator.QRGContents;
-import androidmads.library.qrgenearator.QRGEncoder;
 
 
 //The class scan contains all necessary functionalities to scan certificates with a camera.
-public class scan extends AppCompatActivity {
+public class Scan extends AppCompatActivity {
     public String BarcodeContent;
     private ImageButton backButton;
     private CodeScanner mCodeScanner;
@@ -98,42 +70,46 @@ public class scan extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void run() {
-                        Toast.makeText(scan.this, result.getText(), Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(Scan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         BarcodeContent = result.getText();
 
-                        // Creates a Bitmap of QR-Code String
-                        bMap = createQRBitmap(result.getText(), 400, 400);
-                        //Safes Bitmap as PNG in Internal Storage
-                        SaveImage(bMap);
-
-                        //Get Timestamp
-                        Long tsLong = System.currentTimeMillis()/1000;
-                        timestamp = tsLong.toString();
-
-
-                        mCodeScanner.stopPreview();
-                        //progressBar.setVisibility(View.VISIBLE);
-                        scannerView.setVisibility(View.INVISIBLE);
-                        //process QR Code
-                        try {
-                            //Seperates Barcode into a Map
-                            Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
-                            String xmlCert = map.get("nachweis");
-                            //Safes SML in Internal Storage
-                            save(xmlCert);
+                        if (true) {
 
                             // Creates a Bitmap of QR-Code String
-                            bMap = createQRBitmap(result.getText(), 400, 400);
+                            bMap = createQRBitmap(BarcodeContent, 400, 400);
                             //Safes Bitmap as PNG in Internal Storage
                             SaveImage(bMap);
 
-                            //Go back to MainPage
-                            openMain();
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                            //Get Timestamp
+                            Long tsLong = System.currentTimeMillis() / 1000;
+                            timestamp = tsLong.toString();
+
+
+                            mCodeScanner.stopPreview();
+                            //progressBar.setVisibility(View.VISIBLE);
+                            scannerView.setVisibility(View.INVISIBLE);
+                            //process QR Code
+                            try {
+                                //Seperates Barcode into a Map
+                                Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
+                                String xmlCert = map.get("nachweis");
+                                //Safes SML in Internal Storage
+                                save(xmlCert);
+
+                                // Creates a Bitmap of QR-Code String
+                                bMap = createQRBitmap(result.getText(), 400, 400);
+                                //Safes Bitmap as PNG in Internal Storage
+                                SaveImage(bMap);
+
+                                //Go back to MainPage
+                                openMain();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+
                         }
-
-
                     }
                 });
             }
