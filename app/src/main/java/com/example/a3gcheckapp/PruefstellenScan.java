@@ -3,9 +3,15 @@ package com.example.a3gcheckapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -18,11 +24,15 @@ import com.google.zxing.Result;
 public class PruefstellenScan extends AppCompatActivity {
 
     private CodeScanner pruefCodeScan;
+    private ImageButton backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pruefstellen_scan);
+
+        backButton = (ImageButton) findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> openMain());
 
         CodeScannerView codeScannerView = findViewById(R.id.scanner_view);
         pruefCodeScan = new CodeScanner(this, codeScannerView);
@@ -38,7 +48,30 @@ public class PruefstellenScan extends AppCompatActivity {
                         Toast.makeText(PruefstellenScan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         pruefCodeScan.stopPreview();
 
-                        //PopUp Layout Inflater
+
+                        openMain();
+
+                        /**
+                        //PopUp Layout Inflate
+                        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                        View popupView = inflater.inflate(R.layout.validate_popup, null);
+
+                        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                        boolean focusable = true;
+                        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+                        popupWindow.showAtLocation(findViewById(R.id.scanner_view), Gravity.CENTER, 0, 0);
+
+                        popupView.setOnTouchListener(new View.OnTouchListener() {
+
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                popupWindow.dismiss();
+                                return true;
+                            }
+                        });
+                         **/
                     }
                 });
             }
@@ -58,5 +91,10 @@ public class PruefstellenScan extends AppCompatActivity {
     protected void onPause() {
         pruefCodeScan.releaseResources();
         super.onPause();
+    }
+
+    public void openMain(){
+        Intent intent = new Intent(this, pruefstelle.class);
+        startActivity(intent);
     }
 }

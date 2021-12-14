@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        detail detailInst = new detail();
 
         File root = new File(Environment.getExternalStorageDirectory(), "note.txt");
         try {
