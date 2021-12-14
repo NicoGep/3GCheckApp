@@ -1,7 +1,7 @@
 package com.example.a3gcheckapp;
 
-//The class Impfnachweis extends the class Certificate with specific data needed for vaccination certificate.
-public class Impfnachweis extends Certificate {
+//The class CertificateVaccination extends the class Certificate with specific data needed for vaccination certificate.
+public class CertificateVaccination extends Certificate {
 
     private String vaccine, vaccDate;
 

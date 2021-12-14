@@ -1,5 +1,7 @@
 package com.example.a3gcheckapp;
 
+import static java.time.LocalDateTime.now;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +16,15 @@ import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.Result;
+
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 
 public class CheckpointScan extends AppCompatActivity {
@@ -40,10 +51,22 @@ public class CheckpointScan extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(CheckpointScan.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        String BarcodeContent = result.getText();
+                        Toast.makeText(CheckpointScan.this, BarcodeContent, Toast.LENGTH_SHORT).show();
                         checkCodeScan.stopPreview();
 
                         openCheckMainActivity();
+
+                        Map<String, String> map = null;
+                        Certificate certificate = null;
+                        try {
+                            map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
+                            String xmlCert = map.get("nachweis");
+                            certificate = QRCodeHandler.parseCertificateXMLToCertificate(xmlCert);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        //boolean expired = checkExpirationDate(certificate);
 
                         /**
                         //PopUp Layout Inflate
@@ -76,6 +99,40 @@ public class CheckpointScan extends AppCompatActivity {
                 checkCodeScan.startPreview();}
         });
     }
+
+//    private boolean checkExpirationDate(Certificate certificate) {
+//        boolean expired = true;
+//        LocalDateTime local = LocalDateTime.now();
+//
+//        //missing: Verschiedene Arten von Impfstoff abfragen
+//        if (certificate instanceof CertificateVaccination) {
+//            CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
+//            if (vaxcertificate.getVaccDate().plusMonths(12).isBefore(local)){
+//                expired = false;
+//            }
+//
+//        } else if (certificate instanceof CertificateTest) {
+//            CertificateTest testcertificate = (CertificateTest) certificate;
+//            if(testcertificate.getTestType() == Testtype.PCR_Test) {
+//                if (testcertificate.getTestDate().plusHours(48).isBefore(local)){
+//                    expired = false;
+//                }
+//            } else if (testcertificate.getTestType() == Testtype.Schnelltest){
+//                if (testcertificate.getTestDate().plusHours(24).isBefore(local)){
+//                    expired = false;
+//                }
+//            }
+//
+//        } else if (certificate instanceof CertificateRecovery) {
+//            CertificateRecovery reccertificate = (CertificateRecovery) certificate;
+//            if(reccertificate.getRecDate().plusMonths(6).isBefore(local)){
+//                expired = false;
+//            }
+//        }
+//
+//        return expired;
+//    }
+
     @Override
     protected void onResume() {
         super.onResume();

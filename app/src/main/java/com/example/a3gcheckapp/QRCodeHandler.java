@@ -1,9 +1,6 @@
 package com.example.a3gcheckapp;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringReader;
-import java.security.Signature;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,14 +14,8 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.Result;
 //import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
-import com.google.zxing.common.HybridBinarizer;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
 
 //
 public class QRCodeHandler {
@@ -52,10 +43,10 @@ public class QRCodeHandler {
         switch(type) {
 
             case "impfung":
-                Impfnachweis vaxcertificate = new Impfnachweis();
+                CertificateVaccination vaxcertificate = new CertificateVaccination();
 
                 String vaxDate;
-                Impfstoff vaccine;
+                Vaccine vaccine;
 
                 forname = doc.getElementsByTagName("forename").item(0).getTextContent();
                 lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
@@ -63,7 +54,7 @@ public class QRCodeHandler {
                 issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
                 //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
                 vaxDate = doc.getElementsByTagName("vaccinationDate").item(0).getTextContent();
-                //vaccine = Impfstoff.valueOf(doc.getElementsByTagName("vaccine").item(0).getTextContent());
+                //vaccine = Vaccine.valueOf(doc.getElementsByTagName("vaccine").item(0).getTextContent());
 
 
                 vaxcertificate.setForname(forname);
@@ -77,7 +68,7 @@ public class QRCodeHandler {
                 return vaxcertificate;
 
             case "genesung":
-                Genesenennachweis recoverycertificate = new Genesenennachweis();
+                CertificateRecovery recoverycertificate = new CertificateRecovery();
 
                 String recDate;
 
@@ -98,10 +89,10 @@ public class QRCodeHandler {
                 return recoverycertificate;
 
             case "test":
-                Testnachweis testcertificate = new Testnachweis();
+                CertificateTest testcertificate = new CertificateTest();
 
                 String testDate;
-                //Testtyp testType;
+                //Testtype testType;
 
                 forname = doc.getElementsByTagName("forename").item(0).getTextContent();
                 lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
@@ -109,7 +100,7 @@ public class QRCodeHandler {
                 issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
                 //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
                 testDate = doc.getElementsByTagName("testDate").item(0).getTextContent();
-                //testType = Testtyp.valueOf(doc.getElementsByTagName("testType").item(0).getTextContent());
+                //testType = Testtype.valueOf(doc.getElementsByTagName("testType").item(0).getTextContent());
 
                 testcertificate.setForname(forname);
                 testcertificate.setLastname(lastname);

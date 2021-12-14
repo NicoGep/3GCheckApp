@@ -79,14 +79,14 @@ public class CitizenMainActivity extends AppCompatActivity {
                     BufferedReader br = new BufferedReader(isr);
                     String text = br.readLine();
                     Certificate certificate = QRCodeHandler.parseCertificateXMLToCertificate(text);
-                    if (certificate instanceof Impfnachweis) {
-                        Impfnachweis vaxcertificate = (Impfnachweis) certificate;
+                    if (certificate instanceof CertificateVaccination) {
+                        CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
                         createNewVaxView(filename, vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate(), QRCodeFile);
-                    } else if (certificate instanceof Testnachweis) {
-                        Testnachweis testcertificate = (Testnachweis) certificate;
+                    } else if (certificate instanceof CertificateTest) {
+                        CertificateTest testcertificate = (CertificateTest) certificate;
                         //createNewSchnelltestView(String filename, testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime(), QRCodeFile);
-                    } else if (certificate instanceof Genesenennachweis) {
-                        Genesenennachweis reccertificate = (Genesenennachweis) certificate;
+                    } else if (certificate instanceof CertificateRecovery) {
+                        CertificateRecovery reccertificate = (CertificateRecovery) certificate;
                         createNewRecoveryView(filename, reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate(), QRCodeFile);
                     }
 

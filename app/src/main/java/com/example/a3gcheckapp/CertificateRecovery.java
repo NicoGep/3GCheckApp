@@ -1,7 +1,7 @@
 package com.example.a3gcheckapp;
 
-//The class Genesenennachweis extends the class Certificate with specific data needed for proof of recovery certificate.
-public class Genesenennachweis extends Certificate {
+//The class CertificateRecovery extends the class Certificate with specific data needed for proof of recovery certificate.
+public class CertificateRecovery extends Certificate {
 
     private String recDate;
 
