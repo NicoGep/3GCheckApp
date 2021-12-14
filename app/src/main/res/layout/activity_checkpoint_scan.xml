@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pruef_Information">
+    tools:context=".CheckpointScan">
 
     <ImageView
-        android:id="@+id/pruefInformationBackground"
+        android:id="@+id/pruefstelleInformationBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="596dp"
@@ -38,14 +38,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/anton"
-        android:text="@string/informationen"
+        android:text="@string/scan"
         android:textColor="#FFFFFF"
         android:textSize="70sp"
-        app:layout_constraintBottom_toBottomOf="@+id/pruefInformationBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/pruefstelleInformationBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="@+id/pruefInformationBackground"
-        app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
+        app:layout_constraintStart_toStartOf="@+id/pruefstelleInformationBackground"
+        app:layout_constraintTop_toTopOf="@+id/pruefstelleInformationBackground"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -56,57 +56,34 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
+        app:layout_constraintTop_toTopOf="@+id/pruefstelleInformationBackground"
         app:srcCompat="@drawable/message_frame" />
 
-    <ImageView
-        android:id="@+id/datenschutzButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/datenschutzbutton"
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scanner_view"
+        android:layout_width="565dp"
+        android:layout_height="617dp"
+        app:autoFocusButtonColor="@android:color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="@+id/scan_frame"
         app:layout_constraintEnd_toEndOf="@+id/scan_frame"
         app:layout_constraintStart_toStartOf="@+id/scan_frame"
         app:layout_constraintTop_toTopOf="@+id/scan_frame"
-        app:layout_constraintVertical_bias="0.098"
-        app:srcCompat="@drawable/button_long" />
+        app:maskColor="#17000000" >
 
-    <ImageView
-        android:id="@+id/kontanktButton"
+    </com.budiyev.android.codescanner.CodeScannerView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/kontaktbutton"
-        app:layout_constraintBottom_toBottomOf="@+id/scan_frame"
-        app:layout_constraintEnd_toEndOf="@+id/scan_frame"
-        app:layout_constraintStart_toStartOf="@+id/scan_frame"
-        app:layout_constraintTop_toTopOf="@+id/scan_frame"
-        app:layout_constraintVertical_bias="0.22"
-        app:srcCompat="@drawable/button_long" />
-
-    <TextView
-        android:id="@+id/datenschutzText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/datenschutzbestimmungen"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="@+id/datenschutzButton"
-        app:layout_constraintEnd_toEndOf="@+id/datenschutzButton"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="@+id/datenschutzButton"
-        app:layout_constraintTop_toTopOf="@+id/datenschutzButton"
-        app:layout_constraintVertical_bias="0.357" />
-
-    <TextView
-        android:id="@+id/kontaktText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/kontaktdaten"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="@+id/kontanktButton"
-        app:layout_constraintEnd_toEndOf="@+id/kontanktButton"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/kontanktButton"
-        app:layout_constraintTop_toTopOf="@+id/kontanktButton"
-        app:layout_constraintVertical_bias="0.357" />
+        android:progressTint="@color/gray"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
+        app:layout_constraintEnd_toEndOf="@+id/scanner_view"
+        app:layout_constraintStart_toStartOf="@+id/scanner_view"
+        app:layout_constraintTop_toTopOf="@+id/scanner_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

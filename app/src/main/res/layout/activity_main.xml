@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".CitizenMainActivity">
 
     <ImageView
         android:id="@+id/pruef_background"
@@ -23,7 +23,7 @@
         app:srcCompat="@drawable/main_background" />
 
     <ImageButton
-        android:id="@+id/controlInformationButton"
+        android:id="@+id/checkInformationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="677dp"
@@ -40,7 +40,7 @@
         app:srcCompat="@drawable/alert_icon" />
 
     <ImageButton
-        android:id="@+id/certificateControlButton"
+        android:id="@+id/certificateCheckButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00FFFFFF"
@@ -74,7 +74,7 @@
         android:focusable="auto"
         android:overScrollMode="never"
         android:requiresFadingEdge="horizontal"
-        app:layout_constraintBottom_toBottomOf="@+id/certificateControlButton"
+        app:layout_constraintBottom_toBottomOf="@+id/certificateCheckButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"

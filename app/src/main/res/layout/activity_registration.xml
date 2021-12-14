@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".anmeldung">
+    tools:context=".Login">
 
     <ImageView
         android:id="@+id/pruef_background"
@@ -99,14 +99,14 @@
         android:text="@string/anmeldung_f_r_pr_fstellen"
         android:textColor="@color/gray"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/testcenter_btn"
+        app:layout_constraintBottom_toTopOf="@+id/checkpoint_btn"
         app:layout_constraintEnd_toEndOf="@+id/anmeldung_frame"
         app:layout_constraintStart_toStartOf="@+id/anmeldung_frame"
         app:layout_constraintTop_toBottomOf="@+id/citizen_btn"
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/testcenter_btn"
+        android:id="@+id/checkpoint_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#00FFFFFF"

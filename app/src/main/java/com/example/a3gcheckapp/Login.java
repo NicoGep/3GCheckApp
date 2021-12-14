@@ -6,14 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
-// The class anmeldung includes the generation of the homepage.
-public class anmeldung extends AppCompatActivity {
+// The class Login includes the generation of the homepage.
+public class Login extends AppCompatActivity {
 
     private ImageButton citizenBtn;
-    private ImageButton testcenterBtn;
+    private ImageButton checkpointBtn;
     private ImageButton informationBtn;
 
-    //The method generates the homepage, which contains two buttons, each leading to one of the two applications and a button leading to the information page.
+    //The method generates the homepage, which contains two buttons, each leading to one of the two applications and a button leading to the CitizenInformation page.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +22,8 @@ public class anmeldung extends AppCompatActivity {
         citizenBtn = (ImageButton) findViewById(R.id.citizen_btn);
         citizenBtn.setOnClickListener(v -> openCitizen());
 
-        testcenterBtn = (ImageButton) findViewById(R.id.testcenter_btn);
-        testcenterBtn.setOnClickListener(v -> openTestcenter());
+        checkpointBtn = (ImageButton) findViewById(R.id.checkpoint_btn);
+        checkpointBtn.setOnClickListener(v -> openCheckpoint());
 
         informationBtn = (ImageButton) findViewById(R.id.registrationInformationButton);
         informationBtn.setOnClickListener(v -> openInformation());
@@ -31,17 +31,17 @@ public class anmeldung extends AppCompatActivity {
 
     //The method opens the application "Bürger".
     public void openCitizen(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, CitizenMainActivity.class);
         startActivity(intent);
     }
     //The method opens the application "Prüfstelle".
-    public void openTestcenter() {
-        Intent intent = new Intent(this, pruefstelle.class);
+    public void openCheckpoint() {
+        Intent intent = new Intent(this, CheckpointMainActivity.class);
         startActivity(intent);
     }
-    //The method opens the page "Information".
+    //The method opens the page "CitizenInformation".
     public void openInformation(){
-        Intent intent = new Intent(this, information.class);
+        Intent intent = new Intent(this, CitizenInformation.class);
         startActivity(intent);
         }
 

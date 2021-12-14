@@ -23,16 +23,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.3GCheckApp">
         <activity
-            android:name=".PruefstellenScan"
+            android:name=".CheckpointScan"
             android:exported="false" />
         <activity
-            android:name=".pruef_Information"
+            android:name=".CheckpointInformation"
             android:exported="false" />
         <activity
-            android:name=".pruefstelle"
+            android:name=".CheckpointMainActivity"
             android:exported="false" />
         <activity
-            android:name=".anmeldung"
+            android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,13 +41,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Scan"
+            android:name=".CitizenScan"
             android:exported="false" />
         <activity
-            android:name=".information"
+            android:name=".CitizenInformation"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".CitizenMainActivity"
             android:exported="false" />
 
         <meta-data

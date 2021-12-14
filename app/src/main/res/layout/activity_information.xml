@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".information">
+    tools:context=".CitizenInformation">
 
     <ImageView
-        android:id="@+id/pruefInformationBackground"
+        android:id="@+id/checkInformationBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="596dp"
@@ -41,11 +41,11 @@
         android:text="@string/informationen"
         android:textColor="#FFFFFF"
         android:textSize="70sp"
-        app:layout_constraintBottom_toBottomOf="@+id/pruefInformationBackground"
+        app:layout_constraintBottom_toBottomOf="@+id/checkInformationBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="@+id/pruefInformationBackground"
-        app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
+        app:layout_constraintStart_toStartOf="@+id/checkInformationBackground"
+        app:layout_constraintTop_toTopOf="@+id/checkInformationBackground"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -56,7 +56,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pruefInformationBackground"
+        app:layout_constraintTop_toTopOf="@+id/checkInformationBackground"
         app:srcCompat="@drawable/message_frame" />
 
     <ImageView

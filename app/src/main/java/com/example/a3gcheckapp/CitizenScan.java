@@ -33,27 +33,26 @@ import java.io.IOException;
 import java.util.Map;
 
 
-//The class scan contains all necessary functionalities to scan certificates with a camera.
-public class Scan extends AppCompatActivity {
+//The class Citizenscan contains all necessary functionalities to scan certificates with a camera.
+public class CitizenScan extends AppCompatActivity {
     public String BarcodeContent;
     private ImageButton backButton;
     private CodeScanner mCodeScanner;
     private ProgressBar progressBar;
     Bitmap bMap;
     QRGEncoder qrgEncoder;
-    MainActivity main;
+    CitizenMainActivity main;
     private static String timestamp;
 
     @Override
-    //The method generates the page containing the scan functionality with a camera and can read the given information out of a QR code of a scanned certificate.
+    //The method generates the page containing the scan functionality with a camera and can read the given data out of a QR code of a scanned certificate.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        main = new MainActivity();
+        main = new CitizenMainActivity();
         setContentView(R.layout.activity_scan);
-        //XMLParser parser = new XMLParser();
 
         backButton = (ImageButton) findViewById(R.id.backButton);
-        backButton.setOnClickListener(v -> openMain());
+        backButton.setOnClickListener(v -> openCitizenMainActivity());
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
 
@@ -71,12 +70,12 @@ public class Scan extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        Toast.makeText(Scan.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CitizenScan.this, result.getText(), Toast.LENGTH_SHORT).show();
                         BarcodeContent = result.getText();
 
                         if (true) {
 
-                            // Creates a Bitmap of QR-Code String
+                            //Creates a Bitmap of QR-Code String
                             bMap = createQRBitmap(BarcodeContent, 400, 400);
                             //Safes Bitmap as PNG in Internal Storage
                             SaveImage(bMap);
@@ -85,13 +84,12 @@ public class Scan extends AppCompatActivity {
                             Long tsLong = System.currentTimeMillis() / 1000;
                             timestamp = tsLong.toString();
 
-
                             mCodeScanner.stopPreview();
                             //progressBar.setVisibility(View.VISIBLE);
                             scannerView.setVisibility(View.INVISIBLE);
                             //process QR Code
                             try {
-                                //Seperates Barcode into a Map
+                                //Separates Barcode into a Map
                                 Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
                                 String xmlCert = map.get("nachweis");
                                 //Safes SML in Internal Storage
@@ -103,7 +101,7 @@ public class Scan extends AppCompatActivity {
                                 SaveImage(bMap);
 
                                 //Go back to MainPage
-                                openMain();
+                                openCitizenMainActivity();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -135,9 +133,9 @@ public class Scan extends AppCompatActivity {
         super.onPause();
     }
 
-    //The method opens the class MainActivity.
-    public void openMain() {
-        Intent intent = new Intent(this, MainActivity.class);
+    //The method opens the class CitizenMainActivity.
+    public void openCitizenMainActivity() {
+        Intent intent = new Intent(this, CitizenMainActivity.class);
         startActivity(intent);
     }
 
@@ -145,11 +143,8 @@ public class Scan extends AppCompatActivity {
 
     //The method saves XML Strings in files.
     public void save(String certText) {
-        //for (int i = 0; i <= MainActivity.savedCertNr; i++) {
         FileOutputStream fos = null;
         try {
-            // MainActivity.savedCertNr++;
-            //fileName = "zertifikat" + this.getFilesDir().listFiles().length + ".xml";
             fileName = "zertifikat" + timestamp + ".xml";
             fos = openFileOutput(fileName, MODE_PRIVATE);
             fos.write(certText.getBytes());
@@ -167,7 +162,7 @@ public class Scan extends AppCompatActivity {
 
     }
 
-    //The methode creates a Bitmap from String input
+    //The methode creates a Bitmap from String input.
     private Bitmap createQRBitmap(String qrString, int width, int heigth){
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = null;
@@ -185,14 +180,13 @@ public class Scan extends AppCompatActivity {
         return bitmap;
     }
 
-    //The methode safes the created Bitmap into Internal Storage
+    //The methode saves the created Bitmap into Internal Storage.
     private static void SaveImage(Bitmap finalBitmap) {
 
         String root = "/data/data/com.example.a3gcheckapp/files";
         File myDir = new File(root + "/QRCodes");
         myDir.mkdirs();
 
-        //String fname = "Image1.jpg";
         String fname = "QRCode" + timestamp + ".jpg";
         File file = new File (myDir, fname);
         if (file.exists ()) file.delete ();

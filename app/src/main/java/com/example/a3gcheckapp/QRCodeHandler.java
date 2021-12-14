@@ -28,15 +28,9 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 //
 public class QRCodeHandler {
-    //String qrCodeData = readQR("AppData/1638890268021.png", "UTF-8");
-
-    //Map<String, String> map = parseQRdataToStringMap(qrCodeData);
-
-    //Certificate cert = parseNachweisXMLToCertificate(map.get("nachweis"));
 
     public QRCodeHandler() throws IOException, SAXException, ParserConfigurationException {
     }
-
 
     static Certificate parseCertificateXMLToCertificate(String certificateXML) throws ParserConfigurationException, SAXException, IOException {
 
@@ -50,7 +44,6 @@ public class QRCodeHandler {
 
         if(!rootElement.getNodeName().equals("nachweis"))
             throw new IOException("Unerwartetes XML Dokument");
-
 
         String type = rootElement.getAttribute("type");
 
@@ -161,21 +154,6 @@ public class QRCodeHandler {
 
         return result;
     }
-
-
-//    public static String readQR(String path, String charset) throws FileNotFoundException, IOException, NotFoundException {
-//
-//        Map<EncodeHintType, ErrorCorrectionLevel> hintMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
-//
-//        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-//
-//        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(ImageIO.read(new FileInputStream(path)))));
-//
-//        Result result = new MultiFormatReader().decode(binaryBitmap);
-//
-//        return result.getText();
-//    }
-
 }
 
 

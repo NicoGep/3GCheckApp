@@ -24,21 +24,15 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
-import java.util.ArrayList;
 
-//The class MainActivity contains the main logic of our "Bürger" application.
-public class MainActivity extends AppCompatActivity {
+//The class CitizenMainActivity contains the main logic of our "Bürger" application.
+public class CitizenMainActivity extends AppCompatActivity {
 
     private ImageButton informationButton;
     private ImageButton scanPageButton;
-    static ImageButton buttonCertificates;
-    private LinearLayout scrollLayout;
     private LinearLayout horizontalScrollView;
     String fileName;
-    XMLParser parser = new XMLParser();
-    //number of already certificates
-    static int savedCertNr ;
-    static int btnIndex = 1;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -47,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        horizontalScrollView = findViewById(R.id.horizontalScrollLayout);
+
+        informationButton = (ImageButton) findViewById(R.id.checkInformationButton);
+        informationButton.setOnClickListener(v -> openInformation());
+
+        scanPageButton = (ImageButton) findViewById(R.id.certificateCheckButton);
+        scanPageButton.setOnClickListener(v -> openScanPage());
 
         File root = new File(Environment.getExternalStorageDirectory(), "note.txt");
         try {
@@ -55,27 +56,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-        File file = new File(this.getFilesDir(), "test.txt");
-        System.out.println(this.getFilesDir());
-
-        //Dynamic Button
-        horizontalScrollView = findViewById(R.id.horizontalScrollLayout);
-
-        XMLParser xmlparser = new XMLParser();
-
-        informationButton = (ImageButton) findViewById(R.id.controlInformationButton);
-        informationButton.setOnClickListener(v -> openInformation());
-
-        scanPageButton = (ImageButton) findViewById(R.id.certificateControlButton);
-        scanPageButton.setOnClickListener(v -> openScanPage());
-
-        //save("Test");
-        // String QRContent = "<nachweis type = 'impfung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <vaccinationDate>01-09-2021</vaccinationDate> </nachweis>";
-        // String QRContent2 = "<nachweis type = 'genesung'>  <forename>Celine</forename>  <lastname>Hoeckh</lastname>  <birthdate>01-02-2000</birthdate>  <issueDate>01-09-2021</issueDate>  <recDate>01-09-2021</recDate> </nachweis>";
-//        save(QRContent2);
         loadFiles();
 
     }
@@ -97,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     fis = openFileInput(file.getName());
                     InputStreamReader isr = new InputStreamReader(fis);
                     BufferedReader br = new BufferedReader(isr);
-                    StringBuilder sb = new StringBuilder();
                     String text = br.readLine();
-                    //Certificate certificate = parser.parseXML(text);
                     Certificate certificate = QRCodeHandler.parseCertificateXMLToCertificate(text);
                     if (certificate instanceof Impfnachweis) {
                         Impfnachweis vaxcertificate = (Impfnachweis) certificate;
@@ -134,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         main.addView(view, 0);
 
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
-        certviewTitle.setText("IMPFNACHWEIS"); // HIER KOMMT DER TITEL REIN!!
+        certviewTitle.setText("IMPFNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
         certviewDescription.setText(forename + " " + lastname + "\n");
         certviewDescription.append(vaxstatus + "\n");
@@ -155,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         main.addView(view, 0);
 
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
-        certviewTitle.setText("TESTNACHWEIS"); // HIER KOMMT DER TITEL REIN!!
+        certviewTitle.setText("TESTNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
         certviewDescription.setText(forename + " " + lastname + "\n");
         certviewDescription.append("Testdatum: "+ testdate + "\n");
@@ -176,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         main.addView(view, 0);
 
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
-        certviewTitle.setText("GENESENENNACHWEIS"); // HIER KOMMT DER TITEL REIN!!
+        certviewTitle.setText("GENESENENNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
         certviewDescription.setText(forename + " " + lastname + "\n");
         certviewDescription.append("Testdatum: "+ testdate + "\n");
@@ -188,32 +166,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    //The method opens the information page.
+    //The method opens the CitizenInformation page.
     public void openInformation() {
-        Intent intent = new Intent(this, information.class);
-        startActivity(intent);
-    }
-
-    //The method opens the page containing the detailed information of a scanned certificate.
-    public void openDetail(Intent intent){
+        Intent intent = new Intent(this, CitizenInformation.class);
         startActivity(intent);
     }
 
     //The method opens the page containing the scan functionality.
     public void openScanPage() {
-        Intent intent = new Intent(this, Scan.class);
+        Intent intent = new Intent(this, CitizenScan.class);
         startActivity(intent);
     }
-    //The method prints certificates.
-    public void printCertificates(ArrayList<Certificate> certificates) {
-        StringBuilder builder = new StringBuilder();
-        for (Certificate certificate : certificates) {
-            builder.append(certificate.getForname()).append(" ").append(certificate.getLastname()).append("\n").append("Erstelldatum: ").append(certificate.getIssuedate()).append("\n\n");
-        }
-    }
-    //This method deletes a specific certificate and its matching QRCode
-    public void deleteCertificate(String certName){
+
+    //This method deletes a specific certificate and its matching QRCode.
+    public void deleteCertificate(String certName) {
         String deletesubQRCode = certName.substring(10, 20);
         String deleteQRPath = "/data/data/com.example.a3gcheckapp/files/QRCodes";
         File QRCodeFile = new File(deleteQRPath + "/QRCode" + deletesubQRCode + ".jpg");
@@ -222,54 +188,5 @@ public class MainActivity extends AppCompatActivity {
         boolean deleted = deleteFile.delete();
         boolean deletedQRCode = QRCodeFile.delete();
         recreate();
-    }
-
-//    //The method saves XML Strings in files.
-//    public void save(String certText) {
-//        //for (int i = 0; i <= MainActivity.savedCertNr; i++) {
-//        FileOutputStream fos = null;
-//        try {
-//            MainActivity.savedCertNr++;
-//            fileName = "zertifikat" + MainActivity.savedCertNr + ".xml";
-//            fos = openFileOutput(fileName, MODE_PRIVATE);
-//            fos.write(certText.getBytes());
-//        } catch (Exception e) {
-//        } finally {
-//            if (fos != null) {
-//                try {
-//                    fos.close();
-//                } catch (IOException ie) {
-//                }
-//
-//            }
-//
-//        }
-//
-//    }
-
-    //The method loads texts from saved XML files.
-    public void load() {
-        FileInputStream fis = null;
-        for (int i = 0; i <= savedCertNr; i++) {
-            fileName = "zertifikat" + savedCertNr + ".xml";
-            try {
-                fis = openFileInput(fileName);
-                InputStreamReader isr = new InputStreamReader(fis);
-                BufferedReader br = new BufferedReader(isr);
-                StringBuilder sb = new StringBuilder();
-                String text = br.readLine();
-                parser.parseXML(text);
-
-            } catch (Exception e) {
-            } finally {
-                if (fis != null) {
-                    try {
-                        fis.close();
-                    } catch (IOException ie) { }
-                }
-            }
-        }
-
-
     }
 }
