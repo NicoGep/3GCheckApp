@@ -1,5 +1,7 @@
 package com.example.a3gcheckapp;
 
+import android.content.res.AssetManager;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,15 +24,13 @@ public class Validator {
     public static boolean isValid(String qrString) throws FileNotFoundException, CertificateException {
         boolean state = false;
         X509Certificate QRCertificate = createCertificate(qrString);
-        //Welches Zertifikat (Weils Vero so will!) Bruder
-        X509Certificate ClientCert = loadCertificate("src/main/assets/Certificates/caCert.crt");
+
+        X509Certificate ClientCert = loadCertificate("/data/data/com.example.a3gcheckapp/files/Certificates/caCert.crt");
 
 
-        if(validateCertificate(QRCertificate) == true && verifyCertificate(ClientCert, QRCertificate) == true) {
+        if(validateCertificate(QRCertificate) && verifyCertificate(ClientCert, QRCertificate)) {
            return true;
-        } else {
-            return false;
-        }
+        } else return false;
 
     }
 

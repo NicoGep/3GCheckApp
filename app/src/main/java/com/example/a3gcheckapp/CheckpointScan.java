@@ -3,12 +3,14 @@ package com.example.a3gcheckapp;
 import static java.time.LocalDateTime.now;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,7 +35,9 @@ import com.google.zxing.Result;
 
 import org.xml.sax.SAXException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.cert.CertificateException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -45,6 +49,7 @@ public class CheckpointScan extends AppCompatActivity {
 
     private CodeScanner checkCodeScan;
     private ImageButton backButton;
+    private boolean isValidated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +68,11 @@ public class CheckpointScan extends AppCompatActivity {
             @Override
             public void onDecoded(@NonNull Result result) {
                 runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void run() {
                         String BarcodeContent = result.getText();
                         checkCodeScan.stopPreview();
-
-                        openPopUp(BarcodeContent);
 
                         Map<String, String> map = null;
                         Certificate certificate = null;
@@ -76,11 +80,19 @@ public class CheckpointScan extends AppCompatActivity {
 
                             map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
                             String xmlCert = map.get("nachweis");
+                            String xmlSignatureCert = map.get("signatur");
+                            String xmlX509Cert = map.get("certificate");
+
+                            isValidated = Validator.isValid(xmlX509Cert);
+                            System.out.println("-----------------------------------------------------------");
+                            System.out.println(isValidated);
+                            System.out.println("-----------------------------------------------------------");
+
                             certificate = QRCodeHandler.parseCertificateXMLToCertificate(xmlCert);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        //boolean expired = checkExpirationDate(certificate);
+                        boolean expired = checkExpirationDate(certificate);
 
 
                     }
@@ -94,38 +106,39 @@ public class CheckpointScan extends AppCompatActivity {
         });
     }
 
-//    private boolean checkExpirationDate(Certificate certificate) {
-//        boolean expired = true;
-//        LocalDateTime local = LocalDateTime.now();
-//
-//        //missing: Verschiedene Arten von Impfstoff abfragen
-//        if (certificate instanceof CertificateVaccination) {
-//            CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
-//            if (vaxcertificate.getVaccinationDate().plusMonths(12).isBefore(local)){
-//                expired = false;
-//            }
-//
-//        } else if (certificate instanceof CertificateTest) {
-//            CertificateTest testcertificate = (CertificateTest) certificate;
-//            if(testcertificate.getTestType() == Testtype.PCR_Test) {
-//                if (testcertificate.getTestDate().plusHours(48).isBefore(local)){
-//                    expired = false;
-//                }
-//            } else if (testcertificate.getTestType() == Testtype.Schnelltest){
-//                if (testcertificate.getTestDate().plusHours(24).isBefore(local)){
-//                    expired = false;
-//                }
-//            }
-//
-//        } else if (certificate instanceof CertificateRecovery) {
-//            CertificateRecovery reccertificate = (CertificateRecovery) certificate;
-//            if(reccertificate.getTestDate().plusMonths(6).isBefore(local)){
-//                expired = false;
-//            }
-//        }
-//
-//        return expired;
-//    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private boolean checkExpirationDate(Certificate certificate) {
+        boolean expired = true;
+        LocalDateTime local = LocalDateTime.now();
+
+        //missing: Verschiedene Arten von Impfstoff abfragen
+        if (certificate instanceof CertificateVaccination) {
+            CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
+            if (vaxcertificate.getVaccinationDate().plusMonths(12).isBefore(local)){
+                expired = false;
+            }
+
+        } else if (certificate instanceof CertificateTest) {
+            CertificateTest testcertificate = (CertificateTest) certificate;
+            if(testcertificate.getTestType() == Testtype.PCR_Test) {
+                if (testcertificate.getTestDate().plusHours(48).isBefore(local)){
+                    expired = false;
+                }
+            } else if (testcertificate.getTestType() == Testtype.Schnelltest){
+                if (testcertificate.getTestDate().plusHours(24).isBefore(local)){
+                    expired = false;
+                }
+            }
+
+        } else if (certificate instanceof CertificateRecovery) {
+            CertificateRecovery reccertificate = (CertificateRecovery) certificate;
+            if(reccertificate.getTestDate().plusMonths(6).isBefore(local)){
+                expired = false;
+            }
+       }
+
+       return expired;
+    }
 
     @Override
     protected void onResume() {
@@ -144,7 +157,7 @@ public class CheckpointScan extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openPopUp(String qrString){
+    public void openPopUp(String qrString, Boolean validation){
 
 
         //PopUp Layout Inflate
@@ -160,6 +173,13 @@ public class CheckpointScan extends AppCompatActivity {
 
         TextView detailTxt = (TextView) findViewById(R.id.detailsTxt);
         TextView validTxt= (TextView) findViewById(R.id.validTxt);
+        if(validation){
+            validTxt.setText("GüLTIG");
+            validTxt.setTextColor(Color.parseColor("#00bd26")); //Color Green
+        } else {
+            validTxt.setText("UNGÜLTIG");
+            validTxt.setTextColor(Color.parseColor("#bd0900")); //Color Red
+        }
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
 
