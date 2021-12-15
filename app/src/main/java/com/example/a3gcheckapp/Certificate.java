@@ -1,88 +1,71 @@
 package com.example.a3gcheckapp;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 // The class Certificate includes all data given in all three kinds of certificates.
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class Certificate {
-    String lastname, forname, birthdate, issuedate, vaxname, vaxnb, testname, testtype, testresult, expirationdate;
+    public static final DateTimeFormatter STD_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    public static final DateTimeFormatter STD_DATE_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
-        public String getLastname() {
-            return lastname;
+    private String lastName, firstName;
+    private LocalDateTime issueDate;
+    private LocalDate birthdate;
+
+
+        public String getLastName() {
+            return lastName;
         }
 
-        public void setLastname(String lastname) {
-            this.lastname = lastname;
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
         }
 
-        public String getForname() {
-            return forname;
+        public String getFirstName() {
+            return firstName;
         }
 
-        public void setForname(String forname) {
-            this.forname = forname;
+        public void setFirstName(String firstName) {
+            this.firstName = firstName;
         }
 
-        public String getBirthdate() {
+        public LocalDate getBirthdate() {
             return birthdate;
         }
-
-        public void setBirthdate(String birthdate) {
+        public void setBirthdate(LocalDate birthdate) {
             this.birthdate = birthdate;
         }
 
-        public String getIssuedate() {
-            return issuedate;
+        public String getBirthdateAsString() {
+            return birthdate.format(Certificate.STD_DATE_FORMAT);;
         }
 
-        public void setIssuedate(String issuedate) {
-            this.birthdate = issuedate;
+        public void setBirthdateFromString(String birthdate) {
+            this.birthdate = LocalDate.parse(birthdate, Certificate.STD_DATE_FORMAT);
         }
 
-        public String getVaxname() {
-            return vaxname;
+        public String getIssueDateAsString() {
+           return issueDate.format(Certificate.STD_DATE_TIME_FORMAT);
         }
 
-        public void setVaxname(String vaxname) {
-            this.vaxname = vaxname;
+        public void setIssueDateFromString(String issueDate) {
+            this.issueDate = LocalDateTime.parse(issueDate, Certificate.STD_DATE_TIME_FORMAT);
         }
 
-        public String getVaxnb() {
-            return vaxnb;
+        public LocalDateTime getIssueDate() {
+            return issueDate;
         }
 
-        public void setVaxnb(String vaxnb) {
-            this.vaxnb = vaxnb;
+        public void setIssueDate(LocalDateTime issueDate) {
+            this.issueDate = issueDate;
         }
 
-        public String getTestname() {
-            return testname;
-        }
-
-        public void setTestname(String testname) {
-            this.testname = testname;
-        }
-
-        public String getTesttype() {
-            return testtype;
-        }
-
-        public void setTesttype(String testtype) {
-            this.testtype = testtype;
-        }
-
-        public String getTestresult() {
-            return testresult;
-        }
-
-        public void setTestresult(String testresult) {
-            this.testresult = testresult;
-        }
-
-        public String getExpirationdate() {
-            return expirationdate;
-        }
-
-        public void setExpirationdate(String expirationdate) {
-            this.expirationdate = expirationdate;
-        }
 
 
     }

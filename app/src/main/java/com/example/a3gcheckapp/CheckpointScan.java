@@ -101,7 +101,7 @@ public class CheckpointScan extends AppCompatActivity {
 //        //missing: Verschiedene Arten von Impfstoff abfragen
 //        if (certificate instanceof CertificateVaccination) {
 //            CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
-//            if (vaxcertificate.getVaccDate().plusMonths(12).isBefore(local)){
+//            if (vaxcertificate.getVaccinationDate().plusMonths(12).isBefore(local)){
 //                expired = false;
 //            }
 //
@@ -119,7 +119,7 @@ public class CheckpointScan extends AppCompatActivity {
 //
 //        } else if (certificate instanceof CertificateRecovery) {
 //            CertificateRecovery reccertificate = (CertificateRecovery) certificate;
-//            if(reccertificate.getRecDate().plusMonths(6).isBefore(local)){
+//            if(reccertificate.getTestDate().plusMonths(6).isBefore(local)){
 //                expired = false;
 //            }
 //        }

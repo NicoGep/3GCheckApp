@@ -81,13 +81,13 @@ public class CitizenMainActivity extends AppCompatActivity {
                     Certificate certificate = QRCodeHandler.parseCertificateXMLToCertificate(text);
                     if (certificate instanceof CertificateVaccination) {
                         CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
-                        createNewVaxView(filename, vaxcertificate.getForname(), vaxcertificate.getLastname(), vaxcertificate.getBirthdate(), vaxcertificate.getIssuedate(), QRCodeFile);
+                        createNewVaxView(filename, vaxcertificate, QRCodeFile);
                     } else if (certificate instanceof CertificateTest) {
                         CertificateTest testcertificate = (CertificateTest) certificate;
-                        //createNewSchnelltestView(String filename, testnachweis.getForname(), testnachweis.getLastname(), testnachweis.getTestDate(), testnachweis.getTestTime(), QRCodeFile);
+                        createNewTestView(filename, testcertificate, QRCodeFile);
                     } else if (certificate instanceof CertificateRecovery) {
                         CertificateRecovery reccertificate = (CertificateRecovery) certificate;
-                        createNewRecoveryView(filename, reccertificate.getForname(), reccertificate.getLastname(), reccertificate.getRecDate(), QRCodeFile);
+                        createNewRecoveryView(filename, reccertificate, QRCodeFile);
                     }
 
                 } catch (Exception e) {
@@ -104,7 +104,8 @@ public class CitizenMainActivity extends AppCompatActivity {
     }
 
     //The method generates a new TextView and fills it with data that has been read from the QR code of a vaccination certificate.
-    public void createNewVaxView(String filename, String forename, String lastname, String vaxstatus, String date, File qrFile){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void createNewVaxView(String filename, CertificateVaccination vaxcert, File qrFile){
 
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.vaxcertificateview, null);
@@ -114,9 +115,12 @@ public class CitizenMainActivity extends AppCompatActivity {
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
         certviewTitle.setText("IMPFNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
-        certviewDescription.setText(forename + " " + lastname + "\n");
-        certviewDescription.append(vaxstatus + "\n");
-        certviewDescription.append("Impfdatum: " + date + "");
+        certviewDescription.setText(vaxcert.getFirstName() + " " + vaxcert.getLastName() + "\n");
+        certviewDescription.setText("Geburtsdatum: "  + vaxcert.getBirthdateAsString() + "\n");
+        certviewDescription.append("Impfdatum: " + vaxcert.getVaccinationDateAsString() + "\n");
+        certviewDescription.append("Erstellungsdatum: " + vaxcert.getIssueDateAsString() + "\n");
+        certviewDescription.append("Impfstoff: " + vaxcert.getVaccine() + "\n");
+        certviewDescription.append(vaxcert.getVaccinationCount() + ". Impfung");
         ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
         Bitmap qrBitmap = BitmapFactory.decodeFile(qrFile.getAbsolutePath());
         certviewQRCode.setImageBitmap(qrBitmap);
@@ -126,7 +130,8 @@ public class CitizenMainActivity extends AppCompatActivity {
     }
 
     //The method generates a new TextView and fills it with data that has been read from the QR code of a test certificate.
-    public void createNewTestView(String filename, String forename, String lastname, String testdate, String testtime, File qrFile){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void createNewTestView(String filename, CertificateTest testCert, File qrFile){
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.vaxcertificateview, null);
         ViewGroup main = (ViewGroup) findViewById(R.id.horizontalScrollLayout);
@@ -135,9 +140,10 @@ public class CitizenMainActivity extends AppCompatActivity {
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
         certviewTitle.setText("TESTNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
-        certviewDescription.setText(forename + " " + lastname + "\n");
-        certviewDescription.append("Testdatum: "+ testdate + "\n");
-        certviewDescription.append("Testzeit: " + testtime);
+        certviewDescription.setText(testCert.getFirstName() + " " + testCert.getLastName() + "\n");
+        certviewDescription.setText("Geburtsdatum: "  + testCert.getBirthdateAsString() + "\n");
+        certviewDescription.append("Testdatum: "+ testCert.getTestDateAsString() + "\n");
+        certviewDescription.append("Testtyp: " + testCert.getTestType());
         ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
         Bitmap qrBitmap = BitmapFactory.decodeFile(qrFile.getAbsolutePath());
         certviewQRCode.setImageBitmap(qrBitmap);
@@ -147,7 +153,8 @@ public class CitizenMainActivity extends AppCompatActivity {
     }
 
     ////The method fills the new generated TextView with data that has been read from the QR code of a proof of recovery certificate.
-    public void createNewRecoveryView(String filename, String forename, String lastname, String testdate, File qrFile){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void createNewRecoveryView(String filename, CertificateRecovery recCert, File qrFile){
         LayoutInflater inflater = getLayoutInflater();
         View view = inflater.inflate(R.layout.vaxcertificateview, null);
         ViewGroup main = (ViewGroup) findViewById(R.id.horizontalScrollLayout);
@@ -156,8 +163,9 @@ public class CitizenMainActivity extends AppCompatActivity {
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
         certviewTitle.setText("GENESENENNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
-        certviewDescription.setText(forename + " " + lastname + "\n");
-        certviewDescription.append("Testdatum: "+ testdate + "\n");
+        certviewDescription.setText(recCert.getFirstName() + " " + recCert.getLastName() + "\n");
+        certviewDescription.setText("Geburtsdatum: "  + recCert.getBirthdateAsString() + "\n");
+        certviewDescription.append("Testdatum: "+ recCert.getTestDateAsString() + "\n");
         ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
         Bitmap qrBitmap = BitmapFactory.decodeFile(qrFile.getAbsolutePath());
         certviewQRCode.setImageBitmap(qrBitmap);

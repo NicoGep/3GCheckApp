@@ -1,4 +1,8 @@
 package com.example.a3gcheckapp;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -23,6 +27,7 @@ public class QRCodeHandler {
     public QRCodeHandler() throws IOException, SAXException, ParserConfigurationException {
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     static Certificate parseCertificateXMLToCertificate(String certificateXML) throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -57,12 +62,12 @@ public class QRCodeHandler {
                 //vaccine = Vaccine.valueOf(doc.getElementsByTagName("vaccine").item(0).getTextContent());
 
 
-                vaxcertificate.setForname(forname);
-                vaxcertificate.setLastname(lastname);
+                vaxcertificate.setFirstName(forname);
+                vaxcertificate.setLastName(lastname);
                 vaxcertificate.setBirthdate(birthdate);
-                vaxcertificate.setIssuedate(issuedate);
+                vaxcertificate.setIssueDate(issuedate);
                 //impfnachweis.setExpirationDate(expirationDate);
-                vaxcertificate.setVaccDate(vaxDate);
+                vaxcertificate.setVaccinationDate(vaxDate);
                 //impfnachweis.setVaccine(vaccine);
 
                 return vaxcertificate;
@@ -79,12 +84,12 @@ public class QRCodeHandler {
                 //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
                 recDate = doc.getElementsByTagName("recDate").item(0).getTextContent();
 
-                recoverycertificate.setForname(forname);
-                recoverycertificate.setLastname(lastname);
+                recoverycertificate.setFirstName(forname);
+                recoverycertificate.setLastName(lastname);
                 recoverycertificate.setBirthdate(birthdate);
-                recoverycertificate.setIssuedate(issuedate);
+                recoverycertificate.setIssueDate(issuedate);
                 //genesenennachweis.setExpirationDate(expirationDate);
-                recoverycertificate.setRecDate(recDate);
+                recoverycertificate.setTestDate(recDate);
 
                 return recoverycertificate;
 
@@ -102,10 +107,10 @@ public class QRCodeHandler {
                 testDate = doc.getElementsByTagName("testDate").item(0).getTextContent();
                 //testType = Testtype.valueOf(doc.getElementsByTagName("testType").item(0).getTextContent());
 
-                testcertificate.setForname(forname);
-                testcertificate.setLastname(lastname);
+                testcertificate.setFirstName(forname);
+                testcertificate.setLastName(lastname);
                 testcertificate.setBirthdate(birthdate);
-                testcertificate.setIssuedate(issuedate);
+                testcertificate.setIssueDate(issuedate);
                 //testnachweis.setExpirationDate(expirationDate);
                 testcertificate.setTestDate(testDate);
                 //testnachweis.setTestType(testType);
