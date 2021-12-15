@@ -43,7 +43,7 @@ public class Certificate {
         }
 
         public String getBirthdateAsString() {
-            return birthdate.format(Certificate.STD_DATE_FORMAT);;
+            return birthdate.format(Certificate.STD_DATE_FORMAT);
         }
 
         public void setBirthdateFromString(String birthdate) {

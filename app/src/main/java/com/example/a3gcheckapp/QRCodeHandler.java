@@ -24,6 +24,34 @@ import org.xml.sax.SAXException;
 //
 public class QRCodeHandler {
 
+    //XML field names
+    public static final String XML_CERT_ROOT_ELEMENT = "certificate";
+    public static final String XML_CERT_ROOT_ATTRIBUTE = "type";
+    public static final String XML_CERT_TYPE_ATTRIBUTE_VACCINATED = "vaccinated";
+    public static final String XML_CERT_TYPE_ATTRIBUTE_RECOVERED = "recovered";
+    public static final String XML_CERT_TYPE_ATTRIBUTE_TESTED = "tested";
+
+    public static final String XML_CERT_FIRST_NAME = "firstName";
+    public static final String XML_CERT_LAST_NAME = "lastName";
+    public static final String XML_CERT_BIRTHDATE = "birthdate";
+    public static final String XML_CERT_ISSUE_DATE = "issueDate";
+
+    public static final String XML_CERT_VACCINATION_DATE = "vaccinationDate";
+    public static final String XML_CERT_VACCINE = "vaccine";
+    public static final String XML_CERT_VACCINATION_COUNT = "vaccinationCount";
+
+    public static final String XML_CERT_RECOVERY_TEST_DATE = "recoveryTestDate";
+
+    public static final String XML_CERT_TEST_DATE = "testDate";
+    public static final String XML_CERT_TEST_TYPE = "testType";
+
+
+    public static final String XML_QRCODE_ROOT_ELEMENT = "qrCode";
+
+    public static final String XML_QRCODE_CERTIFICATE = "certificate";
+    public static final String XML_QRCODE_SIGNATURE = "signature";
+    public static final String XML_QRCODE_X509 = "x509";
+
     public QRCodeHandler() throws IOException, SAXException, ParserConfigurationException {
     }
 
@@ -41,86 +69,73 @@ public class QRCodeHandler {
         if(!rootElement.getNodeName().equals("nachweis"))
             throw new IOException("Unerwartetes XML Dokument");
 
-        String type = rootElement.getAttribute("type");
+        String type = rootElement.getAttribute(XML_CERT_ROOT_ATTRIBUTE);
 
-        String forname, lastname, birthdate, issuedate, expirationDate;
+        Certificate cert;
+
 
         switch(type) {
 
-            case "impfung":
-                CertificateVaccination vaxcertificate = new CertificateVaccination();
+            case XML_CERT_TYPE_ATTRIBUTE_VACCINATED:
+                cert = new CertificateVaccination();
 
-                String vaxDate;
+                String vaccDate;
                 Vaccine vaccine;
+                int vaccinationCount;
 
-                forname = doc.getElementsByTagName("forename").item(0).getTextContent();
-                lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
-                birthdate = doc.getElementsByTagName("birthdate").item(0).getTextContent();
-                issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
-                //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
-                vaxDate = doc.getElementsByTagName("vaccinationDate").item(0).getTextContent();
-                //vaccine = Vaccine.valueOf(doc.getElementsByTagName("vaccine").item(0).getTextContent());
+                vaccDate = doc.getElementsByTagName(XML_CERT_VACCINATION_DATE).item(0).getTextContent();
+                vaccine = Vaccine.valueOf(doc.getElementsByTagName(XML_CERT_VACCINE).item(0).getTextContent());
+                vaccinationCount = Integer.parseInt(doc.getElementsByTagName(XML_CERT_VACCINATION_COUNT).item(0).getTextContent());
 
+                ((CertificateVaccination) cert).setVaccinationDateFromString(vaccDate);
+                ((CertificateVaccination) cert).setVaccine(vaccine);
+                ((CertificateVaccination) cert).setVaccinationCount(vaccinationCount);
 
-                vaxcertificate.setFirstName(forname);
-                vaxcertificate.setLastName(lastname);
-                vaxcertificate.setBirthdate(birthdate);
-                vaxcertificate.setIssueDate(issuedate);
-                //impfnachweis.setExpirationDate(expirationDate);
-                vaxcertificate.setVaccinationDate(vaxDate);
-                //impfnachweis.setVaccine(vaccine);
+                break;
 
-                return vaxcertificate;
-
-            case "genesung":
-                CertificateRecovery recoverycertificate = new CertificateRecovery();
+            case XML_CERT_TYPE_ATTRIBUTE_RECOVERED:
+                cert = new CertificateRecovery();
 
                 String recDate;
 
-                forname = doc.getElementsByTagName("forename").item(0).getTextContent();
-                lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
-                birthdate = doc.getElementsByTagName("birthdate").item(0).getTextContent();
-                issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
-                //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
-                recDate = doc.getElementsByTagName("recDate").item(0).getTextContent();
+                recDate = doc.getElementsByTagName(XML_CERT_RECOVERY_TEST_DATE).item(0).getTextContent();
 
-                recoverycertificate.setFirstName(forname);
-                recoverycertificate.setLastName(lastname);
-                recoverycertificate.setBirthdate(birthdate);
-                recoverycertificate.setIssueDate(issuedate);
-                //genesenennachweis.setExpirationDate(expirationDate);
-                recoverycertificate.setTestDate(recDate);
+                ((CertificateRecovery) cert).setTestDateFromString(recDate);
 
-                return recoverycertificate;
+                break;
 
-            case "test":
-                CertificateTest testcertificate = new CertificateTest();
+            case XML_CERT_TYPE_ATTRIBUTE_TESTED:
+                cert = new CertificateTest();
 
                 String testDate;
-                //Testtype testType;
+                Testtype testType;
 
-                forname = doc.getElementsByTagName("forename").item(0).getTextContent();
-                lastname = doc.getElementsByTagName("lastname").item(0).getTextContent();
-                birthdate = doc.getElementsByTagName("birthdate").item(0).getTextContent();
-                issuedate = doc.getElementsByTagName("issueDate").item(0).getTextContent();
-                //expirationDate = doc.getElementsByTagName("expirationDate").item(0).getTextContent();
-                testDate = doc.getElementsByTagName("testDate").item(0).getTextContent();
-                //testType = Testtype.valueOf(doc.getElementsByTagName("testType").item(0).getTextContent());
+                testDate = doc.getElementsByTagName(XML_CERT_TEST_DATE).item(0).getTextContent();
+                testType = Testtype.valueOf(doc.getElementsByTagName(XML_CERT_TEST_TYPE).item(0).getTextContent());
 
-                testcertificate.setFirstName(forname);
-                testcertificate.setLastName(lastname);
-                testcertificate.setBirthdate(birthdate);
-                testcertificate.setIssueDate(issuedate);
-                //testnachweis.setExpirationDate(expirationDate);
-                testcertificate.setTestDate(testDate);
-                //testnachweis.setTestType(testType);
+                ((CertificateRecovery) cert).setTestDateFromString(testDate);
+                ((CertificateTest) cert).setTestType(testType);
 
-                return testcertificate;
+                break;
 
             default: return null;
+
         }
 
+        String forname, lastname, birthdate, issueDate;
 
+        forname = doc.getElementsByTagName(XML_CERT_FIRST_NAME).item(0).getTextContent();
+        lastname = doc.getElementsByTagName(XML_CERT_LAST_NAME).item(0).getTextContent();
+        birthdate = doc.getElementsByTagName(XML_CERT_BIRTHDATE).item(0).getTextContent();
+        issueDate = doc.getElementsByTagName(XML_CERT_ISSUE_DATE).item(0).getTextContent();
+
+
+        cert.setFirstName(forname);
+        cert.setLastName(lastname);
+        cert.setBirthdateFromString(birthdate);
+        cert.setIssueDateFromString(issueDate);
+
+        return cert;
     }
 
      static Map<String, String> parseQRdataToStringMap(String inputXML) throws ParserConfigurationException, SAXException, IOException {
@@ -131,24 +146,24 @@ public class QRCodeHandler {
 
         Document doc = db.parse(inputSource);
 
-        if(!doc.getDocumentElement().getNodeName().equals("qrcode"))
-            throw new IOException("Unerwartetes XML Dokument");
+         if(!doc.getDocumentElement().getNodeName().equals(XML_QRCODE_ROOT_ELEMENT))
+             throw new IOException("Unerwartetes XML Dokument");
 
 
-        Map<String, String> result = new HashMap<String, String>();
+         Map<String, String> result = new HashMap<String, String>();
 
-        String certif, signatur, certificate;
+         String nachweis, signatur, certificate;
 
-        certif = doc.getElementsByTagName("nachweis").item(0).getTextContent();
-        signatur = doc.getElementsByTagName("signatur").item(0).getTextContent();
-        certificate = doc.getElementsByTagName("certificate").item(0).getTextContent();
+         nachweis = doc.getElementsByTagName(XML_QRCODE_CERTIFICATE).item(0).getTextContent();
+         signatur = doc.getElementsByTagName(XML_QRCODE_SIGNATURE).item(0).getTextContent();
+         certificate = doc.getElementsByTagName(XML_QRCODE_X509).item(0).getTextContent();
 
-        result.put("nachweis", certif);
-        result.put("signatur", signatur);
-        result.put("certificate", certificate);
+         result.put(XML_QRCODE_CERTIFICATE, nachweis);
+         result.put(XML_QRCODE_SIGNATURE, signatur);
+         result.put(XML_QRCODE_X509, certificate);
 
 
-        return result;
+         return result;
     }
 }
 
