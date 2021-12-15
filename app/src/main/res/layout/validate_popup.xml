@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popupRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,6 +12,7 @@
         app:srcCompat="@drawable/message_frame" />
 
     <LinearLayout
+        android:id="@+id/popupLinearLayout"
         android:layout_width="573dp"
         android:layout_height="644dp"
         android:layout_alignEnd="@+id/imageView"
@@ -36,9 +38,10 @@
             android:id="@+id/detailsTxt"
             android:layout_width="match_parent"
             android:layout_height="221dp"
+            android:lineSpacingExtra="8sp"
             android:paddingStart="30sp"
             android:text="Vorname Nachname"
-            android:textSize="20sp"
+            android:textSize="35sp"
             android:textStyle="bold" />
 
         <TextView

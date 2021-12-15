@@ -61,6 +61,7 @@ public class CitizenMainActivity extends AppCompatActivity {
     }
 
     //The method creates iterations through all saved certificates including the functionalities to read out, to classify und to display.
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void loadFiles() {
         FileInputStream fis = null;
         String filename;

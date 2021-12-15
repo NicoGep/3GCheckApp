@@ -79,20 +79,18 @@ public class CheckpointScan extends AppCompatActivity {
                         try {
 
                             map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
-                            String xmlCert = map.get("nachweis");
-                            String xmlSignatureCert = map.get("signatur");
-                            String xmlX509Cert = map.get("certificate");
+                            String xmlCert = map.get("certificate");
+                            String xmlSignatureCert = map.get("signature");
+                            String xmlX509Cert = map.get("x509");
 
                             isValidated = Validator.isValid(xmlX509Cert);
-                            System.out.println("-----------------------------------------------------------");
-                            System.out.println(isValidated);
-                            System.out.println("-----------------------------------------------------------");
-
                             certificate = QRCodeHandler.parseCertificateXMLToCertificate(xmlCert);
+                            boolean expired = checkExpirationDate(certificate);
+
+                            openPopUp(certificate, isValidated, expired);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        boolean expired = checkExpirationDate(certificate);
 
 
                     }
@@ -157,7 +155,8 @@ public class CheckpointScan extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openPopUp(String qrString, Boolean validation){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void openPopUp(Certificate certificate, Boolean validation, Boolean expired){
 
 
         //PopUp Layout Inflate
@@ -171,14 +170,16 @@ public class CheckpointScan extends AppCompatActivity {
 
         popupWindow.showAtLocation(findViewById(R.id.scanner_view), Gravity.CENTER, 0, 0);
 
-        TextView detailTxt = (TextView) findViewById(R.id.detailsTxt);
-        TextView validTxt= (TextView) findViewById(R.id.validTxt);
-        if(validation){
-            validTxt.setText("GüLTIG");
-            validTxt.setTextColor(Color.parseColor("#00bd26")); //Color Green
+        TextView detailTxt = (TextView) popupView.findViewById(R.id.detailsTxt);
+        detailTxt.setText(certificate.getFirstName() + " " + certificate.getLastName() +"\n" );
+        detailTxt.append("Geburtsdatum: " + certificate.getBirthdateAsString());
+        TextView validTxt = (TextView) popupView.findViewById(R.id.validTxt);
+        if(validation && !expired){
+            validTxt.setText("GÜLTIG");
+            validTxt.setTextColor(Color.GREEN); //Color Green
         } else {
             validTxt.setText("UNGÜLTIG");
-            validTxt.setTextColor(Color.parseColor("#bd0900")); //Color Red
+            validTxt.setTextColor(Color.RED); //Color Red
         }
 
         popupView.setOnTouchListener(new View.OnTouchListener() {
