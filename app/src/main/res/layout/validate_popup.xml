@@ -38,7 +38,8 @@
             android:layout_height="221dp"
             android:paddingStart="30sp"
             android:text="Vorname Nachname"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/certIsTxt"
@@ -52,9 +53,10 @@
             android:id="@+id/validTxt"
             android:layout_width="match_parent"
             android:layout_height="79dp"
-            android:paddingStart="30sp"
             android:text="TextView"
-            android:textSize="30sp" />
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/acceptButton"

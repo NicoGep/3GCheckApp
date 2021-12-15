@@ -5,10 +5,24 @@ import static java.time.LocalDateTime.now;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
@@ -52,14 +66,14 @@ public class CheckpointScan extends AppCompatActivity {
                     @Override
                     public void run() {
                         String BarcodeContent = result.getText();
-                        Toast.makeText(CheckpointScan.this, BarcodeContent, Toast.LENGTH_SHORT).show();
                         checkCodeScan.stopPreview();
 
-                        openCheckMainActivity();
+                        openPopUp(BarcodeContent);
 
                         Map<String, String> map = null;
                         Certificate certificate = null;
                         try {
+
                             map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
                             String xmlCert = map.get("nachweis");
                             certificate = QRCodeHandler.parseCertificateXMLToCertificate(xmlCert);
@@ -68,27 +82,7 @@ public class CheckpointScan extends AppCompatActivity {
                         }
                         //boolean expired = checkExpirationDate(certificate);
 
-                        /**
-                        //PopUp Layout Inflate
-                        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                        View popupView = inflater.inflate(R.layout.validate_popup, null);
 
-                        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                        boolean focusable = true;
-                        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-                        popupWindow.showAtLocation(findViewById(R.id.scanner_view), Gravity.CENTER, 0, 0);
-
-                        popupView.setOnTouchListener(new View.OnTouchListener() {
-
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                popupWindow.dismiss();
-                                return true;
-                            }
-                        });
-                         **/
                     }
                 });
             }
@@ -148,5 +142,32 @@ public class CheckpointScan extends AppCompatActivity {
     public void openCheckMainActivity(){
         Intent intent = new Intent(this, CheckpointMainActivity.class);
         startActivity(intent);
+    }
+
+    public void openPopUp(String qrString){
+
+
+        //PopUp Layout Inflate
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.validate_popup, null);
+
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        popupWindow.showAtLocation(findViewById(R.id.scanner_view), Gravity.CENTER, 0, 0);
+
+        TextView detailTxt = (TextView) findViewById(R.id.detailsTxt);
+        TextView validTxt= (TextView) findViewById(R.id.validTxt);
+
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
     }
 }
