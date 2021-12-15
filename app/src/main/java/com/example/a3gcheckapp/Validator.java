@@ -1,23 +1,29 @@
 package com.example.a3gcheckapp;
 
 import android.content.res.AssetManager;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PublicKey;
+import java.security.Signature;
 import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.X509Certificate;
+import java.util.Base64;
 
 public class Validator {
 
@@ -43,10 +49,13 @@ public class Validator {
     }
 
 
-    public static boolean validateSignatur(){
-
-
-        return true;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static boolean validateSignature(String data, String sigToValidate, X509Certificate certForValidation) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, UnsupportedEncodingException {
+        Signature sig = Signature.getInstance("SHA256withRSA");
+        sig.initVerify(certForValidation);
+        sig.update(data.getBytes("UTF-8"));
+        byte[] untrustedSignatureBytes = Base64.getDecoder().decode(data);
+        return sig.verify(untrustedSignatureBytes);
     }
 
     public static X509Certificate createCertificate(String qrString) throws FileNotFoundException, CertificateException {
