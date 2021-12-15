@@ -113,6 +113,7 @@ public class CitizenMainActivity extends AppCompatActivity {
         ViewGroup main = (ViewGroup) findViewById(R.id.horizontalScrollLayout);
         main.addView(view, 0);
 
+
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
         certviewTitle.setText("IMPFNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
@@ -164,7 +165,7 @@ public class CitizenMainActivity extends AppCompatActivity {
         TextView certviewTitle = (TextView) horizontalScrollView.findViewById(R.id.certviewTitleText);
         certviewTitle.setText("GENESENENNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
-        certviewDescription.setText(recCert.getFirstName() + " " + recCert.getLastName() + "\n");
+        certviewDescription.setText(""+ recCert.getFirstName() + " " + recCert.getLastName() + "\n");
         certviewDescription.setText("Geburtsdatum: "  + recCert.getBirthdateAsString() + "\n");
         certviewDescription.append("Testdatum: "+ recCert.getTestDateAsString() + "\n");
         ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);

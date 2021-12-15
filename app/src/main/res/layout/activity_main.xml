@@ -71,6 +71,7 @@
         android:layout_width="760dp"
         android:layout_height="910dp"
         android:fadingEdgeLength="30dp"
+        android:fillViewport="true"
         android:focusable="auto"
         android:overScrollMode="never"
         android:requiresFadingEdge="horizontal"

@@ -91,7 +91,7 @@ public class CitizenScan extends AppCompatActivity {
                             try {
                                 //Separates Barcode into a Map
                                 Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
-                                String xmlCert = map.get("nachweis");
+                                String xmlCert = map.get("certificate");
                                 //Safes SML in Internal Storage
                                 save(xmlCert);
 
