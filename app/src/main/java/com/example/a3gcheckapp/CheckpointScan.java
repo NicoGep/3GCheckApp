@@ -105,11 +105,10 @@ public class CheckpointScan extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private boolean checkExpirationDate(Certificate certificate) {
+    public boolean checkExpirationDate(Certificate certificate) {
         boolean expired = true;
         LocalDateTime local = LocalDateTime.now();
 
-        //missing: Verschiedene Arten von Impfstoff abfragen
         if (certificate instanceof CertificateVaccination) {
             CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
             if (vaxcertificate.getVaccinationDate().plusMonths(12).isAfter(local)){

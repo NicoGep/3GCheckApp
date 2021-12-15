@@ -28,14 +28,14 @@ import java.util.Base64;
 public class Validator {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static boolean isValid(String qrString, String certificate, String signature) throws FileNotFoundException, CertificateException, UnsupportedEncodingException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+    public static boolean isValid(String x509, String certificate, String signature) throws FileNotFoundException, CertificateException, UnsupportedEncodingException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         boolean state = false;
-        X509Certificate QRCertificate = createCertificate(qrString);
+        X509Certificate QRCertificate = createCertificate(x509);
 
-        X509Certificate ClientCert = loadCertificate("/data/data/com.example.a3gcheckapp/files/Certificates/caCert.crt");
+        X509Certificate caCert = loadCertificate("/data/data/com.example.a3gcheckapp/files/Certificates/caCert.crt");
 
 
-        if(validateCertificate(QRCertificate) && verifyCertificate(ClientCert, QRCertificate) && validateSignature(certificate, signature, ClientCert)) {
+        if(validateCertificate(QRCertificate) && verifyCertificate(caCert, QRCertificate) && validateSignature(certificate, signature, QRCertificate)) {
            return true;
         } else return false;
 

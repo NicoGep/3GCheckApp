@@ -78,7 +78,7 @@ public class CitizenScan extends AppCompatActivity {
                             //Creates a Bitmap of QR-Code String
                             bMap = createQRBitmap(BarcodeContent, 400, 400);
                             //Safes Bitmap as PNG in Internal Storage
-                            SaveImage(bMap);
+                            saveImage(bMap);
 
                             //Get Timestamp
                             Long tsLong = System.currentTimeMillis() / 1000;
@@ -98,7 +98,7 @@ public class CitizenScan extends AppCompatActivity {
                                 // Creates a Bitmap of QR-Code String
                                 bMap = createQRBitmap(result.getText(), 400, 400);
                                 //Safes Bitmap as PNG in Internal Storage
-                                SaveImage(bMap);
+                                saveImage(bMap);
 
                                 //Go back to MainPage
                                 openCitizenMainActivity();
@@ -163,7 +163,7 @@ public class CitizenScan extends AppCompatActivity {
     }
 
     //The methode creates a Bitmap from String input.
-    private Bitmap createQRBitmap(String qrString, int width, int heigth){
+    public Bitmap createQRBitmap(String qrString, int width, int heigth){
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = null;
         try{
@@ -181,7 +181,7 @@ public class CitizenScan extends AppCompatActivity {
     }
 
     //The methode saves the created Bitmap into Internal Storage.
-    private static void SaveImage(Bitmap finalBitmap) {
+    public static void saveImage(Bitmap finalBitmap) {
 
         String root = "/data/data/com.example.a3gcheckapp/files";
         File myDir = new File(root + "/QRCodes");
@@ -202,3 +202,4 @@ public class CitizenScan extends AppCompatActivity {
     }
 
 }
+

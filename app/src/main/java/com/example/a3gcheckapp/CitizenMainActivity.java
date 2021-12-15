@@ -200,3 +200,4 @@ public class CitizenMainActivity extends AppCompatActivity {
         recreate();
     }
 }
+

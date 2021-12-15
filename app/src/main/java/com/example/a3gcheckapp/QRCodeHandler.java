@@ -63,16 +63,11 @@ public class QRCodeHandler {
         InputSource inputSource = new InputSource(new StringReader(certificateXML));
 
         Document doc = db.parse(inputSource);
-
         Element rootElement = doc.getDocumentElement();
-
-        if(!rootElement.getNodeName().equals("certificate"))
+        if(!rootElement.getNodeName().equals("nachweis"))
             throw new IOException("Unerwartetes XML Dokument");
-
         String type = rootElement.getAttribute(XML_CERT_ROOT_ATTRIBUTE);
-
         Certificate cert;
-
 
         switch(type) {
 
