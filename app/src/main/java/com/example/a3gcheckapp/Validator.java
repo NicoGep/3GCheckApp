@@ -27,14 +27,15 @@ import java.util.Base64;
 
 public class Validator {
 
-    public static boolean isValid(String qrString) throws FileNotFoundException, CertificateException {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static boolean isValid(String qrString, String certificate, String signature) throws FileNotFoundException, CertificateException, UnsupportedEncodingException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
         boolean state = false;
         X509Certificate QRCertificate = createCertificate(qrString);
 
         X509Certificate ClientCert = loadCertificate("/data/data/com.example.a3gcheckapp/files/Certificates/caCert.crt");
 
 
-        if(validateCertificate(QRCertificate) && verifyCertificate(ClientCert, QRCertificate)) {
+        if(validateCertificate(QRCertificate) && verifyCertificate(ClientCert, QRCertificate) && validateSignature(certificate, signature, ClientCert)) {
            return true;
         } else return false;
 
@@ -54,7 +55,7 @@ public class Validator {
         Signature sig = Signature.getInstance("SHA256withRSA");
         sig.initVerify(certForValidation);
         sig.update(data.getBytes("UTF-8"));
-        byte[] untrustedSignatureBytes = Base64.getDecoder().decode(data);
+        byte[] untrustedSignatureBytes = Base64.getDecoder().decode(sigToValidate);
         return sig.verify(untrustedSignatureBytes);
     }
 

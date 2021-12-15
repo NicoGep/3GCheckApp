@@ -118,7 +118,7 @@ public class CitizenMainActivity extends AppCompatActivity {
         certviewTitle.setText("IMPFNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
         certviewDescription.setText(vaxcert.getFirstName() + " " + vaxcert.getLastName() + "\n");
-        certviewDescription.setText("Geburtsdatum: "  + vaxcert.getBirthdateAsString() + "\n");
+        certviewDescription.append("Geburtsdatum: "  + vaxcert.getBirthdateAsString() + "\n");
         certviewDescription.append("Impfdatum: " + vaxcert.getVaccinationDateAsString() + "\n");
         certviewDescription.append("Erstellungsdatum: " + vaxcert.getIssueDateAsString() + "\n");
         certviewDescription.append("Impfstoff: " + vaxcert.getVaccine() + "\n");
@@ -143,7 +143,7 @@ public class CitizenMainActivity extends AppCompatActivity {
         certviewTitle.setText("TESTNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
         certviewDescription.setText(testCert.getFirstName() + " " + testCert.getLastName() + "\n");
-        certviewDescription.setText("Geburtsdatum: "  + testCert.getBirthdateAsString() + "\n");
+        certviewDescription.append("Geburtsdatum: "  + testCert.getBirthdateAsString() + "\n");
         certviewDescription.append("Testdatum: "+ testCert.getTestDateAsString() + "\n");
         certviewDescription.append("Testtyp: " + testCert.getTestType());
         ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
@@ -166,7 +166,7 @@ public class CitizenMainActivity extends AppCompatActivity {
         certviewTitle.setText("GENESENENNACHWEIS");
         TextView certviewDescription = (TextView) horizontalScrollView.findViewById(R.id.certviewDescription);
         certviewDescription.setText(""+ recCert.getFirstName() + " " + recCert.getLastName() + "\n");
-        certviewDescription.setText("Geburtsdatum: "  + recCert.getBirthdateAsString() + "\n");
+        certviewDescription.append("Geburtsdatum: "  + recCert.getBirthdateAsString() + "\n");
         certviewDescription.append("Testdatum: "+ recCert.getTestDateAsString() + "\n");
         ImageView certviewQRCode = (ImageView) horizontalScrollView.findViewById(R.id.certviewQRCode);
         Bitmap qrBitmap = BitmapFactory.decodeFile(qrFile.getAbsolutePath());

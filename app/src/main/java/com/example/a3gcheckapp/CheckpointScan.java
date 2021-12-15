@@ -79,11 +79,11 @@ public class CheckpointScan extends AppCompatActivity {
                         try {
 
                             map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
-                            String xmlCert = map.get("certificate");
-                            String xmlSignatureCert = map.get("signature");
-                            String xmlX509Cert = map.get("x509");
+                            String xmlCert = map.get(QRCodeHandler.XML_QRCODE_CERTIFICATE);
+                            String xmlSignatureCert = map.get(QRCodeHandler.XML_QRCODE_SIGNATURE);
+                            String xmlX509Cert = map.get(QRCodeHandler.XML_QRCODE_X509);
 
-                            isValidated = Validator.isValid(xmlX509Cert);
+                            isValidated = Validator.isValid(xmlX509Cert, xmlCert, xmlSignatureCert);
                             certificate = QRCodeHandler.parseCertificateXMLToCertificate(xmlCert);
                             boolean expired = checkExpirationDate(certificate);
 
@@ -112,25 +112,25 @@ public class CheckpointScan extends AppCompatActivity {
         //missing: Verschiedene Arten von Impfstoff abfragen
         if (certificate instanceof CertificateVaccination) {
             CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
-            if (vaxcertificate.getVaccinationDate().plusMonths(12).isBefore(local)){
+            if (vaxcertificate.getVaccinationDate().plusMonths(12).isAfter(local)){
                 expired = false;
             }
 
         } else if (certificate instanceof CertificateTest) {
             CertificateTest testcertificate = (CertificateTest) certificate;
             if(testcertificate.getTestType() == Testtype.PCR_Test) {
-                if (testcertificate.getTestDate().plusHours(48).isBefore(local)){
+                if (testcertificate.getTestDate().plusHours(48).isAfter(local)){
                     expired = false;
                 }
             } else if (testcertificate.getTestType() == Testtype.Schnelltest){
-                if (testcertificate.getTestDate().plusHours(24).isBefore(local)){
+                if (testcertificate.getTestDate().plusHours(24).isAfter(local)){
                     expired = false;
                 }
             }
 
         } else if (certificate instanceof CertificateRecovery) {
             CertificateRecovery reccertificate = (CertificateRecovery) certificate;
-            if(reccertificate.getTestDate().plusMonths(6).isBefore(local)){
+            if(reccertificate.getTestDate().plusMonths(6).isAfter(local)){
                 expired = false;
             }
        }

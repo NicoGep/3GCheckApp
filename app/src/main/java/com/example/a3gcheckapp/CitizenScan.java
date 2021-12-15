@@ -70,7 +70,7 @@ public class CitizenScan extends AppCompatActivity {
                     @Override
                     public void run() {
 
-                        Toast.makeText(CitizenScan.this, result.getText(), Toast.LENGTH_SHORT).show();
+
                         BarcodeContent = result.getText();
 
                         if (true) {
@@ -91,7 +91,7 @@ public class CitizenScan extends AppCompatActivity {
                             try {
                                 //Separates Barcode into a Map
                                 Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
-                                String xmlCert = map.get("certificate");
+                                String xmlCert = map.get(QRCodeHandler.XML_QRCODE_CERTIFICATE);
                                 //Safes SML in Internal Storage
                                 save(xmlCert);
 
