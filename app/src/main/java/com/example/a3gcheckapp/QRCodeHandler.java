@@ -64,7 +64,7 @@ public class QRCodeHandler {
 
         Document doc = db.parse(inputSource);
         Element rootElement = doc.getDocumentElement();
-        if(!rootElement.getNodeName().equals("nachweis"))
+        if(!rootElement.getNodeName().equals(XML_QRCODE_CERTIFICATE))
             throw new IOException("Unerwartetes XML Dokument");
         String type = rootElement.getAttribute(XML_CERT_ROOT_ATTRIBUTE);
         Certificate cert;
@@ -108,7 +108,7 @@ public class QRCodeHandler {
                 testDate = doc.getElementsByTagName(XML_CERT_TEST_DATE).item(0).getTextContent();
                 testType = Testtype.valueOf(doc.getElementsByTagName(XML_CERT_TEST_TYPE).item(0).getTextContent());
 
-                ((CertificateRecovery) cert).setTestDateFromString(testDate);
+                ((CertificateTest) cert).setTestDateFromString(testDate);
                 ((CertificateTest) cert).setTestType(testType);
 
                 break;

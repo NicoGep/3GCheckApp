@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import java.time.LocalDateTime;
 
 //The class CertificateTest extends the class Certificate with specific data needed for test certificate.
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CertificateTest extends Certificate {
 
     private Testtype testType;

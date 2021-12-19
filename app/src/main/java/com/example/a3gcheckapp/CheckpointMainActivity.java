@@ -14,9 +14,12 @@ public class CheckpointMainActivity extends AppCompatActivity {
     private ImageView informationBackground;
     private ImageButton checkButton;
 
-
+    /**
+     * The method generates the overview page of the application "Prüfstelle".
+     *
+     * @param savedInstanceState The saved state of the instance
+     */
     @Override
-    //The method generates the overview page of the application "Prüfstelle".
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkpoint);
@@ -29,13 +32,19 @@ public class CheckpointMainActivity extends AppCompatActivity {
         checkButton = (ImageButton) findViewById(R.id.certificateCheckButton);
         checkButton.setOnClickListener(v -> openValidation());
     }
-    //The method opens the CitizenInformation page.
+
+    /**
+     * The method opens the CitizenInformation page.
+     */
     public void openInformation(){
         Intent intent = new Intent(this, CheckpointInformation.class);
         startActivity(intent);
 
     }
-    //The method opens the scan page
+
+    /**
+     * The method opens the scan page
+     */
     public void openValidation(){
         Intent intent = new Intent(this, CheckpointScan.class);
         startActivity(intent);

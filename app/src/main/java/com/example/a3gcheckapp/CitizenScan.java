@@ -44,8 +44,12 @@ public class CitizenScan extends AppCompatActivity {
     CitizenMainActivity main;
     private static String timestamp;
 
+    /**
+     * The method generates the page containing the scan functionality with a camera and can read the given data out of a QR code of a scanned certificate.
+     *
+     * @param savedInstanceState The saved state of the instance
+     */
     @Override
-    //The method generates the page containing the scan functionality with a camera and can read the given data out of a QR code of a scanned certificate.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         main = new CitizenMainActivity();
@@ -121,19 +125,27 @@ public class CitizenScan extends AppCompatActivity {
 
     }
 
+    /**
+     * Is triggered when you want to scan a new QRCode after you scanned one
+     */
     @Override
     protected void onResume() {
         super.onResume();
         mCodeScanner.startPreview();
     }
 
+    /**
+     * Is triggered when you pause the scanner
+     */
     @Override
     protected void onPause() {
         mCodeScanner.releaseResources();
         super.onPause();
     }
 
-    //The method opens the class CitizenMainActivity.
+    /**
+     * The method opens the class CitizenMainActivity.
+     */
     public void openCitizenMainActivity() {
         Intent intent = new Intent(this, CitizenMainActivity.class);
         startActivity(intent);
@@ -141,7 +153,11 @@ public class CitizenScan extends AppCompatActivity {
 
     String fileName;
 
-    //The method saves XML Strings in files.
+    /**
+     * The method saves XML Strings in files.
+     *
+     * @param certText String containing the contents of the XML
+     */
     public void save(String certText) {
         FileOutputStream fos = null;
         try {
@@ -162,8 +178,15 @@ public class CitizenScan extends AppCompatActivity {
 
     }
 
-    //The methode creates a Bitmap from String input.
-    public Bitmap createQRBitmap(String qrString, int width, int heigth){
+    /**
+     * The methode creates a Bitmap from String input.
+     *
+     * @param qrString  The content of the QRCode as a String
+     * @param width     Width of the QRCode
+     * @param height    Height of the QRCode
+     * @return          Returns the QRCode as a Bitmap
+     */
+    public Bitmap createQRBitmap(String qrString, int width, int height){
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = null;
         try{
@@ -171,16 +194,20 @@ public class CitizenScan extends AppCompatActivity {
         } catch (WriterException e){
             e.printStackTrace();
         }
-        Bitmap bitmap = Bitmap.createBitmap(width, heigth, Bitmap.Config.RGB_565);
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         for (int x = 0; x < width; x++){
-            for (int y = 0; y < heigth; y++){
+            for (int y = 0; y < height; y++){
                 bitmap.setPixel(x, y, matrix.get(x,y) ? Color.BLACK : Color.WHITE);
             }
         }
         return bitmap;
     }
 
-    //The methode saves the created Bitmap into Internal Storage.
+    /**
+     * The methode saves the created Bitmap into Internal Storage.
+     *
+     * @param finalBitmap The bitmap(QRCode) containing the data of the QRCode
+     */
     public static void saveImage(Bitmap finalBitmap) {
 
         String root = "/data/data/com.example.a3gcheckapp/files";

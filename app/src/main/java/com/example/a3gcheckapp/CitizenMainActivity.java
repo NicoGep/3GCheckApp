@@ -33,10 +33,13 @@ public class CitizenMainActivity extends AppCompatActivity {
     private LinearLayout horizontalScrollView;
     String fileName;
 
-
+    /**
+     * The method generates the overview page of the application "Bürger".
+     *
+     * @param savedInstanceState The saved state of the instance
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    //The method generates the overview page of the application "Bürger".
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -60,7 +63,9 @@ public class CitizenMainActivity extends AppCompatActivity {
 
     }
 
-    //The method creates iterations through all saved certificates including the functionalities to read out, to classify und to display.
+    /**
+     * The method creates iterations through all saved certificates including the functionalities to read out, to classify und to display.
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void loadFiles() {
         FileInputStream fis = null;
@@ -104,7 +109,13 @@ public class CitizenMainActivity extends AppCompatActivity {
         }
     }
 
-    //The method generates a new TextView and fills it with data that has been read from the QR code of a vaccination certificate.
+    /**
+     * The method generates a new TextView and fills it with data that has been read from the QR code of a vaccination certificate.
+     *
+     * @param filename  Name of the File
+     * @param vaxcert   Vaccination Certificate
+     * @param qrFile    Picture of the QRCode as a File
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createNewVaxView(String filename, CertificateVaccination vaxcert, File qrFile){
 
@@ -131,7 +142,13 @@ public class CitizenMainActivity extends AppCompatActivity {
 
     }
 
-    //The method generates a new TextView and fills it with data that has been read from the QR code of a test certificate.
+    /**
+     * The method generates a new TextView and fills it with data that has been read from the QR code of a test certificate.
+     *
+     * @param filename  Name of the File
+     * @param testCert  Test Certificate
+     * @param qrFile    Picture of the QRCode as a File
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createNewTestView(String filename, CertificateTest testCert, File qrFile){
         LayoutInflater inflater = getLayoutInflater();
@@ -154,7 +171,13 @@ public class CitizenMainActivity extends AppCompatActivity {
 
     }
 
-    ////The method fills the new generated TextView with data that has been read from the QR code of a proof of recovery certificate.
+    /**
+     * The method fills the new generated TextView with data that has been read from the QR code of a proof of recovery certificate.
+     *
+     * @param filename  Name of the File
+     * @param recCert   Recovery Certificate
+     * @param qrFile    Picture of the QRCode as a File
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void createNewRecoveryView(String filename, CertificateRecovery recCert, File qrFile){
         LayoutInflater inflater = getLayoutInflater();
@@ -176,19 +199,27 @@ public class CitizenMainActivity extends AppCompatActivity {
 
     }
 
-    //The method opens the CitizenInformation page.
+    /**
+     * The method opens the CitizenInformation page.
+     */
     public void openInformation() {
         Intent intent = new Intent(this, CitizenInformation.class);
         startActivity(intent);
     }
 
-    //The method opens the page containing the scan functionality.
+    /**
+     * The method opens the page containing the scan functionality.
+     */
     public void openScanPage() {
         Intent intent = new Intent(this, CitizenScan.class);
         startActivity(intent);
     }
 
-    //This method deletes a specific certificate and its matching QRCode.
+    /**
+     * This method deletes a specific certificate and its matching QRCode-PNG.
+     *
+     * @param certName  Name of the Certificate in the device storage
+     */
     public void deleteCertificate(String certName) {
         String deletesubQRCode = certName.substring(10, 20);
         String deleteQRPath = "/data/data/com.example.a3gcheckapp/files/QRCodes";

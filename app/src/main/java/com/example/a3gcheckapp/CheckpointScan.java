@@ -156,8 +156,6 @@ public class CheckpointScan extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void openPopUp(Certificate certificate, Boolean validation, Boolean expired){
-
-
         //PopUp Layout Inflate
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.validate_popup, null);

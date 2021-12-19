@@ -44,10 +44,10 @@
             android:id="@+id/certviewDescription"
             android:layout_width="match_parent"
             android:layout_height="216dp"
-            android:lineSpacingExtra="8sp"
+            android:lineSpacingExtra="5sp"
             android:paddingLeft="20sp"
             android:text="TextView"
-            android:textSize="30sp" />
+            android:textSize="23sp" />
 
         <ImageView
             android:id="@+id/certviewQRCode"
