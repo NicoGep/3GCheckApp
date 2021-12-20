@@ -6,7 +6,10 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDateTime;
 
-//The class CertificateVaccination extends the class Certificate with specific data needed for vaccination certificate.
+/**
+ * The class CertificateVaccination extends the class Certificate with specific data needed for vaccination certificate.
+ */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CertificateVaccination extends Certificate {
 
     private LocalDateTime vaccinationDate;
@@ -39,13 +42,13 @@ public class CertificateVaccination extends Certificate {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String getVaccinationDateAsString() {
-		return vaccinationDate.format(Certificate.STD_DATE_TIME_FORMAT);
-	}
-	@RequiresApi(api = Build.VERSION_CODES.O)
-    public void setVaccinationDateFromString(String vaccinationDate) {
-		this.vaccinationDate = LocalDateTime.parse(vaccinationDate, Certificate.STD_DATE_TIME_FORMAT);
-	}
+        return vaccinationDate.format(Certificate.STD_DATE_TIME_FORMAT);
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setVaccinationDateFromString(String vaccinationDate) {
+        this.vaccinationDate = LocalDateTime.parse(vaccinationDate, Certificate.STD_DATE_TIME_FORMAT);
+    }
 
 
 }

@@ -6,7 +6,10 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDateTime;
 
-//The class CertificateTest extends the class Certificate with specific data needed for test certificate.
+/**
+ * The class CertificateTest extends the class Certificate with specific data needed for test certificate.
+ */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CertificateTest extends Certificate {
 
     private Testtype testType;
@@ -24,6 +27,7 @@ public class CertificateTest extends Certificate {
     public String getTestDateAsString() {
         return testDate.format(Certificate.STD_DATE_TIME_FORMAT);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setTestDateFromString(String testDate) {
         this.testDate = LocalDateTime.parse(testDate, Certificate.STD_DATE_TIME_FORMAT);
@@ -32,6 +36,7 @@ public class CertificateTest extends Certificate {
     public LocalDateTime getTestDate() {
         return testDate;
     }
+
     public void setTestDate(LocalDateTime testDate) {
         this.testDate = testDate;
     }

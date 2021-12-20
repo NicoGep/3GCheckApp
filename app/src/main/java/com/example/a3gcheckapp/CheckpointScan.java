@@ -1,22 +1,13 @@
 package com.example.a3gcheckapp;
 
-import static java.time.LocalDateTime.now;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicBlur;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,7 +16,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
@@ -33,24 +23,24 @@ import com.budiyev.android.codescanner.DecodeCallback;
 import com.budiyev.android.codescanner.ScanMode;
 import com.google.zxing.Result;
 
-import org.xml.sax.SAXException;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.security.cert.CertificateException;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
 
-
+/**
+ * The class CheckpointScan is responsible to scan the QRCodes for our checkpoint
+ */
 public class CheckpointScan extends AppCompatActivity {
 
     private CodeScanner checkCodeScan;
     private ImageButton backButton;
     private boolean isValidated = false;
 
+    /**
+     * This
+     *
+     * @param savedInstanceState The saved state of the instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,19 +81,24 @@ public class CheckpointScan extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 });
             }
         });
-        codeScannerView.setOnClickListener(new View.OnClickListener(){
+        codeScannerView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                checkCodeScan.startPreview();}
+            public void onClick(View v) {
+                checkCodeScan.startPreview();
+            }
         });
     }
 
+    /**
+     * This method checks the dates of the certificates
+     *
+     * @param certificate The Certificate that is checked
+     * @return True, if expired; False, if not
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean checkExpirationDate(Certificate certificate) {
         boolean expired = true;
@@ -111,53 +106,67 @@ public class CheckpointScan extends AppCompatActivity {
 
         if (certificate instanceof CertificateVaccination) {
             CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
-            if (vaxcertificate.getVaccinationDate().plusMonths(12).isAfter(local)){
+            if (vaxcertificate.getVaccinationDate().plusMonths(12).isAfter(local)) {
                 expired = false;
             }
 
         } else if (certificate instanceof CertificateTest) {
             CertificateTest testcertificate = (CertificateTest) certificate;
-            if(testcertificate.getTestType() == Testtype.PCR_Test) {
-                if (testcertificate.getTestDate().plusHours(48).isAfter(local)){
+            if (testcertificate.getTestType() == Testtype.PCR_Test) {
+                if (testcertificate.getTestDate().plusHours(48).isAfter(local)) {
                     expired = false;
                 }
-            } else if (testcertificate.getTestType() == Testtype.Schnelltest){
-                if (testcertificate.getTestDate().plusHours(24).isAfter(local)){
+            } else if (testcertificate.getTestType() == Testtype.Schnelltest) {
+                if (testcertificate.getTestDate().plusHours(24).isAfter(local)) {
                     expired = false;
                 }
             }
 
         } else if (certificate instanceof CertificateRecovery) {
             CertificateRecovery reccertificate = (CertificateRecovery) certificate;
-            if(reccertificate.getTestDate().plusMonths(6).isAfter(local)){
+            if (reccertificate.getTestDate().plusMonths(6).isAfter(local)) {
                 expired = false;
             }
-       }
+        }
 
-       return expired;
+        return expired;
     }
 
+    /**
+     * This method is triggered when you want to scan a new QRCode after you scanned one
+     */
     @Override
     protected void onResume() {
         super.onResume();
         checkCodeScan.startPreview();
     }
 
+    /**
+     * This method is triggered when you pause the scanner
+     */
     @Override
     protected void onPause() {
         checkCodeScan.releaseResources();
         super.onPause();
     }
 
-    public void openCheckMainActivity(){
+    /**
+     * This method opens the CheckpointMainActivity
+     */
+    public void openCheckMainActivity() {
         Intent intent = new Intent(this, CheckpointMainActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * This method opens the validation popup
+     *
+     * @param certificate Certificate that has been checked
+     * @param validation  boolean whether the certificate and the signature are valid and verified
+     * @param expired     boolean whether the certificate is expired or not
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void openPopUp(Certificate certificate, Boolean validation, Boolean expired){
-
-
+    public void openPopUp(Certificate certificate, Boolean validation, Boolean expired) {
         //PopUp Layout Inflate
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.validate_popup, null);
@@ -170,10 +179,10 @@ public class CheckpointScan extends AppCompatActivity {
         popupWindow.showAtLocation(findViewById(R.id.scanner_view), Gravity.CENTER, 0, 0);
 
         TextView detailTxt = (TextView) popupView.findViewById(R.id.detailsTxt);
-        detailTxt.setText(certificate.getFirstName() + " " + certificate.getLastName() +"\n" );
+        detailTxt.setText(certificate.getFirstName() + " " + certificate.getLastName() + "\n");
         detailTxt.append("Geburtsdatum: " + certificate.getBirthdateAsString());
         TextView validTxt = (TextView) popupView.findViewById(R.id.validTxt);
-        if(validation && !expired){
+        if (validation && !expired) {
             validTxt.setText("GÜLTIG");
             validTxt.setTextColor(Color.GREEN); //Color Green
         } else {
