@@ -16,7 +16,6 @@ public class Login extends AppCompatActivity {
     private ImageButton informationBtn;
 
 
-
     /**
      * The method generates the homepage, which contains two buttons, each leading to one of the two applications and a button leading to the CitizenInformation page.
      *
@@ -40,7 +39,7 @@ public class Login extends AppCompatActivity {
     /**
      * The method opens the application "Bürger".
      */
-    public void openCitizen(){
+    public void openCitizen() {
         Intent intent = new Intent(this, CitizenMainActivity.class);
         startActivity(intent);
     }
@@ -56,10 +55,10 @@ public class Login extends AppCompatActivity {
     /**
      * The method opens the page "CitizenInformation".
      */
-    public void openInformation(){
+    public void openInformation() {
         Intent intent = new Intent(this, CitizenInformation.class);
         startActivity(intent);
-        }
+    }
 
 }
 

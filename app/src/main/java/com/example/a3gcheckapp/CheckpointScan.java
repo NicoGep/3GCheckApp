@@ -85,18 +85,19 @@ public class CheckpointScan extends AppCompatActivity {
                 });
             }
         });
-        codeScannerView.setOnClickListener(new View.OnClickListener(){
+        codeScannerView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
-                checkCodeScan.startPreview();}
+            public void onClick(View v) {
+                checkCodeScan.startPreview();
+            }
         });
     }
 
     /**
      * This method checks the dates of the certificates
      *
-     * @param certificate   The Certificate that is checked
-     * @return  True, if expired; False, if not
+     * @param certificate The Certificate that is checked
+     * @return True, if expired; False, if not
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
     public boolean checkExpirationDate(Certificate certificate) {
@@ -105,30 +106,30 @@ public class CheckpointScan extends AppCompatActivity {
 
         if (certificate instanceof CertificateVaccination) {
             CertificateVaccination vaxcertificate = (CertificateVaccination) certificate;
-            if (vaxcertificate.getVaccinationDate().plusMonths(12).isAfter(local)){
+            if (vaxcertificate.getVaccinationDate().plusMonths(12).isAfter(local)) {
                 expired = false;
             }
 
         } else if (certificate instanceof CertificateTest) {
             CertificateTest testcertificate = (CertificateTest) certificate;
-            if(testcertificate.getTestType() == Testtype.PCR_Test) {
-                if (testcertificate.getTestDate().plusHours(48).isAfter(local)){
+            if (testcertificate.getTestType() == Testtype.PCR_Test) {
+                if (testcertificate.getTestDate().plusHours(48).isAfter(local)) {
                     expired = false;
                 }
-            } else if (testcertificate.getTestType() == Testtype.Schnelltest){
-                if (testcertificate.getTestDate().plusHours(24).isAfter(local)){
+            } else if (testcertificate.getTestType() == Testtype.Schnelltest) {
+                if (testcertificate.getTestDate().plusHours(24).isAfter(local)) {
                     expired = false;
                 }
             }
 
         } else if (certificate instanceof CertificateRecovery) {
             CertificateRecovery reccertificate = (CertificateRecovery) certificate;
-            if(reccertificate.getTestDate().plusMonths(6).isAfter(local)){
+            if (reccertificate.getTestDate().plusMonths(6).isAfter(local)) {
                 expired = false;
             }
-       }
+        }
 
-       return expired;
+        return expired;
     }
 
     /**
@@ -152,7 +153,7 @@ public class CheckpointScan extends AppCompatActivity {
     /**
      * This method opens the CheckpointMainActivity
      */
-    public void openCheckMainActivity(){
+    public void openCheckMainActivity() {
         Intent intent = new Intent(this, CheckpointMainActivity.class);
         startActivity(intent);
     }
@@ -160,12 +161,12 @@ public class CheckpointScan extends AppCompatActivity {
     /**
      * This method opens the validation popup
      *
-     * @param certificate   Certificate that has been checked
-     * @param validation    boolean whether the certificate and the signature are valid and verified
-     * @param expired       boolean whether the certificate is expired or not
+     * @param certificate Certificate that has been checked
+     * @param validation  boolean whether the certificate and the signature are valid and verified
+     * @param expired     boolean whether the certificate is expired or not
      */
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void openPopUp(Certificate certificate, Boolean validation, Boolean expired){
+    public void openPopUp(Certificate certificate, Boolean validation, Boolean expired) {
         //PopUp Layout Inflate
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.validate_popup, null);
@@ -178,10 +179,10 @@ public class CheckpointScan extends AppCompatActivity {
         popupWindow.showAtLocation(findViewById(R.id.scanner_view), Gravity.CENTER, 0, 0);
 
         TextView detailTxt = (TextView) popupView.findViewById(R.id.detailsTxt);
-        detailTxt.setText(certificate.getFirstName() + " " + certificate.getLastName() +"\n" );
+        detailTxt.setText(certificate.getFirstName() + " " + certificate.getLastName() + "\n");
         detailTxt.append("Geburtsdatum: " + certificate.getBirthdateAsString());
         TextView validTxt = (TextView) popupView.findViewById(R.id.validTxt);
-        if(validation && !expired){
+        if (validation && !expired) {
             validTxt.setText("GÜLTIG");
             validTxt.setTextColor(Color.GREEN); //Color Green
         } else {

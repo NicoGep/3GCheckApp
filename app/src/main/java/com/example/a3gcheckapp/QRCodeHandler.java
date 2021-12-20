@@ -1,4 +1,5 @@
 package com.example.a3gcheckapp;
+
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -17,7 +18,9 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-
+/**
+ * This class contains methods that handle the QRCode
+ */
 public class QRCodeHandler {
 
     //XML field names
@@ -69,12 +72,12 @@ public class QRCodeHandler {
 
         Document doc = db.parse(inputSource);
         Element rootElement = doc.getDocumentElement();
-        if(!rootElement.getNodeName().equals(XML_QRCODE_CERTIFICATE))
+        if (!rootElement.getNodeName().equals(XML_QRCODE_CERTIFICATE))
             throw new IOException("Unerwartetes XML Dokument");
         String type = rootElement.getAttribute(XML_CERT_ROOT_ATTRIBUTE);
         Certificate cert;
 
-        switch(type) {
+        switch (type) {
 
             case XML_CERT_TYPE_ATTRIBUTE_VACCINATED:
                 cert = new CertificateVaccination();
@@ -118,7 +121,8 @@ public class QRCodeHandler {
 
                 break;
 
-            default: return null;
+            default:
+                return null;
 
         }
 
@@ -138,16 +142,16 @@ public class QRCodeHandler {
         return cert;
     }
 
-     /**
+    /**
      * This method parses the QRCode data to a string map
-      *
-     * @param inputXML  String of the contents of the QRCOde
-     * @return  Returns the string map containing the data of the QRCode
+     *
+     * @param inputXML String of the contents of the QRCOde
+     * @return Returns the string map containing the data of the QRCode
      * @throws ParserConfigurationException
      * @throws SAXException
      * @throws IOException
      */
-     static Map<String, String> parseQRdataToStringMap(String inputXML) throws ParserConfigurationException, SAXException, IOException {
+    static Map<String, String> parseQRdataToStringMap(String inputXML) throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
@@ -155,24 +159,24 @@ public class QRCodeHandler {
 
         Document doc = db.parse(inputSource);
 
-         if(!doc.getDocumentElement().getNodeName().equals(XML_QRCODE_ROOT_ELEMENT))
-             throw new IOException("Unerwartetes XML Dokument");
+        if (!doc.getDocumentElement().getNodeName().equals(XML_QRCODE_ROOT_ELEMENT))
+            throw new IOException("Unerwartetes XML Dokument");
 
 
-         Map<String, String> result = new HashMap<String, String>();
+        Map<String, String> result = new HashMap<String, String>();
 
-         String nachweis, signatur, certificate;
+        String nachweis, signatur, certificate;
 
-         nachweis = doc.getElementsByTagName(XML_QRCODE_CERTIFICATE).item(0).getTextContent();
-         signatur = doc.getElementsByTagName(XML_QRCODE_SIGNATURE).item(0).getTextContent();
-         certificate = doc.getElementsByTagName(XML_QRCODE_X509).item(0).getTextContent();
+        nachweis = doc.getElementsByTagName(XML_QRCODE_CERTIFICATE).item(0).getTextContent();
+        signatur = doc.getElementsByTagName(XML_QRCODE_SIGNATURE).item(0).getTextContent();
+        certificate = doc.getElementsByTagName(XML_QRCODE_X509).item(0).getTextContent();
 
-         result.put(XML_QRCODE_CERTIFICATE, nachweis);
-         result.put(XML_QRCODE_SIGNATURE, signatur);
-         result.put(XML_QRCODE_X509, certificate);
+        result.put(XML_QRCODE_CERTIFICATE, nachweis);
+        result.put(XML_QRCODE_SIGNATURE, signatur);
+        result.put(XML_QRCODE_X509, certificate);
 
 
-         return result;
+        return result;
     }
 }
 

@@ -4,8 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.zxing.WriterException;
 
 import androidmads.library.qrgenearator.QRGEncoder;
@@ -33,7 +34,9 @@ import java.io.IOException;
 import java.util.Map;
 
 
-//The class Citizenscan contains all necessary functionalities to scan certificates with a camera.
+/**
+ * The class Citizenscan contains all necessary functionalities to scan certificates with a camera.
+ */
 public class CitizenScan extends AppCompatActivity {
     public String BarcodeContent;
     public String fileName;
@@ -60,12 +63,10 @@ public class CitizenScan extends AppCompatActivity {
         backButton.setOnClickListener(v -> openCitizenMainActivity());
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
-
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         mCodeScanner.setFormats(CodeScanner.TWO_DIMENSIONAL_FORMATS);
         mCodeScanner.setScanMode(ScanMode.SINGLE);
-
 
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -74,7 +75,6 @@ public class CitizenScan extends AppCompatActivity {
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void run() {
-
 
                         BarcodeContent = result.getText();
 
@@ -90,7 +90,6 @@ public class CitizenScan extends AppCompatActivity {
                             timestamp = tsLong.toString();
 
                             mCodeScanner.stopPreview();
-                            //progressBar.setVisibility(View.VISIBLE);
                             scannerView.setVisibility(View.INVISIBLE);
                             //process QR Code
                             try {
@@ -110,8 +109,6 @@ public class CitizenScan extends AppCompatActivity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
-
                         }
                     }
                 });
@@ -123,7 +120,6 @@ public class CitizenScan extends AppCompatActivity {
                 mCodeScanner.startPreview();
             }
         });
-
     }
 
     /**
@@ -170,33 +166,30 @@ public class CitizenScan extends AppCompatActivity {
                     fos.close();
                 } catch (IOException ie) {
                 }
-
             }
-
         }
-
     }
 
     /**
      * The methode creates a Bitmap from String input.
      *
-     * @param qrString  The content of the QRCode as a String
-     * @param width     Width of the QRCode
-     * @param height    Height of the QRCode
-     * @return          Returns the QRCode as a Bitmap
+     * @param qrString The content of the QRCode as a String
+     * @param width    Width of the QRCode
+     * @param height   Height of the QRCode
+     * @return Returns the QRCode as a Bitmap
      */
-    public Bitmap createQRBitmap(String qrString, int width, int height){
+    public Bitmap createQRBitmap(String qrString, int width, int height) {
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix matrix = null;
-        try{
+        try {
             matrix = writer.encode(qrString, BarcodeFormat.QR_CODE, 400, 400);
-        } catch (WriterException e){
+        } catch (WriterException e) {
             e.printStackTrace();
         }
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        for (int x = 0; x < width; x++){
-            for (int y = 0; y < height; y++){
-                bitmap.setPixel(x, y, matrix.get(x,y) ? Color.BLACK : Color.WHITE);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                bitmap.setPixel(x, y, matrix.get(x, y) ? Color.BLACK : Color.WHITE);
             }
         }
         return bitmap;
@@ -214,8 +207,8 @@ public class CitizenScan extends AppCompatActivity {
         myDir.mkdirs();
 
         String fname = "QRCode" + timestamp + ".jpg";
-        File file = new File (myDir, fname);
-        if (file.exists ()) file.delete ();
+        File file = new File(myDir, fname);
+        if (file.exists()) file.delete();
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);

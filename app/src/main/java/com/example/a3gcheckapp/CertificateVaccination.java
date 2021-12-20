@@ -42,13 +42,13 @@ public class CertificateVaccination extends Certificate {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public String getVaccinationDateAsString() {
-		return vaccinationDate.format(Certificate.STD_DATE_TIME_FORMAT);
-	}
-	@RequiresApi(api = Build.VERSION_CODES.O)
-    public void setVaccinationDateFromString(String vaccinationDate) {
-		this.vaccinationDate = LocalDateTime.parse(vaccinationDate, Certificate.STD_DATE_TIME_FORMAT);
-	}
+        return vaccinationDate.format(Certificate.STD_DATE_TIME_FORMAT);
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void setVaccinationDateFromString(String vaccinationDate) {
+        this.vaccinationDate = LocalDateTime.parse(vaccinationDate, Certificate.STD_DATE_TIME_FORMAT);
+    }
 
 
 }

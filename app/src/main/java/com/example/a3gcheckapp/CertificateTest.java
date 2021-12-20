@@ -27,6 +27,7 @@ public class CertificateTest extends Certificate {
     public String getTestDateAsString() {
         return testDate.format(Certificate.STD_DATE_TIME_FORMAT);
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setTestDateFromString(String testDate) {
         this.testDate = LocalDateTime.parse(testDate, Certificate.STD_DATE_TIME_FORMAT);
@@ -35,6 +36,7 @@ public class CertificateTest extends Certificate {
     public LocalDateTime getTestDate() {
         return testDate;
     }
+
     public void setTestDate(LocalDateTime testDate) {
         this.testDate = testDate;
     }

@@ -38,7 +38,7 @@ public class CheckpointMainActivity extends AppCompatActivity {
     /**
      * The method opens the CitizenInformation page.
      */
-    public void openInformation(){
+    public void openInformation() {
         Intent intent = new Intent(this, CheckpointInformation.class);
         startActivity(intent);
 
@@ -47,7 +47,7 @@ public class CheckpointMainActivity extends AppCompatActivity {
     /**
      * The method opens the scan page
      */
-    public void openValidation(){
+    public void openValidation() {
         Intent intent = new Intent(this, CheckpointScan.class);
         startActivity(intent);
     }

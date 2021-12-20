@@ -30,7 +30,7 @@ public class CheckpointInformation extends AppCompatActivity {
     /**
      * The method opens the class CitizenMainActivity.
      */
-    public void openCheckpoint(){
+    public void openCheckpoint() {
         Intent intent = new Intent(this, CheckpointMainActivity.class);
         startActivity(intent);
     }
