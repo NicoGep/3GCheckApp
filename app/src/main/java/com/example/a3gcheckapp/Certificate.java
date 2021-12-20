@@ -8,7 +8,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-// The class Certificate includes all data given in all three kinds of certificates.
+/**
+ * The class Certificate includes all data given in all three kinds of certificates.
+ */
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class Certificate {
     public static final DateTimeFormatter STD_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");

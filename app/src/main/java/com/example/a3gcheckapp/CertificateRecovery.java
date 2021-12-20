@@ -4,10 +4,12 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-//The class CertificateRecovery extends the class Certificate with specific data needed for proof of recovery certificate.
+/**
+ * The class CertificateRecovery extends the class Certificate with specific data needed for proof of recovery certificate.
+ */
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CertificateRecovery extends Certificate {
 
     private LocalDateTime testDate;

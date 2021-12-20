@@ -6,7 +6,9 @@ import androidx.annotation.RequiresApi;
 
 import java.time.LocalDateTime;
 
-//The class CertificateVaccination extends the class Certificate with specific data needed for vaccination certificate.
+/**
+ * The class CertificateVaccination extends the class Certificate with specific data needed for vaccination certificate.
+ */
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class CertificateVaccination extends Certificate {
 

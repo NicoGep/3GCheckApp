@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 
-// The class Login includes the generation of the homepage.
+/**
+ * The class Login includes the generation of the homepage.
+ */
 public class Login extends AppCompatActivity {
 
     private ImageButton citizenBtn;

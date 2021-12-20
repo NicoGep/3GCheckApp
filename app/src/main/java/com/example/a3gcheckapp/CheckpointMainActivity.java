@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-//The class CheckpointMainActivity contains the main logic of our "Prüfstelle" application.
+/**
+ * The class CheckpointMainActivity contains the main logic of our "Prüfstelle" application.
+ */
 public class CheckpointMainActivity extends AppCompatActivity {
 
     private ImageButton informationBtn;

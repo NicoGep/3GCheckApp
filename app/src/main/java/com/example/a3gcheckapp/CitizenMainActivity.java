@@ -25,13 +25,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 
-//The class CitizenMainActivity contains the main logic of our "Bürger" application.
+/**
+ * The class CitizenMainActivity contains the main logic of our "Bürger" application.
+ */
 public class CitizenMainActivity extends AppCompatActivity {
 
     private ImageButton informationButton;
     private ImageButton scanPageButton;
     private LinearLayout horizontalScrollView;
-    String fileName;
 
     /**
      * The method generates the overview page of the application "Bürger".

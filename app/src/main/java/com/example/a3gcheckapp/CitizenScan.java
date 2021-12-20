@@ -36,6 +36,7 @@ import java.util.Map;
 //The class Citizenscan contains all necessary functionalities to scan certificates with a camera.
 public class CitizenScan extends AppCompatActivity {
     public String BarcodeContent;
+    public String fileName;
     private ImageButton backButton;
     private CodeScanner mCodeScanner;
     private ProgressBar progressBar;
@@ -126,7 +127,7 @@ public class CitizenScan extends AppCompatActivity {
     }
 
     /**
-     * Is triggered when you want to scan a new QRCode after you scanned one
+     * This method is triggered when you want to scan a new QRCode after you scanned one
      */
     @Override
     protected void onResume() {
@@ -135,7 +136,7 @@ public class CitizenScan extends AppCompatActivity {
     }
 
     /**
-     * Is triggered when you pause the scanner
+     * This method is triggered when you pause the scanner
      */
     @Override
     protected void onPause() {
@@ -150,8 +151,6 @@ public class CitizenScan extends AppCompatActivity {
         Intent intent = new Intent(this, CitizenMainActivity.class);
         startActivity(intent);
     }
-
-    String fileName;
 
     /**
      * The method saves XML Strings in files.

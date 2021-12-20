@@ -8,7 +8,6 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-//import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,10 +17,7 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-//import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 
-
-//
 public class QRCodeHandler {
 
     //XML field names
@@ -55,6 +51,15 @@ public class QRCodeHandler {
     public QRCodeHandler() throws IOException, SAXException, ParserConfigurationException {
     }
 
+    /**
+     * Turns the certificate XML into a certificate
+     *
+     * @param certificateXML
+     * @return
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
     @RequiresApi(api = Build.VERSION_CODES.O)
     static Certificate parseCertificateXMLToCertificate(String certificateXML) throws ParserConfigurationException, SAXException, IOException {
 
@@ -133,6 +138,15 @@ public class QRCodeHandler {
         return cert;
     }
 
+     /**
+     * This method parses the QRCode data to a string map
+      *
+     * @param inputXML  String of the contents of the QRCOde
+     * @return  Returns the string map containing the data of the QRCode
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws IOException
+     */
      static Map<String, String> parseQRdataToStringMap(String inputXML) throws ParserConfigurationException, SAXException, IOException {
 
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

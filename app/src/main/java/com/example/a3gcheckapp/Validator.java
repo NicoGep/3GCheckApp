@@ -1,12 +1,10 @@
 package com.example.a3gcheckapp;
 
-import android.content.res.AssetManager;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -108,15 +106,12 @@ public class Validator {
         return cert;
     }
 
-
-
     /**
      * Checks whether the given certificate is currently valid.
      *
      * @param  certToValidate The certificate to validate.
      * @return Returns true, if the certificate is valid; false if it isn't.
      */
-
     public static boolean validateCertificate(X509Certificate certToValidate) {
 
         try {
@@ -126,8 +121,6 @@ public class Validator {
             return false;
         }
     }
-
-
 
     /**
      * Verifies a certificate.
@@ -150,6 +143,5 @@ public class Validator {
             return false;
         }
     }
-
 
 }
