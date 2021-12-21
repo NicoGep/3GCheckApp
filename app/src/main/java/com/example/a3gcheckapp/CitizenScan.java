@@ -78,37 +78,35 @@ public class CitizenScan extends AppCompatActivity {
 
                         BarcodeContent = result.getText();
 
-                        if (true) {
+                        //Creates a Bitmap of QR-Code String
+                        bMap = createQRBitmap(BarcodeContent, 400, 400);
+                        //Safes Bitmap as PNG in Internal Storage
+                        saveImage(bMap);
 
-                            //Creates a Bitmap of QR-Code String
-                            bMap = createQRBitmap(BarcodeContent, 400, 400);
+                        //Get Timestamp
+                        Long tsLong = System.currentTimeMillis() / 1000;
+                        timestamp = tsLong.toString();
+
+                        mCodeScanner.stopPreview();
+                        scannerView.setVisibility(View.INVISIBLE);
+                        //process QR Code
+                        try {
+                            //Separates Barcode into a Map
+                            Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
+                            String xmlCert = map.get(QRCodeHandler.XML_QRCODE_CERTIFICATE);
+                            //Safes SML in Internal Storage
+                            save(xmlCert);
+
+                            // Creates a Bitmap of QR-Code String
+                            bMap = createQRBitmap(result.getText(), 400, 400);
                             //Safes Bitmap as PNG in Internal Storage
                             saveImage(bMap);
 
-                            //Get Timestamp
-                            Long tsLong = System.currentTimeMillis() / 1000;
-                            timestamp = tsLong.toString();
-
-                            mCodeScanner.stopPreview();
-                            scannerView.setVisibility(View.INVISIBLE);
-                            //process QR Code
-                            try {
-                                //Separates Barcode into a Map
-                                Map<String, String> map = QRCodeHandler.parseQRdataToStringMap(BarcodeContent);
-                                String xmlCert = map.get(QRCodeHandler.XML_QRCODE_CERTIFICATE);
-                                //Safes SML in Internal Storage
-                                save(xmlCert);
-
-                                // Creates a Bitmap of QR-Code String
-                                bMap = createQRBitmap(result.getText(), 400, 400);
-                                //Safes Bitmap as PNG in Internal Storage
-                                saveImage(bMap);
-
-                                //Go back to MainPage
-                                openCitizenMainActivity();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            //Go back to MainPage
+                            openCitizenMainActivity();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("Could not parse QRData to String map");
                         }
                     }
                 });
@@ -160,11 +158,13 @@ public class CitizenScan extends AppCompatActivity {
             fos = openFileOutput(fileName, MODE_PRIVATE);
             fos.write(certText.getBytes());
         } catch (Exception e) {
+            System.out.println("Can't open FileOutputStream");
         } finally {
             if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException ie) {
+                    System.out.println("Can't close FileOutputStream");
                 }
             }
         }
@@ -185,6 +185,7 @@ public class CitizenScan extends AppCompatActivity {
             matrix = writer.encode(qrString, BarcodeFormat.QR_CODE, 400, 400);
         } catch (WriterException e) {
             e.printStackTrace();
+            System.out.println("There was a problem creating the QRCode (Writer to Matrix didn't work)");
         }
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         for (int x = 0; x < width; x++) {
@@ -217,6 +218,7 @@ public class CitizenScan extends AppCompatActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Can't close or flush FileOutputStream");
         }
     }
 

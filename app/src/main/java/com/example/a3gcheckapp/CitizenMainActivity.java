@@ -59,6 +59,7 @@ public class CitizenMainActivity extends AppCompatActivity {
             Path p = root.toPath();
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Could not create a new File");
         }
         loadFiles();
 
@@ -98,11 +99,13 @@ public class CitizenMainActivity extends AppCompatActivity {
                     }
 
                 } catch (Exception e) {
+                    System.out.println("Can't load files");
                 } finally {
                     if (fis != null) {
                         try {
                             fis.close();
                         } catch (IOException ie) {
+                            System.out.println("Can't close FileInputStream");
                         }
                     }
                 }

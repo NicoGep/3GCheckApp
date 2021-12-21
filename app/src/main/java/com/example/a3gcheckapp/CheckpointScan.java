@@ -37,7 +37,7 @@ public class CheckpointScan extends AppCompatActivity {
     private boolean isValidated = false;
 
     /**
-     * This
+     * This method is triggered at the creation of the Checkpoint scan
      *
      * @param savedInstanceState The saved state of the instance
      */
@@ -80,6 +80,7 @@ public class CheckpointScan extends AppCompatActivity {
                             openPopUp(certificate, isValidated, expired);
                         } catch (Exception e) {
                             e.printStackTrace();
+                            System.out.println("Could not parse QRData to String map");
                         }
                     }
                 });
