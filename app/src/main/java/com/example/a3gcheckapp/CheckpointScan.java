@@ -73,10 +73,15 @@ public class CheckpointScan extends AppCompatActivity {
                             String xmlSignatureCert = map.get(QRCodeHandler.XML_QRCODE_SIGNATURE);
                             String xmlX509Cert = map.get(QRCodeHandler.XML_QRCODE_X509);
 
+                            //validates and verifies the signature and the certificate of the QRCode
                             isValidated = Validator.isValid(xmlX509Cert, xmlCert, xmlSignatureCert);
+
                             certificate = QRCodeHandler.parseCertificateXMLToCertificate(xmlCert);
+
+                            //checks the expiration date
                             boolean expired = checkExpirationDate(certificate);
 
+                            //opens the popup that shows if the scanned QRCode is "Gültig" or "Ungültig"
                             openPopUp(certificate, isValidated, expired);
                         } catch (Exception e) {
                             e.printStackTrace();
